@@ -1,0 +1,84 @@
+extends CharacterBody2D
+
+@export var speed = 400
+var shoot_distance = 300
+var stop_distance = 300
+@onready var shoot_timer = $Timer
+# TODO redo via navigation
+
+func _ready():
+	pass
+
+var target = position
+var moving = false
+var health = 10
+var state = "idle"
+var aggro_target
+var can_shoot = true
+
+signal end_movement()
+
+func walk_to(walk_marker):
+	target = walk_marker.position
+	state = "moving"
+#	moving = true
+
+
+func _physics_process(delta):
+	if state == "moving":
+		velocity = position.direction_to(target) * speed
+		# look_at(target)
+		if position.distance_to(target) > 10:
+			move_and_slide()
+#			move()
+		else:
+			state = "idle"
+#			moving = false
+			end_movement.emit()
+
+	elif state == "aggro":
+		velocity = position.direction_to(aggro_target.position) * speed
+		if position.distance_to(aggro_target.position) > stop_distance:
+			move_and_slide()
+		if position.distance_to(aggro_target.position) < shoot_distance:
+			shoot(aggro_target)
+
+
+var HeroBullet = preload("res://hero_bullet.tscn")
+func shoot(target):
+	if can_shoot:
+		var bul = HeroBullet.instantiate()
+		get_tree().get_root().add_child(bul)
+		bul.global_position = global_position
+		bul.look_at(target.global_position)
+		var dir = (target.global_position - global_position).normalized()
+		bul.global_rotation = dir.angle() + PI / 2.0
+		bul.velocity = dir * bul.speed
+		bul.target = target
+
+		can_shoot = false
+		shoot_timer.start()
+
+
+func set_attack_target(attack_target):
+	aggro_target = attack_target
+	state = "aggro"
+	pass
+
+
+var HitEffectHero = preload("res://hit_effect_hero.tscn")
+func hit(damage):
+	
+	var hitEffectHero = HitEffectHero.instantiate()
+	get_tree().get_root().add_child(hitEffectHero)
+	hitEffectHero.global_position = global_position
+	health -= damage
+
+#func _process(delta):
+#	if Input.is_action_pressed("right_click"):
+		
+
+
+func _on_timer_timeout():
+	can_shoot = true
+	pass # Replace with function body.

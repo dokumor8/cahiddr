@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://drapmpdq3r5vo"]
+
+[ext_resource type="Script" path="res://king.gd" id="1_fmw2l"]
+[ext_resource type="Texture2D" uid="uid://d0bjfriddxbgs" path="res://img/king_walk/frame0000.png" id="2_p6roy"]
+[ext_resource type="Texture2D" uid="uid://7gqqxkn4x63l" path="res://img/king_walk/frame0001.png" id="3_4app8"]
+[ext_resource type="Texture2D" uid="uid://cwd6sp75kgk60" path="res://img/king_walk/frame0002.png" id="4_gpnho"]
+[ext_resource type="Texture2D" uid="uid://2h72y4smblit" path="res://img/king_walk/frame0003.png" id="5_wcqac"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p776h"]
+radius = 23.0868
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3ppiy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_p6roy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4app8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gpnho")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wcqac")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="King" type="CharacterBody2D"]
+script = ExtResource("1_fmw2l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_p776h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_3ppiy")

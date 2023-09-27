@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://5royanfnfv60"]
+
+[ext_resource type="Script" path="res://walk_marker.gd" id="1_0pscm"]
+[ext_resource type="Texture2D" uid="uid://cwwlvuehmbx4v" path="res://img/markers/walk_marker.png" id="2_ad2ik"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_47mmb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ad2ik")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="WalkMarker" type="Node2D"]
+script = ExtResource("1_0pscm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_47mmb")

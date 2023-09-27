@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cakqx0khmasxy"]
+
+[ext_resource type="Script" path="res://spawn_area.gd" id="1_i1wr4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8m3bc"]
+size = Vector2(36, 40)
+
+[node name="SpawnArea" type="Area2D"]
+script = ExtResource("1_i1wr4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_8m3bc")
+disabled = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.663
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
