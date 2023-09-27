@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var speed = 400
+@export var speed = 250
 var shoot_distance = 300
 var stop_distance = 300
 @onready var shoot_timer = $Timer
@@ -20,11 +20,15 @@ signal end_movement()
 
 func walk_to(walk_marker):
 	target = walk_marker.position
+	aggro_target = null
 	state = "moving"
 #	moving = true
 
 
 func _physics_process(delta):
+	if state == "idle" and aggro_target != null:
+		state = "aggro"
+	
 	if state == "moving":
 		velocity = position.direction_to(target) * speed
 		# look_at(target)
@@ -47,6 +51,7 @@ func _physics_process(delta):
 var HeroBullet = preload("res://hero_bullet.tscn")
 func shoot(target):
 	if can_shoot:
+		state = "shooting"
 		var bul = HeroBullet.instantiate()
 		get_tree().get_root().add_child(bul)
 		bul.global_position = global_position
@@ -81,4 +86,6 @@ func hit(damage):
 
 func _on_timer_timeout():
 	can_shoot = true
+	if state == "shooting":
+		state = "idle"
 	pass # Replace with function body.

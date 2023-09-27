@@ -47,11 +47,6 @@ func deselect():
 	$Selected.visible = false
 
 
-func get_input():
-	var input_direction = Input.get_vector("left", "right", "up", "down")
-	velocity = input_direction * speed
-
-
 var Bullet = preload("res://enemy_bullet.tscn")
 func shoot(target):
 	if can_shoot:

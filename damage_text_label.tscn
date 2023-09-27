@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://clflqrkend1oy"]
+
+[ext_resource type="Script" path="res://damage_text_label.gd" id="1_o8jnp"]
+
+[sub_resource type="SystemFont" id="SystemFont_8l6ae"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_p1uk5"]
+font = SubResource("SystemFont_8l6ae")
+font_size = 46
+
+[node name="DamageTextLabel" type="Node2D"]
+script = ExtResource("1_o8jnp")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -39.0
+offset_top = -33.0
+offset_right = 39.0
+offset_bottom = 34.0
+text = "123"
+label_settings = SubResource("LabelSettings_p1uk5")
+horizontal_alignment = 1
+vertical_alignment = 1

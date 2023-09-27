@@ -41,7 +41,7 @@ constrain_avoidance = true
 position = Vector2(850, 597)
 
 [node name="Unit2" parent="." instance=ExtResource("2_tudse")]
-position = Vector2(866, 433)
+position = Vector2(378, 435)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(617, 524)
