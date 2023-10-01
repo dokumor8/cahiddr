@@ -56,7 +56,7 @@ func shoot(shoot_target):
 		get_tree().get_root().add_child(bul)
 		bul.global_position = global_position
 		bul.look_at(shoot_target.global_position)
-		var dir = (target.shoot_global_position - global_position).normalized()
+		var dir = (shoot_target.global_position - global_position).normalized()
 		bul.global_rotation = dir.angle() + PI / 2.0
 		bul.velocity = dir * bul.speed
 		bul.target = shoot_target
