@@ -14,7 +14,7 @@ func _process(delta):
 	pass
 
 
-var Unit = preload("res://unit.tscn")
+var Unit = preload("res://src/units/unit.tscn")
 func _on_timer_timeout():
 	var unit = Unit.instantiate()
 	get_tree().get_root().add_child(unit)

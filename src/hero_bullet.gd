@@ -3,6 +3,7 @@ extends Area2D
 var velocity = Vector2.RIGHT * 100
 var speed = 600
 var target = 0
+var target_position = Vector2(0, 0)
 var damage = 1
 
 
@@ -17,14 +18,26 @@ func _process(delta):
 	pass
 
 
+func update_position():
+	if is_instance_valid(target):
+		target_position = target.global_position
+
+
 func _physics_process(delta):
-	look_at(target.global_position)
-	var dir = (target.global_position - global_position).normalized()
+	
+	update_position()
+	look_at(target_position)
+#	look_at(target_position.global_position)
+	var remaining_vector = target_position - global_position
+	var dir = remaining_vector.normalized()
 	global_rotation = dir.angle() + PI / 2.0
 	velocity = dir * speed
 	position += velocity * delta
 
-	if overlaps_body(target):
-		target.hit(damage)
+	if is_instance_valid(target):
+		if overlaps_body(target):
+			target.hit(damage)
+			queue_free()
+	elif remaining_vector.length() < 20:
 		queue_free()
 

@@ -1,22 +1,22 @@
 [gd_scene load_steps=14 format=3 uid="uid://deb6xe72w2557"]
 
-[ext_resource type="Texture2D" uid="uid://c6wktm4c5nwxg" path="res://img/floor.png" id="1_075f8"]
-[ext_resource type="Script" path="res://node_2d.gd" id="1_nr71r"]
-[ext_resource type="PackedScene" uid="uid://yscxacryvse1" path="res://unit.tscn" id="2_tudse"]
-[ext_resource type="Texture2D" uid="uid://revalfttnxyk" path="res://img/floor1.png" id="3_8owf8"]
-[ext_resource type="PackedScene" uid="uid://diuobw6bjl1nw" path="res://hero.tscn" id="3_rq3s8"]
-[ext_resource type="PackedScene" uid="uid://5royanfnfv60" path="res://walk_marker.tscn" id="5_wochc"]
-[ext_resource type="PackedScene" uid="uid://drapmpdq3r5vo" path="res://king.tscn" id="6_qidjb"]
-[ext_resource type="PackedScene" uid="uid://cakqx0khmasxy" path="res://spawn_area.tscn" id="7_8k2hp"]
-[ext_resource type="Texture2D" uid="uid://b8k8uvcu6eq8n" path="res://img/bullets/hero_bullet.png" id="9_ehyyt"]
+[ext_resource type="Script" path="res://src/node_2d.gd" id="1_pjd1t"]
+[ext_resource type="Texture2D" uid="uid://c6wktm4c5nwxg" path="res://img/floor.png" id="2_ov8mc"]
+[ext_resource type="Texture2D" uid="uid://revalfttnxyk" path="res://img/floor1.png" id="3_73ulq"]
+[ext_resource type="PackedScene" uid="uid://yscxacryvse1" path="res://src/units/unit.tscn" id="4_atc2k"]
+[ext_resource type="PackedScene" uid="uid://diuobw6bjl1nw" path="res://src/units/hero.tscn" id="5_sj74m"]
+[ext_resource type="PackedScene" uid="uid://5royanfnfv60" path="res://src/walk_marker.tscn" id="6_kq1q8"]
+[ext_resource type="PackedScene" uid="uid://drapmpdq3r5vo" path="res://src/units/king.tscn" id="7_8bfo6"]
+[ext_resource type="PackedScene" uid="uid://cakqx0khmasxy" path="res://src/spawn_area.tscn" id="8_n7edf"]
+[ext_resource type="Texture2D" uid="uid://b8k8uvcu6eq8n" path="res://img/bullets/hero_bullet.png" id="9_h1oif"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f2j16"]
-texture = ExtResource("1_075f8")
+texture = ExtResource("2_ov8mc")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wqkqj"]
-texture = ExtResource("3_8owf8")
+texture = ExtResource("3_73ulq")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
@@ -32,7 +32,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(39, 315, 951, 318, 1752
 
 [node name="Main" type="Node2D"]
 position = Vector2(1, 0)
-script = ExtResource("1_nr71r")
+script = ExtResource("1_pjd1t")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_cfvh4")
@@ -44,31 +44,31 @@ layer_0/tile_data = PackedInt32Array(0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0
 navigation_polygon = SubResource("NavigationPolygon_tx7oa")
 constrain_avoidance = true
 
-[node name="Unit" parent="." instance=ExtResource("2_tudse")]
+[node name="Unit" parent="." instance=ExtResource("4_atc2k")]
 position = Vector2(387, 621)
 
-[node name="Unit2" parent="." instance=ExtResource("2_tudse")]
+[node name="Unit2" parent="." instance=ExtResource("4_atc2k")]
 position = Vector2(390, 465)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(617, 524)
 
-[node name="Hero" parent="." instance=ExtResource("3_rq3s8")]
+[node name="Hero" parent="." instance=ExtResource("5_sj74m")]
 position = Vector2(741, 495)
 
-[node name="WalkMarker" parent="." instance=ExtResource("5_wochc")]
+[node name="WalkMarker" parent="." instance=ExtResource("6_kq1q8")]
 visible = false
 
-[node name="King" parent="." instance=ExtResource("6_qidjb")]
+[node name="King" parent="." instance=ExtResource("7_8bfo6")]
 position = Vector2(116, 519)
 
-[node name="SpawnArea" parent="." instance=ExtResource("7_8k2hp")]
+[node name="SpawnArea" parent="." instance=ExtResource("8_n7edf")]
 position = Vector2(1720, 530)
 
 [node name="TileHighlighter" type="Sprite2D" parent="."]
 position = Vector2(582, 318)
 scale = Vector2(8.79999, 8.7)
-texture = ExtResource("9_ehyyt")
+texture = ExtResource("9_h1oif")
 centered = false
 
 [connection signal="end_movement" from="Hero" to="." method="_on_hero_end_movement"]

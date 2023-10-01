@@ -16,7 +16,7 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 var stop_distance = 100.0
 var shoot_distance = 150.0
 var can_shoot = true
-var health = 10
+var health = 2
 
 #signal shoot_target(bullet, direction, location)
 
@@ -47,7 +47,7 @@ func deselect():
 	$Selected.visible = false
 
 
-var Bullet = preload("res://enemy_bullet.tscn")
+var Bullet = preload("res://src/enemy_bullet.tscn")
 func shoot(target):
 	if can_shoot:
 		var bul = Bullet.instantiate()
@@ -138,13 +138,15 @@ func set_movement_target(movement_target: Vector2):
 	navigation_agent.target_position = movement_target
 
 
-var HitEffectHero = preload("res://hit_effect_hero.tscn")
+var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 func hit(damage):
 	
 	var hitEffectHero = HitEffectHero.instantiate()
 	get_tree().get_root().add_child(hitEffectHero)
 	hitEffectHero.global_position = global_position
 	health -= damage
+	if health <= 0:
+		queue_free()
 
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity):

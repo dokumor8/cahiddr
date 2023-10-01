@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://drapmpdq3r5vo"]
 
-[ext_resource type="Script" path="res://king.gd" id="1_fmw2l"]
+[ext_resource type="Script" path="res://src/units/king.gd" id="1_ny0j3"]
 [ext_resource type="Texture2D" uid="uid://d0bjfriddxbgs" path="res://img/king_walk/frame0000.png" id="2_p6roy"]
 [ext_resource type="Texture2D" uid="uid://7gqqxkn4x63l" path="res://img/king_walk/frame0001.png" id="3_4app8"]
 [ext_resource type="Texture2D" uid="uid://cwd6sp75kgk60" path="res://img/king_walk/frame0002.png" id="4_gpnho"]
@@ -30,7 +30,7 @@ animations = [{
 }]
 
 [node name="King" type="CharacterBody2D"]
-script = ExtResource("1_fmw2l")
+script = ExtResource("1_ny0j3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_p776h")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://clflqrkend1oy"]
 
-[ext_resource type="Script" path="res://damage_text_label.gd" id="1_o8jnp"]
+[ext_resource type="Script" path="res://src/effects/damage_text_label.gd" id="1_psknl"]
 
 [sub_resource type="SystemFont" id="SystemFont_8l6ae"]
 
@@ -9,7 +9,7 @@ font = SubResource("SystemFont_8l6ae")
 font_size = 28
 
 [node name="DamageTextLabel" type="Node2D"]
-script = ExtResource("1_o8jnp")
+script = ExtResource("1_psknl")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -24.0

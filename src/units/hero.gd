@@ -48,7 +48,7 @@ func _physics_process(delta):
 			shoot(aggro_target)
 
 
-var HeroBullet = preload("res://hero_bullet.tscn")
+var HeroBullet = preload("res://src/hero_bullet.tscn")
 func shoot(target):
 	if can_shoot:
 		state = "shooting"
@@ -71,7 +71,7 @@ func set_attack_target(attack_target):
 	pass
 
 
-var HitEffectHero = preload("res://hit_effect_hero.tscn")
+var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 func hit(damage):
 	
 	var hitEffectHero = HitEffectHero.instantiate()

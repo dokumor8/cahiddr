@@ -12,8 +12,8 @@ func _process(delta):
 	pass
 
 
-var HitEffectHero = preload("res://hit_effect_hero.tscn")
-var DamageTextLabel = preload("res://damage_text_label.tscn")
+var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
+var DamageTextLabel = preload("res://src/effects/damage_text_label.tscn")
 func hit(damage):
 	
 	var hitEffectHero = HitEffectHero.instantiate()
