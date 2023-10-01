@@ -10,6 +10,7 @@ var cursor_state = "move"
 var camera_speed = 500
 var cursor_mode = "normal"
 
+const BUILDABLE_TERRAIN = 3
 
 func _input(event):
 	if event.is_action_pressed("right_click"):
@@ -57,8 +58,25 @@ func _input(event):
 #	if event.is_action_pressed("right_click"):
 #		walk_marker.position = get_global_mouse_position()
 
-func start_build_mode():
+func start_build_mode():	
 	pass
+
+
+func check_build_position(building, tile_coords):
+	# var width = building.width
+	# var height = building.height
+	var width = 3
+	var height = 2
+
+	for w in width:
+		for h in height:
+			var checking_tile = tile_coords + Vector2i(w, h)
+			var tile_data = tile_map.get_cell_source_id(0, checking_tile)
+			if tile_data != BUILDABLE_TERRAIN:
+				return false
+	return true
+
+
 
 func _physics_process(delta):
 	
@@ -70,12 +88,17 @@ func _physics_process(delta):
 	if cursor_mode == "build":
 		var mouse_coords = get_global_mouse_position()
 		var tile_coords = tile_map.local_to_map(mouse_coords)
-		tile_coords.x -= tile_coords.x % 2
-		tile_coords.y -= tile_coords.y % 2
-		var snapped_local_coords = tile_map.map_to_local(tile_coords)
-		print(snapped_local_coords)
-		tile_highlighter.position = snapped_local_coords
-		tile_highlighter.show()
+#		tile_coords.x -= tile_coords.x
+#		tile_coords.y -= tile_coords.y
+		var building = "defenders"
+		var can_build = check_build_position(building, tile_coords)
+
+		if can_build:
+			var snapped_local_coords = tile_map.map_to_local(tile_coords)
+			print(snapped_local_coords)
+			tile_highlighter.position = snapped_local_coords
+			tile_highlighter.position -= Vector2(tile_map.cell_quadrant_size/2, tile_map.cell_quadrant_size/2)
+			tile_highlighter.show()
 
 
 #func _process(delta):
