@@ -62,7 +62,7 @@ func start_build_mode():
 	pass
 
 
-func check_build_position(building, tile_coords):
+func check_build_position(_building, tile_coords):
 	# var width = building.width
 	# var height = building.height
 	var width = 3

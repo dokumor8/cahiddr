@@ -7,10 +7,6 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 var DamageTextLabel = preload("res://src/effects/damage_text_label.tscn")

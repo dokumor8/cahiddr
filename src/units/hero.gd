@@ -25,7 +25,7 @@ func walk_to(walk_marker):
 #	moving = true
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if state == "idle" and aggro_target != null:
 		state = "aggro"
 	
@@ -49,17 +49,17 @@ func _physics_process(delta):
 
 
 var HeroBullet = preload("res://src/hero_bullet.tscn")
-func shoot(target):
+func shoot(shoot_target):
 	if can_shoot:
 		state = "shooting"
 		var bul = HeroBullet.instantiate()
 		get_tree().get_root().add_child(bul)
 		bul.global_position = global_position
-		bul.look_at(target.global_position)
-		var dir = (target.global_position - global_position).normalized()
+		bul.look_at(shoot_target.global_position)
+		var dir = (target.shoot_global_position - global_position).normalized()
 		bul.global_rotation = dir.angle() + PI / 2.0
 		bul.velocity = dir * bul.speed
-		bul.target = target
+		bul.target = shoot_target
 
 		can_shoot = false
 		shoot_timer.start()

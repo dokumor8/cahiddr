@@ -10,7 +10,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
@@ -19,8 +19,8 @@ func _on_timer_timeout():
 	var unit = Unit.instantiate()
 	get_tree().get_root().add_child(unit)
 #		shoot_target.emit(Bullet, rotation, position)
-	var x_spawn = randi() % spawn_width
-	var y_spawn = randi() % spawn_height
+	var _x_spawn = randi() % spawn_width
+	var _y_spawn = randi() % spawn_height
 
 	unit.global_position = global_position #+ Vector2(x_spawn, y_spawn)
 #		unit.velocity = 

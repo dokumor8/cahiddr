@@ -63,7 +63,7 @@ func shoot(target):
 		shoot_timer.start()
 
 
-func aggro_move_shoot(delta):
+func aggro_move_shoot(_delta):
 	if aggroed == false:
 		return
 	
@@ -80,7 +80,7 @@ func aggro_move_shoot(delta):
 		shoot(target_object)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 
 	if position.distance_to(aggro_target.position) < shoot_distance:
 		shoot(aggro_target)
@@ -103,7 +103,7 @@ func _physics_process(delta):
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
