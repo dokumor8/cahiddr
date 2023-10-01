@@ -6,7 +6,7 @@ A game inspired by the Hero Defense subgenre.
 
 Defend your base against waves of monsters. Control a hero, roam the map, recruit more defenders, level up, hold the line for 20 minutes.
 
-## How to play
+## How to run the game
 
 For now it can't be properly called a game, so there are no builds. Opening the project in Godot and running it should work.
 
