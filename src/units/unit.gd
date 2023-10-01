@@ -16,7 +16,7 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 var stop_distance = 100.0
 var shoot_distance = 150.0
 var can_shoot = true
-var health = 2
+var health = 4
 
 #signal shoot_target(bullet, direction, location)
 
@@ -139,7 +139,7 @@ func set_movement_target(movement_target: Vector2):
 
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
-func hit(damage):
+func hit(damage, sender):
 	
 	var hitEffectHero = HitEffectHero.instantiate()
 	get_tree().get_root().add_child(hitEffectHero)
@@ -147,6 +147,9 @@ func hit(damage):
 	health -= damage
 	if health <= 0:
 		queue_free()
+	
+	aggro_target = sender
+	set_movement_target(sender.position)
 
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity):

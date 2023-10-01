@@ -60,6 +60,7 @@ func shoot(shoot_target):
 		bul.global_rotation = dir.angle() + PI / 2.0
 		bul.velocity = dir * bul.speed
 		bul.target = shoot_target
+		bul.sender = self
 
 		can_shoot = false
 		shoot_timer.start()

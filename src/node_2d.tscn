@@ -45,10 +45,10 @@ navigation_polygon = SubResource("NavigationPolygon_tx7oa")
 constrain_avoidance = true
 
 [node name="Unit" parent="." instance=ExtResource("4_atc2k")]
-position = Vector2(387, 621)
+position = Vector2(905, 582)
 
 [node name="Unit2" parent="." instance=ExtResource("4_atc2k")]
-position = Vector2(390, 465)
+position = Vector2(899, 439)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(617, 524)

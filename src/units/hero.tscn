@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://vnono8tncxi0" path="res://img/hero_walk/frame0002.png" id="3_woi7k"]
 [ext_resource type="Texture2D" uid="uid://c7sxav8xrokdm" path="res://img/hero_walk/frame0003.png" id="4_c8e2w"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_syeks"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tn1mc"]
+radius = 12.0
+height = 42.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lxkdj"]
 animations = [{
@@ -34,13 +36,11 @@ animations = [{
 }]
 
 [node name="Hero" type="CharacterBody2D"]
-collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_xbdfg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 16)
-shape = SubResource("CircleShape2D_syeks")
+shape = SubResource("CapsuleShape2D_tn1mc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lxkdj")
