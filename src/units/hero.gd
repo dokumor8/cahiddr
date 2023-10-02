@@ -41,11 +41,14 @@ func _physics_process(_delta):
 			end_movement.emit()
 
 	elif state == "aggro":
-		velocity = position.direction_to(aggro_target.position) * speed
-		if position.distance_to(aggro_target.position) > stop_distance:
-			move_and_slide()
-		if position.distance_to(aggro_target.position) < shoot_distance:
-			shoot(aggro_target)
+		if not is_instance_valid(aggro_target):
+			state = "idle"
+		else:
+			velocity = position.direction_to(aggro_target.position) * speed
+			if position.distance_to(aggro_target.position) > stop_distance:
+				move_and_slide()
+			if position.distance_to(aggro_target.position) < shoot_distance:
+				shoot(aggro_target)
 
 
 var HeroBullet = preload("res://src/hero_bullet.tscn")

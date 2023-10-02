@@ -18,10 +18,7 @@ var shoot_distance = 150.0
 var can_shoot = true
 var health = 4
 
-#signal shoot_target(bullet, direction, location)
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	# These values need to be adjusted for the actor's speed
 	# and the navigation layout.
@@ -62,29 +59,33 @@ func shoot(target):
 		can_shoot = false
 		shoot_timer.start()
 
-
-func aggro_move_shoot(_delta):
-	if aggroed == false:
-		return
-	
-	look_at(target_object.position)
-	velocity = position.direction_to(target_object.position) * speed
-	if position.distance_to(target_object.position) > stop_distance:
-#		movement_target_position = target_object.position
-		move_and_slide()
-	
-	
-	if position.distance_to(target_object.position) < shoot_distance:
-#		movement_target_position = target_object.position
+#
+#func aggro_move_shoot(_delta):
+#	if aggroed == false:
+#		return
+#
+#	look_at(target_object.position)
+#	velocity = position.direction_to(target_object.position) * speed
+#	if position.distance_to(target_object.position) > stop_distance:
+##		movement_target_position = target_object.position
 #		move_and_slide()
-		shoot(target_object)
+#
+#
+#	if position.distance_to(target_object.position) < shoot_distance:
+##		movement_target_position = target_object.position
+##		move_and_slide()
+#		shoot(target_object)
 
 
 func _physics_process(_delta):
-
+	
+	
 	if position.distance_to(aggro_target.position) < shoot_distance:
 		shoot(aggro_target)
 	
+	set_movement_target(aggro_target.position)
+
+
 	if navigation_agent.is_navigation_finished():
 		return
 
@@ -96,6 +97,7 @@ func _physics_process(_delta):
 	new_velocity = new_velocity * movement_speed
 
 	navigation_agent.set_velocity(new_velocity)
+	
 
 #	get_input()
 #	move_and_slide()
@@ -110,8 +112,9 @@ func _process(_delta):
 func _on_aggro_area_body_entered(body):
 	# change state to aggro
 	if body.name == "Hero":
-		target_object = body
-		aggroed = true
+		set_aggro_target(body)
+#		target_object = body
+#		aggroed = true
 
 
 func _on_timer_timeout():
@@ -147,13 +150,14 @@ func hit(damage, sender):
 	health -= damage
 	if health <= 0:
 		queue_free()
-	
-	aggro_target = sender
-	set_movement_target(sender.position)
+	set_aggro_target(sender)
+
+
+func set_aggro_target(unit):
+	aggro_target = unit
+	set_movement_target(unit.position)
 
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity):
 	velocity = safe_velocity
 	move_and_slide()
-
-	pass # Replace with function body.

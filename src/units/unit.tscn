@@ -32,7 +32,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hnsns"]
-radius = 13.6015
+radius = 328.055
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lvxpn"]
 radius = 23.0
@@ -59,10 +59,10 @@ scale = Vector2(1.76, 3.37333)
 texture = ExtResource("6_2vadc")
 
 [node name="AggroArea" type="Area2D" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea"]
 shape = SubResource("CircleShape2D_hnsns")
-disabled = true
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 1.139
