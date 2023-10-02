@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://di1fw0dliqjfi"]
+
+[ext_resource type="Script" path="res://src/units/defender.gd" id="1_f5fo7"]
+[ext_resource type="Texture2D" uid="uid://c7bcncgdadedn" path="res://img/defender/walk/frame0000.png" id="1_rx3t5"]
+[ext_resource type="Texture2D" uid="uid://cyyka8cf0qvxi" path="res://img/defender/walk/frame0001.png" id="2_y20dl"]
+[ext_resource type="Texture2D" uid="uid://dpaiph8e1d5rx" path="res://img/defender/walk/frame0002.png" id="3_vf4xp"]
+[ext_resource type="Texture2D" uid="uid://bd72vvf7e025y" path="res://img/defender/walk/frame0003.png" id="4_d0xg4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qf18c"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nv41x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rx3t5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y20dl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_vf4xp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_d0xg4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Defender" type="CharacterBody2D"]
+script = ExtResource("1_f5fo7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_qf18c")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_nv41x")
+frame_progress = 0.0416653
