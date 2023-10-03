@@ -55,6 +55,7 @@ func shoot(target):
 		bul.global_rotation = dir.angle() + PI / 2.0
 		bul.velocity = dir * bul.speed
 		bul.target = target
+		bul.sender = self
 
 		can_shoot = false
 		shoot_timer.start()
@@ -79,7 +80,10 @@ func shoot(target):
 
 func _physics_process(_delta):
 	
-	
+	if not is_instance_valid(aggro_target):
+		var root_node = get_tree().get_root()
+		aggro_target = root_node.get_node("/root/Main/King")
+
 	if position.distance_to(aggro_target.position) < shoot_distance:
 		shoot(aggro_target)
 	
@@ -111,7 +115,7 @@ func _process(_delta):
 
 func _on_aggro_area_body_entered(body):
 	# change state to aggro
-	if body.name == "Hero":
+	if body.is_in_group("hero") or body.is_in_group("defender"):
 		set_aggro_target(body)
 #		target_object = body
 #		aggroed = true

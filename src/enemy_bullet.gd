@@ -4,7 +4,7 @@ var velocity = Vector2.RIGHT * 100
 var speed = 600
 var target = 0
 var damage = 1
-
+@onready var sender
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,6 +25,6 @@ func _physics_process(delta):
 	position += velocity * delta
 
 	if overlaps_body(target):
-		target.hit(damage)
+		target.hit(damage, sender)
 		queue_free()
 

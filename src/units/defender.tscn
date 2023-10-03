@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://di1fw0dliqjfi"]
+[gd_scene load_steps=9 format=3 uid="uid://di1fw0dliqjfi"]
 
 [ext_resource type="Script" path="res://src/units/defender.gd" id="1_f5fo7"]
 [ext_resource type="Texture2D" uid="uid://c7bcncgdadedn" path="res://img/defender/walk/frame0000.png" id="1_rx3t5"]
@@ -28,7 +28,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Defender" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_jsm2w"]
+radius = 226.009
+
+[node name="Defender" type="CharacterBody2D" groups=["defender"]]
 script = ExtResource("1_f5fo7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -37,3 +40,18 @@ shape = SubResource("CapsuleShape2D_qf18c")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_nv41x")
 frame_progress = 0.0416653
+
+[node name="AggroArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea"]
+shape = SubResource("CircleShape2D_jsm2w")
+
+[node name="ShootTimer" type="Timer" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

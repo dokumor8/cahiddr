@@ -76,7 +76,7 @@ func set_attack_target(attack_target):
 
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
-func hit(damage):
+func hit(damage, _sender):
 	
 	var hitEffectHero = HitEffectHero.instantiate()
 	get_tree().get_root().add_child(hitEffectHero)
