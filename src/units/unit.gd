@@ -27,7 +27,7 @@ func _ready():
 	navigation_agent.target_desired_distance = stop_distance
 	var root_node = get_tree().get_root()
 
-	aggro_target = root_node.get_node("/root/Main/King")
+	aggro_target = root_node.get_node("/root/Main/GameWorld/King")
 	movement_target_position = aggro_target.position
 	
 	# Make sure to not await during _ready.
@@ -82,7 +82,7 @@ func _physics_process(_delta):
 	
 	if not is_instance_valid(aggro_target):
 		var root_node = get_tree().get_root()
-		aggro_target = root_node.get_node("/root/Main/King")
+		aggro_target = root_node.get_node("/root/Main/GameWorld/King")
 
 	if position.distance_to(aggro_target.position) < shoot_distance:
 		shoot(aggro_target)

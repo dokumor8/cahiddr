@@ -1,11 +1,11 @@
 extends CharacterBody2D
-var health = 10
+var health = 100
 var rng = RandomNumberGenerator.new()
-# Called when the node enters the scene tree for the first time.
+
+
 func _ready():
 	randomize()
 	pass # Replace with function body.
-
 
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
@@ -31,3 +31,6 @@ func hit(damage):
 	hitEffectHero.global_rotation = rotation_shift
 	
 	health -= damage
+	
+	if health <= 0:
+		PlayerVariables.game_ended = true

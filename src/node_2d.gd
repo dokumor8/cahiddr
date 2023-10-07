@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var walk_marker = $WalkMarker
-@onready var hero = $Hero
-@onready var camera = $Camera2D
-@onready var tile_map = $TileMap
-@onready var tile_highlighter = $TileHighlighter
+@onready var walk_marker = $GameWorld/WalkMarker
+@onready var hero = $GameWorld/Hero
+@onready var camera = $GameWorld/Camera2D
+@onready var tile_map = $GameWorld/TileMap
+@onready var tile_highlighter = $GameWorld/TileHighlighter
 
 var cursor_state = "move"
 var camera_speed = 500
