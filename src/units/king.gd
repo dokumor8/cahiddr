@@ -1,5 +1,5 @@
 extends CharacterBody2D
-var health = 100
+@export var health = 100
 var rng = RandomNumberGenerator.new()
 
 
@@ -10,7 +10,7 @@ func _ready():
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 var DamageTextLabel = preload("res://src/effects/damage_text_label.tscn")
-func hit(damage):
+func hit(damage, _sender):
 	
 	var hitEffectHero = HitEffectHero.instantiate()
 	get_tree().get_root().add_child(hitEffectHero)
@@ -33,4 +33,5 @@ func hit(damage):
 	health -= damage
 	
 	if health <= 0:
+		queue_free()
 		PlayerVariables.game_ended = true

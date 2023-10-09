@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://diuobw6bjl1nw"]
+[gd_scene load_steps=10 format=3 uid="uid://diuobw6bjl1nw"]
 
 [ext_resource type="Texture2D" uid="uid://bhv268dw2vnnl" path="res://img/hero_walk/frame0000.png" id="1_42vrn"]
 [ext_resource type="Script" path="res://src/units/hero.gd" id="1_xbdfg"]
 [ext_resource type="Texture2D" uid="uid://dhtp5kbyg288" path="res://img/hero_walk/frame0001.png" id="2_xdsjo"]
 [ext_resource type="Texture2D" uid="uid://vnono8tncxi0" path="res://img/hero_walk/frame0002.png" id="3_woi7k"]
 [ext_resource type="Texture2D" uid="uid://c7sxav8xrokdm" path="res://img/hero_walk/frame0003.png" id="4_c8e2w"]
+[ext_resource type="Texture2D" uid="uid://bcgpp1qmfrtwe" path="res://img/ui/progress_bar_under.png" id="6_hob16"]
+[ext_resource type="Texture2D" uid="uid://4oi1aoq7roh0" path="res://img/ui/progress_bar_over.png" id="7_71di2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tn1mc"]
 radius = 12.0
@@ -46,6 +48,22 @@ shape = SubResource("CapsuleShape2D_tn1mc")
 sprite_frames = SubResource("SpriteFrames_lxkdj")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.411
 
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -36.0
+offset_right = 24.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+texture_under = ExtResource("6_hob16")
+texture_progress = ExtResource("7_71di2")
+
+[connection signal="health_changed" from="." to="." method="_on_health_changed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

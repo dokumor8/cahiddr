@@ -31,6 +31,7 @@ animations = [{
 
 [node name="King" type="CharacterBody2D"]
 script = ExtResource("1_ny0j3")
+health = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_p776h")

@@ -6,17 +6,23 @@ var stop_distance = 300
 @onready var shoot_timer = $Timer
 # TODO redo via navigation
 
-func _ready():
-	pass
+signal health_changed(new_health)
+signal end_movement()
+signal died()
+
 
 var target = position
 var moving = false
-var health = 10
+var max_health = 10.0
+var health = 10.0
 var state = "idle"
 var aggro_target
 var can_shoot = true
 
-signal end_movement()
+func _ready():
+	health = max_health
+#	shoot_timer.wait_time = respawn_cooldown
+
 
 func walk_to(walk_marker):
 	target = walk_marker.position
@@ -51,6 +57,14 @@ func _physics_process(_delta):
 				shoot(aggro_target)
 
 
+func set_health(new_health):
+	health = new_health
+	emit_signal("health_changed", new_health)
+	if health <= 0:
+		emit_signal("died")
+
+	
+
 var HeroBullet = preload("res://src/hero_bullet.tscn")
 func shoot(shoot_target):
 	if can_shoot:
@@ -81,7 +95,8 @@ func hit(damage, _sender):
 	var hitEffectHero = HitEffectHero.instantiate()
 	get_tree().get_root().add_child(hitEffectHero)
 	hitEffectHero.global_position = global_position
-	health -= damage
+	set_health(health - damage)
+#	print(health)
 
 #func _process(delta):
 #	if Input.is_action_pressed("right_click"):
@@ -93,3 +108,11 @@ func _on_timer_timeout():
 	if state == "shooting":
 		state = "idle"
 	pass # Replace with function body.
+
+
+func _on_health_changed(new_health):
+	var health_bar = $HealthBar
+	health_bar.value = new_health / max_health * 100
+#	print(health_bar.value)
+	
+	

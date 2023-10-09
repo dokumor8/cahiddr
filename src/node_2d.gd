@@ -5,12 +5,23 @@ extends Node2D
 @onready var camera = $GameWorld/Camera2D
 @onready var tile_map = $GameWorld/TileMap
 @onready var tile_highlighter = $GameWorld/TileHighlighter
+@onready var game_world = $GameWorld
+@onready var respawn_timer = $GameWorld/HeroReviveTimer
 
 var cursor_state = "move"
 var camera_speed = 500
 var cursor_mode = "normal"
+var hero_in_game = true
 
 const BUILDABLE_TERRAIN = 3
+var respawn_cooldown = 2
+
+
+func _ready():
+	PlayerVariables.hero_respawn_cooldown = 5
+	respawn_timer.wait_time = respawn_cooldown
+	
+
 
 func _input(event):
 	if event.is_action_pressed("right_click"):
@@ -43,14 +54,17 @@ func _input(event):
 			tile_highlighter.hide()
 
 	if event.is_action_pressed("left_click"):
-		if cursor_mode == "normal":
-			cursor_mode = "build"
-			start_build_mode()
-		
-		elif cursor_mode == "build":
-			pass
+		pass
+#		if cursor_mode == "normal":
+#			cursor_mode = "build"
+#			start_build_mode()
+#
+#		elif cursor_mode == "build":
+#			pass
 			# try building here - refuse or build
 
+
+	
 
 #var walk_marker = $WalkMarker
 #
@@ -111,6 +125,8 @@ func _physics_process(delta):
 
 func _on_hero_end_movement():
 	walk_marker.hide()
+	
+
 
 
 #func _on_unit_shoot_target(Bullet, direction, location):
@@ -119,3 +135,17 @@ func _on_hero_end_movement():
 #	spawned_bullet.rotation = direction
 #	spawned_bullet.position = location
 #	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)
+
+
+func _on_hero_revive_timer_timeout():
+	hero.set_health(hero.max_health)
+	game_world.add_child(hero)
+	respawn_timer.wait_time = respawn_cooldown
+	hero_in_game = true
+
+
+
+func _on_hero_died():
+	game_world.remove_child(hero)
+	$GameWorld/HeroReviveTimer.start()
+	hero_in_game = false

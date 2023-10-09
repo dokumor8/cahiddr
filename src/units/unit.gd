@@ -80,7 +80,7 @@ func shoot(target):
 
 func _physics_process(_delta):
 	
-	if not is_instance_valid(aggro_target):
+	if not is_instance_valid(aggro_target) or aggro_target.get_parent() == null:
 		var root_node = get_tree().get_root()
 		aggro_target = root_node.get_node("/root/Main/GameWorld/King")
 

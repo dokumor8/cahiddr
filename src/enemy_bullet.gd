@@ -28,3 +28,7 @@ func _physics_process(delta):
 		target.hit(damage, sender)
 		queue_free()
 
+# Proper behavior should be to continue flying
+	if not is_instance_valid(target) or target.get_parent() == null:
+		queue_free()
+
