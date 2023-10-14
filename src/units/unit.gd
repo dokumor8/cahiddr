@@ -5,6 +5,8 @@ var target_object = 0
 @onready var aggroed = false
 var shot_count = 0
 
+signal health_changed(new_health, max_health)
+
 var movement_speed: float = 200.0
 var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 
@@ -17,6 +19,7 @@ var stop_distance = 100.0
 var shoot_distance = 150.0
 var can_shoot = true
 var health = 4
+var is_aggroed = true
 
 
 func _ready():
@@ -79,11 +82,16 @@ func shoot(target):
 
 
 func _physics_process(_delta):
-	
+	if not is_aggroed:
+		return
 	if not is_instance_valid(aggro_target) or aggro_target.get_parent() == null:
 		var root_node = get_tree().get_root()
 		aggro_target = root_node.get_node("/root/Main/GameWorld/King")
-
+		if aggro_target == null:
+			is_aggroed = false
+			return
+	
+		
 	if position.distance_to(aggro_target.position) < shoot_distance:
 		shoot(aggro_target)
 	

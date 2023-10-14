@@ -141,6 +141,7 @@ func _on_hero_revive_timer_timeout():
 	hero.set_health(hero.max_health)
 	game_world.add_child(hero)
 	respawn_timer.wait_time = respawn_cooldown
+	$GameWorld/HeroReviveTimer.stop()
 	hero_in_game = true
 
 

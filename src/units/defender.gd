@@ -16,7 +16,7 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 var stop_distance = 100.0
 var shoot_distance = 150.0
 var can_shoot = true
-var health = 40
+var health = 10
 var state = "idle"
 
 

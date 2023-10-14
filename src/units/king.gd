@@ -1,12 +1,20 @@
 extends CharacterBody2D
-@export var health = 100
+@export var max_health = 10.0
+@export var health = 10.0
 var rng = RandomNumberGenerator.new()
 
+signal health_changed(new_health, max_health)
+signal died()
 
 func _ready():
 	randomize()
-	pass # Replace with function body.
 
+
+func set_health(new_health):
+	if new_health <= 0:
+		emit_signal("died")
+	emit_signal("health_changed", new_health, max_health)
+	health = new_health
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 var DamageTextLabel = preload("res://src/effects/damage_text_label.tscn")
@@ -30,7 +38,7 @@ func hit(damage, _sender):
 	var rotation_shift = deg_to_rad(rng.randf_range(0, 360.0))
 	hitEffectHero.global_rotation = rotation_shift
 	
-	health -= damage
+	set_health(health - damage)
 	
 	if health <= 0:
 		queue_free()

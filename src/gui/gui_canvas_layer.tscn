@@ -33,10 +33,10 @@ size_flags_vertical = 8
 text = "0"
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 
 [node name="GameEndText" type="Label" parent="VBoxContainer/CenterContainer"]
+visible = false
 layout_mode = 2
 text = "Your king has died."
 label_settings = SubResource("LabelSettings_rgrpg")

@@ -25,3 +25,7 @@ func _on_timer_timeout():
 	unit.global_position = global_position #+ Vector2(x_spawn, y_spawn)
 #		unit.velocity = 
 	pass # Replace with function body.
+
+
+func _on_king_died():
+	$Timer.stop()

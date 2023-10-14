@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://drapmpdq3r5vo"]
+[gd_scene load_steps=9 format=3 uid="uid://drapmpdq3r5vo"]
 
 [ext_resource type="Script" path="res://src/units/king.gd" id="1_ny0j3"]
 [ext_resource type="Texture2D" uid="uid://d0bjfriddxbgs" path="res://img/king_walk/frame0000.png" id="2_p6roy"]
 [ext_resource type="Texture2D" uid="uid://7gqqxkn4x63l" path="res://img/king_walk/frame0001.png" id="3_4app8"]
 [ext_resource type="Texture2D" uid="uid://cwd6sp75kgk60" path="res://img/king_walk/frame0002.png" id="4_gpnho"]
 [ext_resource type="Texture2D" uid="uid://2h72y4smblit" path="res://img/king_walk/frame0003.png" id="5_wcqac"]
+[ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="6_bxb7u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p776h"]
 radius = 23.0868
@@ -29,12 +30,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="King" type="CharacterBody2D"]
+[node name="King" type="CharacterBody2D" groups=["king"]]
 script = ExtResource("1_ny0j3")
-health = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_p776h")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3ppiy")
+
+[node name="HealthBar" parent="." instance=ExtResource("6_bxb7u")]
+
+[connection signal="health_changed" from="." to="HealthBar" method="_on_health_changed"]
