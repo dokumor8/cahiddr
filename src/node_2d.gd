@@ -20,57 +20,66 @@ var respawn_cooldown = 2
 func _ready():
 	PlayerVariables.hero_respawn_cooldown = 5
 	respawn_timer.wait_time = respawn_cooldown
+	$GUICanvasLayer/VBoxContainer/HBoxContainer2/BuildButton.pressed.connect(on_build_button_pressed)
 	
-
 
 func _input(event):
 	if event.is_action_pressed("right_click"):
 
 		if cursor_mode == "normal":
-	#		Array[Dictionary]
-	#		var parameters
-			var space = get_world_2d().direct_space_state
-			var parameters = PhysicsPointQueryParameters2D.new()
-			parameters.position = get_global_mouse_position()
-			parameters.collision_mask = 0x00000002
-	#		print(parameters.position)
-
-	#		var physics = PhysicsDirectSpaceState2D.new()
-	#		parameters.
-			var intersect_objects = space.intersect_point(parameters, 4)
-	#		print(intersect_objects)
-			if (intersect_objects.is_empty()):
-				walk_marker.global_position = get_global_mouse_position()
-				walk_marker.show()
-				hero.walk_to(walk_marker)
-			else:
-				var enemy_collider = intersect_objects[0]["collider"]
-				hero.set_attack_target(enemy_collider)
-				walk_marker.hide()
-				# TODO attack
-		
+			click_game_world()
 		elif cursor_mode == "build":
-			cursor_mode = "normal"
-			tile_highlighter.hide()
+			cancel_build_mode()
 
 	if event.is_action_pressed("left_click"):
-		pass
-#		if cursor_mode == "normal":
-#			cursor_mode = "build"
-#			start_build_mode()
-#
+		if cursor_mode == "build":
+			place_building()
+		elif cursor_mode == "normal":
+			click_select_unit()
+
 #		elif cursor_mode == "build":
 #			pass
 			# try building here - refuse or build
 
+func place_building():
+	print("placing building")
 
+
+func cancel_build_mode():
+	cursor_mode = "normal"
+	tile_highlighter.hide()
+
+
+func click_select_unit():
+	var space = get_world_2d().direct_space_state
+	var parameters = PhysicsPointQueryParameters2D.new()
+	parameters.position = get_global_mouse_position()
+	parameters.collision_mask = 0x00000003
+	var max_selected = 1
+	var intersect_objects = space.intersect_point(parameters, max_selected)
+	if not intersect_objects.is_empty():
+		var collider_object = intersect_objects[0]["collider"]
+		print(collider_object)
+		print("... is selected")
+
+
+func click_game_world():
+	var space = get_world_2d().direct_space_state
+	var parameters = PhysicsPointQueryParameters2D.new()
+	parameters.position = get_global_mouse_position()
+	parameters.collision_mask = 0x00000002
+	var max_selected = 1
+	var intersect_objects = space.intersect_point(parameters, max_selected)
+
+	if (intersect_objects.is_empty()):
+		walk_marker.global_position = get_global_mouse_position()
+		walk_marker.show()
+		hero.walk_to(walk_marker)
+	else:
+		var enemy_collider = intersect_objects[0]["collider"]
+		hero.set_attack_target(enemy_collider)
+		walk_marker.hide()
 	
-
-#var walk_marker = $WalkMarker
-#
-#func _input(event):
-#	if event.is_action_pressed("right_click"):
-#		walk_marker.position = get_global_mouse_position()
 
 func start_build_mode():	
 	pass
@@ -125,10 +134,10 @@ func _physics_process(delta):
 
 func _on_hero_end_movement():
 	walk_marker.hide()
-	
 
 
-
+func on_build_button_pressed():
+	print("build mode")
 #func _on_unit_shoot_target(Bullet, direction, location):
 #	var spawned_bullet = Bullet.instantiate()
 #	add_child(spawned_bullet)
@@ -150,3 +159,10 @@ func _on_hero_died():
 	game_world.remove_child(hero)
 	$GameWorld/HeroReviveTimer.start()
 	hero_in_game = false
+
+
+
+
+func _on_king_died():
+	get_tree().paused = true
+#	pass # Replace with function body.

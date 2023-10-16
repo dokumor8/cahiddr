@@ -1,5 +1,6 @@
 extends CanvasLayer
 @onready var game_end_text = $VBoxContainer/CenterContainer/GameEndText
+@onready var button = $VBoxContainer/HBoxContainer2/BuildButton
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,3 +13,4 @@ func _process(delta):
 
 func show_end_message():
 	game_end_text.show()
+

@@ -42,6 +42,18 @@ text = "Your king has died."
 label_settings = SubResource("LabelSettings_rgrpg")
 horizontal_alignment = 1
 
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="BuildButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "build"
+
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
 anchor_right = 0.649

@@ -13,6 +13,8 @@ func _ready():
 func set_health(new_health):
 	if new_health <= 0:
 		emit_signal("died")
+		PlayerVariables.game_ended = true
+		queue_free()
 	emit_signal("health_changed", new_health, max_health)
 	health = new_health
 
@@ -39,7 +41,3 @@ func hit(damage, _sender):
 	hitEffectHero.global_rotation = rotation_shift
 	
 	set_health(health - damage)
-	
-	if health <= 0:
-		queue_free()
-		PlayerVariables.game_ended = true
