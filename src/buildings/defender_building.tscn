@@ -8,3 +8,10 @@ script = ExtResource("1_ivlk6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_7fy3s")
+
+[node name="SpawnPoint" type="Node2D" parent="."]
+position = Vector2(0, 28)
+
+[node name="SpawnTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

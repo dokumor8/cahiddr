@@ -1,6 +1,6 @@
 extends CharacterBody2D
 @export var max_health = 10.0
-@export var health = 10.0
+@export var health = 1000.0
 var rng = RandomNumberGenerator.new()
 
 signal health_changed(new_health, max_health)

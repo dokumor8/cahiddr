@@ -16,6 +16,8 @@ var hero_in_game = true
 const BUILDABLE_TERRAIN = 3
 var respawn_cooldown = 2
 
+var building_to_build = "defenders"
+var can_build = false
 
 func _ready():
 	PlayerVariables.hero_respawn_cooldown = 5
@@ -41,8 +43,14 @@ func _input(event):
 #			pass
 			# try building here - refuse or build
 
+var Defender = preload("res://src/units/defender.tscn")
 func place_building():
-	print("placing building")
+	if can_build:
+		print("placing building")
+		var defender = Defender.instantiate()
+		defender.global_position = tile_highlighter.global_position
+		game_world.add_child(defender)
+		print(defender)
 
 
 func cancel_build_mode():
@@ -81,7 +89,8 @@ func click_game_world():
 		walk_marker.hide()
 	
 
-func start_build_mode():	
+func start_build_mode():
+	cursor_mode = "build"
 	pass
 
 
@@ -109,19 +118,21 @@ func _physics_process(delta):
 
 
 	if cursor_mode == "build":
-		var mouse_coords = get_global_mouse_position()
-		var tile_coords = tile_map.local_to_map(mouse_coords)
-#		tile_coords.x -= tile_coords.x
-#		tile_coords.y -= tile_coords.y
-		var building = "defenders"
-		var can_build = check_build_position(building, tile_coords)
+		handle_build_cursor_move()
 
-		if can_build:
-			var snapped_local_coords = tile_map.map_to_local(tile_coords)
-			print(snapped_local_coords)
-			tile_highlighter.position = snapped_local_coords
-			tile_highlighter.position -= Vector2(tile_map.cell_quadrant_size/2, tile_map.cell_quadrant_size/2)
-			tile_highlighter.show()
+
+func handle_build_cursor_move():
+	var mouse_coords = get_global_mouse_position()
+	var tile_coords = tile_map.local_to_map(mouse_coords)
+
+	can_build = check_build_position(building_to_build, tile_coords)
+
+	if can_build:
+		var snapped_local_coords = tile_map.map_to_local(tile_coords)
+#		print(snapped_local_coords)
+		tile_highlighter.position = snapped_local_coords
+		tile_highlighter.position -= Vector2(tile_map.cell_quadrant_size/2, tile_map.cell_quadrant_size/2)
+		tile_highlighter.show()
 
 
 #func _process(delta):
@@ -137,6 +148,7 @@ func _on_hero_end_movement():
 
 
 func on_build_button_pressed():
+	start_build_mode()
 	print("build mode")
 #func _on_unit_shoot_target(Bullet, direction, location):
 #	var spawned_bullet = Bullet.instantiate()
@@ -166,3 +178,11 @@ func _on_hero_died():
 func _on_king_died():
 	get_tree().paused = true
 #	pass # Replace with function body.
+
+
+func spawn_unit(building, spawn_position, type):
+	print("spawning unit in world")
+	var defender = Defender.instantiate()
+	defender.position = spawn_position
+
+	
