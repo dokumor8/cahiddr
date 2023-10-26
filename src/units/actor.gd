@@ -5,6 +5,7 @@ var movement_state = "idle"
 var movement_target_position: Vector2 = Vector2(0.0, 0.0)
 var movement_target_unit: Node2D
 var attack_target_unit: Node2D
+var aggro_group = "allies" # or "enemies"
 
 # const?
 var aggro_radius = 200
@@ -13,6 +14,7 @@ var aggro_radius = 200
 var stop_distance = 100.0
 var path_desired_distance = 100.0
 
+# ready block
 func _ready():
 	ready_navigation()
 	ready_aggro_collision()
@@ -28,13 +30,18 @@ func ready_navigation():
 	call_deferred("actor_setup")
 
 
+func actor_setup():
+	# Wait for the first physics frame so the NavigationServer can sync.
+	await get_tree().physics_frame
+
+
 func ready_aggro_collision():
 	var aggro_area = $AggroArea
 	var aggro_circle: CircleShape2D = $AggroArea/CollisionShape2D.shape
 	aggro_circle.set_radius(aggro_radius)
 	# TODO set up masks
-	
 
+# Process every frame block
 func _physics_process(_delta):
 	if movement_state == "idle":
 		# don't do anything, but aggro to nearby enemies
@@ -44,17 +51,15 @@ func _physics_process(_delta):
 		# non-aggro move
 		# just navigate to the place, don't attack
 		keep_moving_to_position()
-		pass
 	elif movement_state == "a_move":
 		# attack-move
 		# navigate, but keep checking for enemies
-		pass
+		keep_moving_to_position()
 	elif movement_state == "attack":
-		pass
 		# attack a specific enemy
 		# move towards and enemy and attack it
 		# don't aggro
-			
+		keep_moving_to_position()
 
 
 func keep_moving_to_position():
@@ -71,11 +76,7 @@ func keep_moving_to_position():
 	navigation_agent.set_velocity(new_velocity)
 
 
-func actor_setup():
-	# Wait for the first physics frame so the NavigationServer can sync.
-	await get_tree().physics_frame
-
-
+# Event and slot block
 func set_movement_target(movement_target: Vector2):
 	movement_target_position = movement_target
 	navigation_agent.target_position = movement_target
@@ -92,6 +93,7 @@ func attack_move_to_position(target_position: Vector2):
 
 
 func attack_unit(unit):
+	# TODO get close enough to attack
 	attack_target_unit = unit
 	movement_state = "attack"
 	set_movement_target(unit.position)
@@ -103,3 +105,11 @@ func _on_navigation_agent_2d_velocity_computed(safe_velocity):
 func move_with_velocity(velocity):
 	var delta = get_physics_process_delta_time()
 	translate(velocity * delta)
+
+
+func _on_area_entered(area):
+	if movement_state == "idle" or movement_state == "a_move":
+		# change state to aggro
+		# check if in enemy faction
+		if area.is_in_group(aggro_group):
+			attack_unit(area)

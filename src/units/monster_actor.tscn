@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cl53doqqrytkh"]
+
+[ext_resource type="Script" path="res://src/units/monster_actor.gd" id="1_eu6c5"]
+
+[node name="monster_actor" type="Node2D"]
+script = ExtResource("1_eu6c5")

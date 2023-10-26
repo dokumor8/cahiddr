@@ -42,7 +42,6 @@ func actor_setup():
 	set_movement_target(movement_target_position)
 
 
-
 var Bullet = preload("res://src/hero_bullet.tscn")
 func shoot(target):
 	if can_shoot:
@@ -114,7 +113,8 @@ func hit(damage, sender):
 	health -= damage
 	if health <= 0:
 		queue_free()
-	set_aggro_target(sender)
+	if is_instance_valid(sender):
+		set_aggro_target(sender)
 
 
 func set_aggro_target(unit):

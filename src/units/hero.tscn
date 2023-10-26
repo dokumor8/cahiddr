@@ -47,6 +47,7 @@ shape = SubResource("CapsuleShape2D_tn1mc")
 sprite_frames = SubResource("SpriteFrames_lxkdj")
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 0.303
 
 [node name="HealthBar" parent="." instance=ExtResource("6_uq5ag")]
 
