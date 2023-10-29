@@ -10,6 +10,7 @@ size = Vector2(85, 57)
 script = ExtResource("1_ivlk6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(48, 32)
 texture = ExtResource("1_7fy3s")
 
 [node name="SpawnPoint" type="Node2D" parent="."]
@@ -19,6 +20,7 @@ position = Vector2(0, 52)
 wait_time = 2.446
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(48, 31)
 shape = SubResource("RectangleShape2D_0xi5y")
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

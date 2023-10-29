@@ -113,8 +113,8 @@ func check_build_position(_building, tile_coords):
 	var width = 3
 	var height = 2
 
-	for w in range(-1, 2):
-		for h in range(-1, 1):
+	for w in range(0, 3):
+		for h in range(0, 2):
 			var checking_tile = tile_coords + Vector2i(w, h)
 			var tile_data = tile_map.get_cell_source_id(0, checking_tile)
 			if tile_data != BUILDABLE_TERRAIN:
@@ -133,11 +133,14 @@ func _physics_process(delta):
 
 
 func handle_build_cursor_move():
+	var building_size = Vector2(96, 64)
+#	var building_height = 64
 	var mouse_coords = get_global_mouse_position()
 #	mouse_coords.x -= 42
 #	mouse_coords.y -= 28
 	mouse_coords.x += tile_map.cell_quadrant_size / 2
 	mouse_coords.y += tile_map.cell_quadrant_size / 2
+	mouse_coords -= building_size / 2
 	var tile_coords = tile_map.local_to_map(mouse_coords)
 
 	can_build = check_build_position(building_to_build, tile_coords)
@@ -148,7 +151,7 @@ func handle_build_cursor_move():
 
 #		print(snapped_local_coords)
 		tile_highlighter.position = snapped_local_coords
-		tile_highlighter.position -= Vector2(0, tile_map.cell_quadrant_size/2)
+		tile_highlighter.position -= Vector2(tile_map.cell_quadrant_size/2, tile_map.cell_quadrant_size/2)
 		tile_highlighter.show()
 
 
