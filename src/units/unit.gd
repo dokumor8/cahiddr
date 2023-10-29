@@ -19,7 +19,9 @@ var stop_distance = 100.0
 var shoot_distance = 150.0
 var can_shoot = true
 var health = 4
+var max_health = 4
 var is_aggroed = true
+var unit_name = "Enemy"
 
 
 func _ready():
@@ -153,15 +155,22 @@ func set_movement_target(movement_target: Vector2):
 	navigation_agent.target_position = movement_target
 
 
+func set_health(new_health):
+	health = new_health
+	emit_signal("health_changed", new_health, max_health)
+	if health <= 0:
+		queue_free()
+		
+
+
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 func hit(damage, sender):
 	
 	var hitEffectHero = HitEffectHero.instantiate()
 	get_tree().get_root().add_child(hitEffectHero)
 	hitEffectHero.global_position = global_position
-	health -= damage
-	if health <= 0:
-		queue_free()
+	set_health(health - damage)
+	
 	set_aggro_target(sender)
 
 

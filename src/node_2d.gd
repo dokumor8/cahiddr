@@ -7,6 +7,8 @@ extends Node2D
 @onready var tile_highlighter = $GameWorld/TileHighlighter
 @onready var game_world = $GameWorld
 @onready var respawn_timer = $GameWorld/HeroReviveTimer
+@onready var ui = $GUICanvasLayer
+@onready var selected_unit = null
 
 var cursor_state = "move"
 var camera_speed = 500
@@ -81,7 +83,13 @@ func click_select_unit():
 	if not intersect_objects.is_empty():
 		var collider_object = intersect_objects[0]["collider"]
 		print(collider_object)
+		if selected_unit != null:
+			selected_unit.health_changed.disconnect(ui.on_selected_health_changed)
+		selected_unit = collider_object
 		print("... is selected")
+		ui.update_selected_unit(selected_unit)
+		selected_unit.health_changed.connect(ui.on_selected_health_changed)
+
 
 
 func click_game_world():

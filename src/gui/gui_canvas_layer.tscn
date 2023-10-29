@@ -54,6 +54,27 @@ size_flags_vertical = 8
 layout_mode = 2
 text = "build"
 
+[node name="SelectContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="VBoxContainer/SelectContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+text = "No unit selected"
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/SelectContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="VBoxContainer/SelectContainer/CenterContainer"]
+modulate = Color(0.403922, 0.866667, 0.431373, 1)
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 2
+value = 50.0
+show_percentage = false
+
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
 anchor_right = 0.649

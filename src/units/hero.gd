@@ -18,6 +18,8 @@ var health = 10.0
 var state = "idle"
 var aggro_target
 var can_shoot = true
+var unit_name = "Hero"
+
 
 func _ready():
 	health = max_health

@@ -76,7 +76,8 @@ position = Vector2(116, 519)
 position = Vector2(1720, 530)
 
 [node name="TileHighlighter" type="Sprite2D" parent="GameWorld"]
-position = Vector2(408, 246)
+visible = false
+position = Vector2(345, 275)
 texture = SubResource("GradientTexture2D_qa3f2")
 centered = false
 

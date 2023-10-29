@@ -4,6 +4,7 @@ var selected = false
 var target_object = 0
 @onready var aggroed = false
 var shot_count = 0
+signal health_changed(new_health, max_health)
 
 var movement_speed: float = 200.0
 var movement_target_position: Vector2 = Vector2(60.0, 180.0)
@@ -17,7 +18,9 @@ var stop_distance = 100.0
 var shoot_distance = 150.0
 var can_shoot = true
 var health = 10
+var max_health = 10
 var state = "idle"
+var unit_name = "defender"
 
 
 func _ready():
@@ -110,6 +113,7 @@ func hit(damage, sender):
 	var hitEffectHero = HitEffectHero.instantiate()
 	get_tree().get_root().add_child(hitEffectHero)
 	hitEffectHero.global_position = global_position
+	
 	health -= damage
 	if health <= 0:
 		queue_free()

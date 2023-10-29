@@ -9,6 +9,8 @@ var built_units = 0
 var max_units = 0
 var width
 var height
+var unit_name = "Building"
+
 
 
 func _ready():
@@ -26,3 +28,6 @@ func _on_spawn_timer_timeout():
 #	defender.global_position = $SpawnPoint.global_position
 #	game_world.add_child(defender)
 #	print(defender)
+
+
+
