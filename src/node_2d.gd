@@ -202,7 +202,6 @@ func _on_hero_died():
 
 
 
-
 func _on_king_died():
 	get_tree().paused = true
 #	pass # Replace with function body.

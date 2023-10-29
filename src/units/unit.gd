@@ -6,6 +6,7 @@ var target_object = 0
 var shot_count = 0
 
 signal health_changed(new_health, max_health)
+signal died()
 
 var movement_speed: float = 200.0
 var movement_target_position: Vector2 = Vector2(60.0, 180.0)
@@ -22,6 +23,7 @@ var health = 4
 var max_health = 4
 var is_aggroed = true
 var unit_name = "Enemy"
+var unit_exp_value = 2
 
 
 func _ready():
@@ -158,8 +160,7 @@ func set_movement_target(movement_target: Vector2):
 func set_health(new_health):
 	health = new_health
 	emit_signal("health_changed", new_health, max_health)
-	if health <= 0:
-		queue_free()
+
 		
 
 
@@ -170,6 +171,11 @@ func hit(damage, sender):
 	get_tree().get_root().add_child(hitEffectHero)
 	hitEffectHero.global_position = global_position
 	set_health(health - damage)
+	if health <= 0:
+#		emit_signal("died")
+		if sender.is_in_group("hero"):
+			sender.receive_exp(unit_exp_value)
+		queue_free()
 	
 	set_aggro_target(sender)
 
