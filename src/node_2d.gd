@@ -25,6 +25,7 @@ func _ready():
 	PlayerVariables.hero_respawn_cooldown = 5
 	respawn_timer.wait_time = respawn_cooldown
 	$GUICanvasLayer/VBoxContainer/HBoxContainer2/BuildButton.pressed.connect(on_build_button_pressed)
+	$GUICanvasLayer/VBoxContainer/HBoxContainer2/RallyButton.pressed.connect(on_rally_button_pressed)
 	
 
 func _input(event):
@@ -33,13 +34,18 @@ func _input(event):
 		if cursor_mode == "normal":
 			click_game_world()
 		elif cursor_mode == "build":
-			cancel_build_mode()
+			set_cursor_mode_normal()
+		elif cursor_mode == "rally":
+			set_cursor_mode_normal()
 
 	if event.is_action_pressed("left_click"):
 		if cursor_mode == "build":
 			place_building()
 		elif cursor_mode == "normal":
 			click_select_unit()
+		elif cursor_mode == "rally":
+			set_rally_points()
+	
 
 #		elif cursor_mode == "build":
 #			pass
@@ -56,7 +62,7 @@ func place_building():
 		defender_building.spawn_timer.start()
 		defender_building.connect("built_unit", on_built_unit)
 		print(defender_building)
-		cancel_build_mode()
+		set_cursor_mode_normal()
 		# TODO
 		# mark tiles as taken
 
@@ -68,7 +74,17 @@ func on_built_unit(unit_type: String, builder):
 	game_world.add_child(defender)
 
 
-func cancel_build_mode():
+func set_rally_points():
+	var mc = get_global_mouse_position()
+	var all_buildings = get_tree().get_nodes_in_group("building")
+	for b in all_buildings:
+		print(b)
+		b.set_rally_point(mc)
+	set_cursor_mode_normal()
+#	set_rally_point
+
+
+func set_cursor_mode_normal():
 	cursor_mode = "normal"
 	tile_highlighter.hide()
 
@@ -89,7 +105,6 @@ func click_select_unit():
 		print("... is selected")
 		ui.update_selected_unit(selected_unit)
 		selected_unit.health_changed.connect(ui.on_selected_health_changed)
-
 
 
 func click_game_world():
@@ -178,6 +193,13 @@ func _on_hero_end_movement():
 func on_build_button_pressed():
 	start_build_mode()
 	print("build mode")
+
+
+func on_rally_button_pressed():
+	cursor_mode = "rally"
+	print("rally mode")
+
+
 #func _on_unit_shoot_target(Bullet, direction, location):
 #	var spawned_bullet = Bullet.instantiate()
 #	add_child(spawned_bullet)

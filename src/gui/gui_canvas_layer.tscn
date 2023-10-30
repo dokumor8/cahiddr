@@ -1,9 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6kghfkovuej0"]
+[gd_scene load_steps=5 format=3 uid="uid://c6kghfkovuej0"]
 
 [ext_resource type="Script" path="res://src/gui/gui_canvas_layer.gd" id="1_rjfe0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrpg"]
 font_size = 30
+
+[sub_resource type="InputEventKey" id="InputEventKey_ovvka"]
+device = -1
+keycode = 66
+unicode = 98
+
+[sub_resource type="Shortcut" id="Shortcut_wygvf"]
+events = [SubResource("InputEventKey_ovvka")]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_rjfe0")
@@ -52,7 +60,12 @@ size_flags_vertical = 8
 
 [node name="BuildButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "build"
+shortcut = SubResource("Shortcut_wygvf")
+text = "Build"
+
+[node name="RallyButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Rally Point"
 
 [node name="SelectContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

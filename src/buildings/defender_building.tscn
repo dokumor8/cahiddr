@@ -7,7 +7,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xi5y"]
 size = Vector2(85, 57)
 
-[node name="DefenderBuilding" type="Area2D"]
+[node name="DefenderBuilding" type="Area2D" groups=["building"]]
 script = ExtResource("1_ivlk6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -25,7 +25,6 @@ position = Vector2(48, 31)
 shape = SubResource("RectangleShape2D_0xi5y")
 
 [node name="RallyPoint" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(45, 67)
 texture = ExtResource("3_31h7j")
 centered = false

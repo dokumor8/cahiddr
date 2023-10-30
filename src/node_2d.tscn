@@ -27,9 +27,9 @@ sources/0 = SubResource("TileSetAtlasSource_f2j16")
 sources/3 = SubResource("TileSetAtlasSource_wqkqj")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tx7oa"]
-vertices = PackedVector2Array(951, 318, 1752, 313, 1753, 765, 948, 770, 39, 315, 39, 765)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3, 5)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(39, 315, 951, 318, 1752, 313, 1753, 765, 948, 770, 39, 765)])
+vertices = PackedVector2Array(39, 224, 951, 221, 1751, 221, 1753, 765, 948, 770, 39, 765)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(39, 224, 951, 221, 1751, 221, 1753, 765, 948, 770, 39, 765)])
 
 [sub_resource type="Gradient" id="Gradient_8sg87"]
 colors = PackedColorArray(0, 0.556863, 0, 1, 1, 1, 1, 1)
