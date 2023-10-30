@@ -84,9 +84,6 @@ centered = false
 [node name="Defender" parent="GameWorld" instance=ExtResource("10_xwbcn")]
 position = Vector2(531, 546)
 
-[node name="HeroReviveTimer" type="Timer" parent="GameWorld"]
-wait_time = 2.402
-
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 
 [connection signal="died" from="GameWorld/Hero" to="." method="_on_hero_died"]
@@ -94,4 +91,3 @@ wait_time = 2.402
 [connection signal="died" from="GameWorld/King" to="." method="_on_king_died"]
 [connection signal="died" from="GameWorld/King" to="GameWorld/SpawnArea" method="_on_king_died"]
 [connection signal="died" from="GameWorld/King" to="GUICanvasLayer" method="show_end_message"]
-[connection signal="timeout" from="GameWorld/HeroReviveTimer" to="." method="_on_hero_revive_timer_timeout"]

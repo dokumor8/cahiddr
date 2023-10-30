@@ -18,14 +18,13 @@ texture = ExtResource("1_7fy3s")
 position = Vector2(45, 67)
 
 [node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 2.446
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(48, 31)
 shape = SubResource("RectangleShape2D_0xi5y")
 
 [node name="RallyPoint" type="Sprite2D" parent="."]
-position = Vector2(45, 67)
+position = Vector2(42, 176)
 texture = ExtResource("3_31h7j")
 centered = false
 offset = Vector2(-3, -39)

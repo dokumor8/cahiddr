@@ -7,6 +7,7 @@ var unit_name = "King"
 signal health_changed(new_health, max_health)
 signal died()
 
+
 func _ready():
 	randomize()
 

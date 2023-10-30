@@ -32,6 +32,7 @@ animations = [{
 radius = 226.009
 
 [node name="Defender" type="CharacterBody2D" groups=["defender"]]
+collision_mask = 0
 script = ExtResource("1_f5fo7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -51,6 +52,9 @@ shape = SubResource("CircleShape2D_jsm2w")
 [node name="ShootTimer" type="Timer" parent="."]
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 15.0
+avoidance_enabled = true
+neighbor_distance = 48.15
 
 [connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

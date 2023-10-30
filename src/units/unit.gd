@@ -8,7 +8,7 @@ var shot_count = 0
 signal health_changed(new_health, max_health)
 signal died()
 
-var movement_speed: float = 200.0
+var movement_speed: float = 2.0
 var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D

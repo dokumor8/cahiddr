@@ -6,7 +6,6 @@ extends Node2D
 @onready var tile_map = $GameWorld/TileMap
 @onready var tile_highlighter = $GameWorld/TileHighlighter
 @onready var game_world = $GameWorld
-@onready var respawn_timer = $GameWorld/HeroReviveTimer
 @onready var ui = $GUICanvasLayer
 @onready var selected_unit = null
 
@@ -23,7 +22,6 @@ var can_build = false
 
 func _ready():
 	PlayerVariables.hero_respawn_cooldown = 5
-	respawn_timer.wait_time = respawn_cooldown
 	$GUICanvasLayer/VBoxContainer/HBoxContainer2/BuildButton.pressed.connect(on_build_button_pressed)
 	$GUICanvasLayer/VBoxContainer/HBoxContainer2/RallyButton.pressed.connect(on_rally_button_pressed)
 	
@@ -69,9 +67,11 @@ func place_building():
 
 func on_built_unit(unit_type: String, builder):
 	var defender = Defender.instantiate()
+	defender.builder = builder
 	defender.global_position = builder.spawn_point.global_position
 	print("built")
 	game_world.add_child(defender)
+	builder.add_unit(defender)
 
 
 func set_rally_points():
@@ -208,20 +208,14 @@ func on_rally_button_pressed():
 #	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)
 
 
-func _on_hero_revive_timer_timeout():
-	hero.set_health(hero.max_health)
-	game_world.add_child(hero)
-	respawn_timer.wait_time = respawn_cooldown
-	$GameWorld/HeroReviveTimer.stop()
-	hero_in_game = true
-
-
-
 func _on_hero_died():
 	game_world.remove_child(hero)
-	$GameWorld/HeroReviveTimer.start()
+#	$GameWorld/HeroReviveTimer.start()
 	hero_in_game = false
-
+	await get_tree().create_timer(respawn_cooldown).timeout
+	hero.set_health(hero.max_health)
+	game_world.add_child(hero)
+	hero_in_game = true
 
 
 func _on_king_died():
@@ -234,4 +228,3 @@ func spawn_unit(building, spawn_position, type):
 	var defender = Defender.instantiate()
 	defender.position = spawn_position
 
-	

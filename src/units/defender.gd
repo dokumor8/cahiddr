@@ -13,12 +13,13 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var aggro_target: CharacterBody2D
 @onready var shoot_timer = $ShootTimer
+@onready var builder
 @export var speed = 100
-var stop_distance = 100.0
-var shoot_distance = 150.0
+var stop_distance = 10.0
+var shoot_distance = 200.0
 var can_shoot = true
-var health = 10
-var max_health = 10
+var health = 1
+var max_health = 1
 var state = "idle"
 var unit_name = "defender"
 
@@ -31,7 +32,12 @@ func _ready():
 	navigation_agent.path_desired_distance = stop_distance
 	navigation_agent.target_desired_distance = stop_distance
 #	var root_node = get_tree().get_root()
-	movement_target_position = position
+	if !builder or !is_instance_valid(builder):
+		movement_target_position = position
+		pass
+	else:
+		print("rally")
+		movement_target_position = builder.rally_point.global_position
 	
 	# Make sure to not await during _ready.
 	call_deferred("actor_setup")
@@ -117,6 +123,8 @@ func hit(damage, sender):
 	health -= damage
 	if health <= 0:
 		queue_free()
+		if is_instance_valid(builder):
+			builder.unit_died()
 	if is_instance_valid(sender):
 		set_aggro_target(sender)
 
