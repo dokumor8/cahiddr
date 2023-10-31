@@ -8,7 +8,7 @@ var shot_count = 0
 signal health_changed(new_health, max_health)
 signal died()
 
-var movement_speed: float = 2.0
+var movement_speed: float = 100.0
 var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
@@ -24,6 +24,7 @@ var max_health = 4
 var is_aggroed = true
 var unit_name = "Enemy"
 var unit_exp_value = 2
+var money_reward = 5
 
 
 func _ready():
@@ -176,6 +177,7 @@ func hit(damage, sender):
 		if sender.is_in_group("hero"):
 			sender.receive_exp(unit_exp_value)
 		queue_free()
+		PlayerVariables.money += money_reward
 	
 	set_aggro_target(sender)
 

@@ -20,15 +20,16 @@ var aggro_target
 var can_shoot = true
 var unit_name = "Hero"
 
-var experience = 0
-var exp_level = 1
+#var experience = 0
+#var exp_level = 1
 var shots_per_second = 1
-var level_up_exp = 5
+#var level_up_exp = 5
 var shooting_speedup = 0.5
 
 
 
 func _ready():
+	$AnimatedSprite2D.play()
 	health = max_health
 	shoot_timer.wait_time = 1.0 / shots_per_second
 #	shoot_timer.wait_time = respawn_cooldown
@@ -121,16 +122,16 @@ func _on_timer_timeout():
 
 
 func level_up():
-	experience -= level_up_exp
-	exp_level += 1
-	level_up_exp = exp_level * 5
+	PlayerVariables.hero_experience -= PlayerVariables.max_experience
+	PlayerVariables.hero_level += 1
+	PlayerVariables.max_experience = PlayerVariables.hero_level * 5
 	shots_per_second += shooting_speedup
 	shoot_timer.wait_time = 1.0 / shots_per_second
 	print("level up")
 
 
 func receive_exp(exp_value):
-	experience += exp_value
-	if experience >= level_up_exp:
+	PlayerVariables.hero_experience += exp_value
+	if PlayerVariables.hero_experience >= PlayerVariables.max_experience:
 		level_up()
 	

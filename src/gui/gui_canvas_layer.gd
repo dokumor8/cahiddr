@@ -1,8 +1,11 @@
 extends CanvasLayer
 @onready var game_end_text = $VBoxContainer/CenterContainer/GameEndText
-@onready var button = $VBoxContainer/HBoxContainer2/BuildButton
+@onready var build_button = $VBoxContainer/HBoxContainer2/BuildButton
 @onready var health_bar = $VBoxContainer/SelectContainer/CenterContainer/HealthBar
 @onready var selected_unit_label = $VBoxContainer/SelectContainer/Label
+@onready var money_label = $VBoxContainer/HBoxContainer/EssenceAmount
+@onready var exp_label = $VBoxContainer/HBoxContainer3/ExpAmount
+@onready var level_label = $VBoxContainer/HBoxContainer4/LevelAmount
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -11,7 +14,15 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if PlayerVariables.money >= PlayerVariables.building_cost:
+		build_button.disabled = false
+	else:
+		build_button.disabled = true
+	
+	money_label.text = str(PlayerVariables.money)
+	exp_label.text = str(PlayerVariables.hero_experience) + " / " + str(PlayerVariables.max_experience)
+	level_label.text = str(PlayerVariables.hero_level)
+
 
 func show_end_message():
 	game_end_text.show()

@@ -9,6 +9,7 @@ signal died()
 
 
 func _ready():
+	$AnimatedSprite2D.play()
 	randomize()
 
 
