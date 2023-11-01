@@ -15,11 +15,11 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 @onready var shoot_timer = $ShootTimer
 @onready var builder
 @export var speed = 100
-var stop_distance = 10.0
+var stop_distance = 100.0
 var shoot_distance = 200.0
 var can_shoot = true
-var health = 1
-var max_health = 1
+var health = 5
+var max_health = 5
 var state = "idle"
 var unit_name = "defender"
 
@@ -98,7 +98,7 @@ func _physics_process(_delta):
 
 func _on_aggro_area_body_entered(body):
 	# change state to aggro
-	if body.is_in_group("enemy"):
+	if body.is_in_group("enemy") and state != "aggro":
 		set_aggro_target(body)
 		state = "aggro"
 #		target_object = body
@@ -125,7 +125,7 @@ func hit(damage, sender):
 		queue_free()
 		if is_instance_valid(builder):
 			builder.unit_died()
-	if is_instance_valid(sender):
+	if is_instance_valid(sender) and state != "aggro":
 		set_aggro_target(sender)
 
 

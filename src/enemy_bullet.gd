@@ -18,6 +18,11 @@ func _process(_delta):
 
 
 func _physics_process(delta):
+# Proper behavior should be to continue flying
+	if not is_instance_valid(target) or target.get_parent() == null:
+		queue_free()
+		return
+
 	look_at(target.global_position)
 	var dir = (target.global_position - global_position).normalized()
 	global_rotation = dir.angle() + PI / 2.0
@@ -28,7 +33,4 @@ func _physics_process(delta):
 		target.hit(damage, sender)
 		queue_free()
 
-# Proper behavior should be to continue flying
-	if not is_instance_valid(target) or target.get_parent() == null:
-		queue_free()
 

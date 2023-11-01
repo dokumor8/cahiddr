@@ -1,6 +1,6 @@
 extends CharacterBody2D
-@export var max_health = 10.0
-@export var health = 1000.0
+@export var max_health = 100.0
+@export var health = 100.0
 var rng = RandomNumberGenerator.new()
 var unit_name = "King"
 

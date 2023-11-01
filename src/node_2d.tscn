@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://deb6xe72w2557"]
+[gd_scene load_steps=19 format=3 uid="uid://deb6xe72w2557"]
 
 [ext_resource type="Script" path="res://src/node_2d.gd" id="1_pjd1t"]
 [ext_resource type="Texture2D" uid="uid://c6wktm4c5nwxg" path="res://img/floor.png" id="2_ov8mc"]
@@ -27,9 +27,9 @@ sources/0 = SubResource("TileSetAtlasSource_f2j16")
 sources/3 = SubResource("TileSetAtlasSource_wqkqj")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tx7oa"]
-vertices = PackedVector2Array(39, 224, 951, 221, 1751, 221, 1753, 765, 948, 770, 39, 765)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(39, 224, 951, 221, 1751, 221, 1753, 765, 948, 770, 39, 765)])
+vertices = PackedVector2Array(34, 32, 1858, 28, 1865, 931, 25, 931)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(34, 32, 1858, 28, 1865, 931, 25, 931)])
 
 [sub_resource type="Gradient" id="Gradient_8sg87"]
 colors = PackedColorArray(0, 0.556863, 0, 1, 1, 1, 1, 1)
@@ -37,6 +37,12 @@ colors = PackedColorArray(0, 0.556863, 0, 1, 1, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qa3f2"]
 gradient = SubResource("Gradient_8sg87")
 width = 96
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hffnm"]
+size = Vector2(1933, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nbb5c"]
+size = Vector2(34.5, 960.5)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_pjd1t")
@@ -58,13 +64,13 @@ constrain_avoidance = true
 position = Vector2(1361, 585)
 
 [node name="Unit2" parent="GameWorld" instance=ExtResource("4_atc2k")]
-position = Vector2(1362, 438)
+position = Vector2(1588, 564)
 
 [node name="Camera2D" type="Camera2D" parent="GameWorld"]
 position = Vector2(617, 524)
 
 [node name="Hero" parent="GameWorld" instance=ExtResource("5_sj74m")]
-position = Vector2(-360, 786)
+position = Vector2(214, 515)
 
 [node name="WalkMarker" parent="GameWorld" instance=ExtResource("6_kq1q8")]
 visible = false
@@ -83,6 +89,41 @@ centered = false
 
 [node name="Defender" parent="GameWorld" instance=ExtResource("10_xwbcn")]
 position = Vector2(531, 546)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="GameWorld"]
+position = Vector2(943, -16)
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameWorld/StaticBody2D"]
+shape = SubResource("RectangleShape2D_hffnm")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="GameWorld"]
+position = Vector2(922, 976)
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameWorld/StaticBody2D4"]
+position = Vector2(16, 0)
+shape = SubResource("RectangleShape2D_hffnm")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="GameWorld"]
+position = Vector2(1905, 495)
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="GameWorld/StaticBody2D2"]
+position = Vector2(0, -15.25)
+shape = SubResource("RectangleShape2D_nbb5c")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="GameWorld"]
+position = Vector2(-17, 496)
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="GameWorld/StaticBody2D3"]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_nbb5c")
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 
