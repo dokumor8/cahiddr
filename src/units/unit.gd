@@ -128,8 +128,10 @@ func _process(_delta):
 
 func _on_aggro_area_body_entered(body):
 	# change state to aggro
-	if body.is_in_group("hero") or body.is_in_group("defender"):
-		set_aggro_target(body)
+	if is_instance_valid(aggro_target) and aggro_target.is_in_group("king"):
+		if body.is_in_group("hero") or body.is_in_group("defender"):
+			set_aggro_target(body)
+#			print("aggro_switch")
 #		target_object = body
 #		aggroed = true
 
@@ -167,6 +169,12 @@ func set_health(new_health):
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 func hit(damage, sender):
+
+	
+#	if is_instance_valid(sender) and not is_aggroed:
+	if is_instance_valid(sender) and is_instance_valid(aggro_target) and aggro_target.is_in_group("king"):
+		set_aggro_target(sender)
+
 	
 	var hitEffectHero = HitEffectHero.instantiate()
 	get_tree().get_root().add_child(hitEffectHero)
@@ -174,12 +182,10 @@ func hit(damage, sender):
 	set_health(health - damage)
 	if health <= 0:
 #		emit_signal("died")
-		if sender.is_in_group("hero"):
+		if is_instance_valid(sender) and sender.is_in_group("hero"):
 			sender.receive_exp(unit_exp_value)
 		queue_free()
 		PlayerVariables.money += money_reward
-	
-	set_aggro_target(sender)
 
 
 func set_aggro_target(unit):

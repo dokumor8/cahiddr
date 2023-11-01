@@ -15,7 +15,7 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 @onready var shoot_timer = $ShootTimer
 @onready var builder
 @export var speed = 100
-var stop_distance = 100.0
+var stop_distance = 10.0
 var shoot_distance = 200.0
 var can_shoot = true
 var health = 5

@@ -15,6 +15,7 @@ var cursor_mode = "normal"
 var hero_in_game = true
 
 const BUILDABLE_TERRAIN = 3
+const REGULAR_TERRAIN = 0
 var respawn_cooldown = 2
 
 var building_to_build = "defenders"
@@ -25,7 +26,7 @@ func _ready():
 	$GUICanvasLayer/VBoxContainer/HBoxContainer2/BuildButton.pressed.connect(on_build_button_pressed)
 	$GUICanvasLayer/VBoxContainer/HBoxContainer2/RallyButton.pressed.connect(on_rally_button_pressed)
 	ui.update_selected_unit(hero)
-	
+
 
 func _input(event):
 	if event.is_action_pressed("right_click"):
@@ -60,6 +61,17 @@ func place_building():
 		game_world.add_child(defender_building)
 		defender_building.spawn_timer.start()
 		defender_building.connect("built_unit", on_built_unit)
+
+		var tile_coords = tile_map.local_to_map(defender_building.global_position)
+
+		var x = tile_coords.x
+		var y = tile_coords.y
+		for h in range(2):
+			for w in range(3):
+				tile_map.set_cell(0, Vector2i(x + w, y + h), REGULAR_TERRAIN, Vector2i(0, 0))
+				
+				
+
 		print(defender_building)
 		set_cursor_mode_normal()
 		# TODO
