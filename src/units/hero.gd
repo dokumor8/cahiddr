@@ -19,6 +19,7 @@ var state = "idle"
 var aggro_target
 var can_shoot = true
 var unit_name = "Hero"
+var shoot_damage = 2
 
 #var experience = 0
 #var exp_level = 1
@@ -89,6 +90,7 @@ func shoot(shoot_target):
 		bul.velocity = dir * bul.speed
 		bul.target = shoot_target
 		bul.sender = self
+		bul.damage = shoot_damage
 
 		can_shoot = false
 		shoot_timer.start()
@@ -125,6 +127,7 @@ func level_up():
 	PlayerVariables.hero_experience -= PlayerVariables.max_experience
 	PlayerVariables.hero_level += 1
 	PlayerVariables.max_experience = PlayerVariables.hero_level * 5
+	shoot_damage += 1
 	shots_per_second += shooting_speedup
 	shoot_timer.wait_time = 1.0 / shots_per_second
 	print("level up")

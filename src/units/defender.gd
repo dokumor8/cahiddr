@@ -15,7 +15,7 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 @onready var shoot_timer = $ShootTimer
 @onready var builder
 @export var speed = 100
-var stop_distance = 10.0
+var stop_distance = 30.0
 var shoot_distance = 200.0
 var can_shoot = true
 var health = 5
@@ -87,6 +87,8 @@ func _physics_process(_delta):
 		# TODO query space around the unit and switch aggro there
 		# if no one is close, set state to idle
 		state = "idle"
+		movement_target_position = builder.rally_point.global_position
+		set_movement_target(movement_target_position)
 	if state == "aggro":
 		if position.distance_to(aggro_target.position) < shoot_distance:
 			shoot(aggro_target)
@@ -94,7 +96,6 @@ func _physics_process(_delta):
 		set_movement_target(aggro_target.position)
 
 	navigate()
-	
 
 func _on_aggro_area_body_entered(body):
 	# change state to aggro

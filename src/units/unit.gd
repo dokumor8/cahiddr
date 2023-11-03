@@ -36,7 +36,8 @@ func _ready():
 	var root_node = get_tree().get_root()
 
 	aggro_target = root_node.get_node("/root/Main/GameWorld/King")
-	movement_target_position = aggro_target.position
+	if is_instance_valid(aggro_target):
+		movement_target_position = aggro_target.position
 	
 	# Make sure to not await during _ready.
 	call_deferred("actor_setup")

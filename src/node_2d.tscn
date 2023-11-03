@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://deb6xe72w2557"]
+[gd_scene load_steps=18 format=3 uid="uid://deb6xe72w2557"]
 
 [ext_resource type="Script" path="res://src/node_2d.gd" id="1_pjd1t"]
 [ext_resource type="Texture2D" uid="uid://c6wktm4c5nwxg" path="res://img/floor.png" id="2_ov8mc"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://5royanfnfv60" path="res://src/walk_marker.tscn" id="6_kq1q8"]
 [ext_resource type="PackedScene" uid="uid://drapmpdq3r5vo" path="res://src/units/king.tscn" id="7_8bfo6"]
 [ext_resource type="PackedScene" uid="uid://cakqx0khmasxy" path="res://src/spawn_area.tscn" id="8_n7edf"]
-[ext_resource type="PackedScene" uid="uid://di1fw0dliqjfi" path="res://src/units/defender.tscn" id="10_xwbcn"]
 [ext_resource type="PackedScene" uid="uid://c6kghfkovuej0" path="res://src/gui/gui_canvas_layer.tscn" id="11_4suld"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f2j16"]
@@ -86,9 +85,6 @@ visible = false
 position = Vector2(345, 275)
 texture = SubResource("GradientTexture2D_qa3f2")
 centered = false
-
-[node name="Defender" parent="GameWorld" instance=ExtResource("10_xwbcn")]
-position = Vector2(531, 546)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="GameWorld"]
 position = Vector2(943, -16)

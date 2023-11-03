@@ -16,7 +16,7 @@ var can_build = true
 
 func _ready():
 	var shape_size = $CollisionShape2D.shape.get_size()
-	spawn_timer.wait_time = 1
+	spawn_timer.wait_time = 10
 	width = shape_size.x
 	height = shape_size.y
 

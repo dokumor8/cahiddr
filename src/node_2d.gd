@@ -71,7 +71,7 @@ func place_building():
 				tile_map.set_cell(0, Vector2i(x + w, y + h), REGULAR_TERRAIN, Vector2i(0, 0))
 				
 				
-
+		PlayerVariables.money -= PlayerVariables.building_cost
 		print(defender_building)
 		set_cursor_mode_normal()
 		# TODO
@@ -227,6 +227,7 @@ func _on_hero_died():
 	hero_in_game = false
 	await get_tree().create_timer(respawn_cooldown).timeout
 	hero.set_health(hero.max_health)
+	hero.global_position = $GameWorld/King.global_position
 	game_world.add_child(hero)
 	hero_in_game = true
 
