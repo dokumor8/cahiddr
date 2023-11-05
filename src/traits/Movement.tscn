@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bksar5un4lyj0"]
+
+[ext_resource type="Script" path="res://src/traits/Movement.gd" id="1_mdw6b"]
+
+[node name="Movement" type="NavigationAgent2D"]
+avoidance_enabled = true
+max_neighbors = 5
+script = ExtResource("1_mdw6b")

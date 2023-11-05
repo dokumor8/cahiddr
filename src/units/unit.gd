@@ -11,36 +11,36 @@ signal died()
 var movement_speed: float = 100.0
 var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 
-@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var _movement_trait = $Movement
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var aggro_target: CharacterBody2D
 @onready var shoot_timer = $Timer
 @export var speed = 100
 var stop_distance = 100.0
 var shoot_distance = 150.0
-var can_shoot = true
 var health = 4
 var max_health = 4
+var can_shoot = true
 var is_aggroed = true
 var unit_name = "Enemy"
 var unit_exp_value = 2
 var money_reward = 5
+var _king
 
 
 func _ready():
 	# These values need to be adjusted for the actor's speed
 	# and the navigation layout.
 	animated_sprite.play()
-	navigation_agent.path_desired_distance = stop_distance
-	navigation_agent.target_desired_distance = stop_distance
 	var root_node = get_tree().get_root()
 
-	aggro_target = root_node.get_node("/root/Main/GameWorld/King")
-	if is_instance_valid(aggro_target):
-		movement_target_position = aggro_target.position
+	_king = root_node.get_node("/root/Main/GameWorld/King")
 	
-	# Make sure to not await during _ready.
-	call_deferred("actor_setup")
+	if is_instance_valid(_king):
+		set_aggro_target(_king)
+	print("calling myready")
+	_movement_trait.my_ready()
+#	print(_movement_trait.avoidance_enabled)
 
 
 func select():
@@ -69,22 +69,6 @@ func shoot(target):
 		can_shoot = false
 		shoot_timer.start()
 
-#
-#func aggro_move_shoot(_delta):
-#	if aggroed == false:
-#		return
-#
-#	look_at(target_object.position)
-#	velocity = position.direction_to(target_object.position) * speed
-#	if position.distance_to(target_object.position) > stop_distance:
-##		movement_target_position = target_object.position
-#		move_and_slide()
-#
-#
-#	if position.distance_to(target_object.position) < shoot_distance:
-##		movement_target_position = target_object.position
-##		move_and_slide()
-#		shoot(target_object)
 
 
 func _physics_process(_delta):
@@ -97,34 +81,8 @@ func _physics_process(_delta):
 			is_aggroed = false
 			return
 	
-		
 	if position.distance_to(aggro_target.position) < shoot_distance:
 		shoot(aggro_target)
-	
-	set_movement_target(aggro_target.position)
-
-
-	if navigation_agent.is_navigation_finished():
-		return
-
-	var current_agent_position: Vector2 = global_position
-	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
-
-	var new_velocity: Vector2 = next_path_position - current_agent_position
-	new_velocity = new_velocity.normalized()
-	new_velocity = new_velocity * movement_speed
-
-	navigation_agent.set_velocity(new_velocity)
-	
-
-#	get_input()
-#	move_and_slide()
-#	aggro_move_shoot(delta)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
 
 
 func _on_aggro_area_body_entered(body):
@@ -149,23 +107,9 @@ func _on_click_area_mouse_exited():
 	deselect()
 
 
-func actor_setup():
-	# Wait for the first physics frame so the NavigationServer can sync.
-	await get_tree().physics_frame
-
-	# Now that the navigation map is no longer empty, set the movement target.
-	set_movement_target(movement_target_position)
-
-
-func set_movement_target(movement_target: Vector2):
-	navigation_agent.target_position = movement_target
-
-
 func set_health(new_health):
 	health = new_health
 	emit_signal("health_changed", new_health, max_health)
-
-		
 
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
@@ -191,9 +135,4 @@ func hit(damage, sender):
 
 func set_aggro_target(unit):
 	aggro_target = unit
-	set_movement_target(unit.position)
-
-
-func _on_navigation_agent_2d_velocity_computed(safe_velocity):
-	velocity = safe_velocity
-	move_and_slide()
+	_movement_trait.move(unit.global_position)

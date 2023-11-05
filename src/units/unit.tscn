@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://yscxacryvse1"]
+[gd_scene load_steps=12 format=3 uid="uid://yscxacryvse1"]
 
 [ext_resource type="Script" path="res://src/units/unit.gd" id="1_4rcxq"]
 [ext_resource type="Texture2D" uid="uid://bkja5rv4rcecq" path="res://img/enemy_walk/frame0000.png" id="2_w7anb"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bh3o7mh2uex17" path="res://img/enemy_walk/frame0002.png" id="4_1bee2"]
 [ext_resource type="Texture2D" uid="uid://cd14q565s2q2o" path="res://img/enemy_walk/frame0003.png" id="5_cxr5c"]
 [ext_resource type="Texture2D" uid="uid://dbrkbbe8a1dbb" path="res://img/markers/select_marker.png" id="6_2vadc"]
+[ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="7_t4m6d"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k5hti"]
 radius = 24.0
@@ -32,7 +33,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hnsns"]
-radius = 328.055
+radius = 430.45
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lvxpn"]
 radius = 23.0
@@ -73,12 +74,9 @@ position = Vector2(0, -12)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
 shape = SubResource("CapsuleShape2D_lvxpn")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-avoidance_enabled = true
-radius = 15.76
+[node name="Movement" parent="." instance=ExtResource("7_t4m6d")]
 
 [connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="mouse_entered" from="ClickArea" to="." method="_on_click_area_mouse_entered"]
 [connection signal="mouse_exited" from="ClickArea" to="." method="_on_click_area_mouse_exited"]
-[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
