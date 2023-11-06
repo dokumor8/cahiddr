@@ -40,6 +40,7 @@ func _ready():
 		set_aggro_target(_king)
 	print("calling myready")
 	_movement_trait.my_ready()
+	health_changed.connect($HealthBar._on_health_changed)
 #	print(_movement_trait.avoidance_enabled)
 
 

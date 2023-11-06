@@ -1,7 +1,7 @@
 extends Area2D
 
 var velocity = Vector2.RIGHT * 100
-var speed = 600
+var speed = 1100
 var target = 0
 var target_position = Vector2(0, 0)
 var damage = 1

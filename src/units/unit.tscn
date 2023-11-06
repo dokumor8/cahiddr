@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://yscxacryvse1"]
+[gd_scene load_steps=13 format=3 uid="uid://yscxacryvse1"]
 
 [ext_resource type="Script" path="res://src/units/unit.gd" id="1_4rcxq"]
 [ext_resource type="Texture2D" uid="uid://bkja5rv4rcecq" path="res://img/enemy_walk/frame0000.png" id="2_w7anb"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cd14q565s2q2o" path="res://img/enemy_walk/frame0003.png" id="5_cxr5c"]
 [ext_resource type="Texture2D" uid="uid://dbrkbbe8a1dbb" path="res://img/markers/select_marker.png" id="6_2vadc"]
 [ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="7_t4m6d"]
+[ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="8_xtqdo"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k5hti"]
 radius = 24.0
@@ -75,6 +76,12 @@ position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_lvxpn")
 
 [node name="Movement" parent="." instance=ExtResource("7_t4m6d")]
+
+[node name="HealthBar" parent="." instance=ExtResource("8_xtqdo")]
+offset_left = -23.0
+offset_top = -49.0
+offset_right = 25.0
+offset_bottom = -39.0
 
 [connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

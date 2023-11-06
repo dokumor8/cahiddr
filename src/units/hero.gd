@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var speed = 250
-var shoot_distance = 300
+var shoot_distance = 400
 var stop_distance = 300
 @onready var shoot_timer = $Timer
 @onready var _movement_trait = $Movement
@@ -20,7 +20,7 @@ var state = "idle"
 var aggro_target
 var can_shoot = true
 var unit_name = "Hero"
-var shoot_damage = 2
+var shoot_damage = 1
 
 var shots_per_second = 1.5
 var shooting_speedup = 0.3
