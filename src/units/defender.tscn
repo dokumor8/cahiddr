@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://di1fw0dliqjfi"]
+[gd_scene load_steps=10 format=3 uid="uid://di1fw0dliqjfi"]
 
 [ext_resource type="Script" path="res://src/units/defender.gd" id="1_f5fo7"]
 [ext_resource type="Texture2D" uid="uid://c7bcncgdadedn" path="res://img/defender/walk/frame0000.png" id="1_rx3t5"]
 [ext_resource type="Texture2D" uid="uid://cyyka8cf0qvxi" path="res://img/defender/walk/frame0001.png" id="2_y20dl"]
 [ext_resource type="Texture2D" uid="uid://dpaiph8e1d5rx" path="res://img/defender/walk/frame0002.png" id="3_vf4xp"]
 [ext_resource type="Texture2D" uid="uid://bd72vvf7e025y" path="res://img/defender/walk/frame0003.png" id="4_d0xg4"]
+[ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="6_xkq63"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qf18c"]
 
@@ -51,11 +52,8 @@ shape = SubResource("CircleShape2D_jsm2w")
 
 [node name="ShootTimer" type="Timer" parent="."]
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 15.0
-avoidance_enabled = true
-neighbor_distance = 48.15
+[node name="Movement" parent="." instance=ExtResource("6_xkq63")]
+speed = 150.0
 
 [connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
-[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

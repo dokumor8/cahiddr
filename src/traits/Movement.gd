@@ -14,7 +14,6 @@ var _interim_speed: float = 0.0
 func my_ready():
 	
 	print("before timer")
-#	await get_tree().create_timer(1).timeout
 	if !is_instance_valid(_game_world) or _game_world._navigation_region == null:
 		print(is_instance_valid(_game_world))
 		print(_game_world._navigation_region)
@@ -46,7 +45,7 @@ func _physics_process(delta):
 
 
 func move(movement_target: Vector2):
-	print(movement_target)
+#	print(movement_target)
 	target_position = movement_target
 
 

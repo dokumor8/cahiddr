@@ -7,7 +7,7 @@ signal built_unit
 @onready var spawn_timer = $SpawnTimer
 
 var built_units = 0
-var max_units = 5
+var max_units = 1
 var width
 var height
 var unit_name = "Building"
@@ -16,7 +16,7 @@ var can_build = true
 
 func _ready():
 	var shape_size = $CollisionShape2D.shape.get_size()
-	spawn_timer.wait_time = 10
+	spawn_timer.wait_time = 0.1
 	width = shape_size.x
 	height = shape_size.y
 
@@ -45,5 +45,5 @@ func set_rally_point(coords: Vector2):
 	$RallyPoint.global_position = coords
 	for u in my_units:
 		if is_instance_valid(u):
-			u.set_movement_target(coords)
+			u.move(coords)
 

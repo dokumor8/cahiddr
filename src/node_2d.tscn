@@ -119,7 +119,6 @@ shape = SubResource("RectangleShape2D_nbb5c")
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 
 [connection signal="died" from="GameWorld/Hero" to="." method="_on_hero_died"]
-[connection signal="end_movement" from="GameWorld/Hero" to="." method="_on_hero_end_movement"]
 [connection signal="died" from="GameWorld/King" to="." method="_on_king_died"]
 [connection signal="died" from="GameWorld/King" to="GameWorld/SpawnArea" method="_on_king_died"]
 [connection signal="died" from="GameWorld/King" to="GUICanvasLayer" method="show_end_message"]

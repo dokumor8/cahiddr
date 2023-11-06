@@ -26,6 +26,7 @@ func _ready():
 	$GUICanvasLayer/VBoxContainer/HBoxContainer2/BuildButton.pressed.connect(on_build_button_pressed)
 	$GUICanvasLayer/VBoxContainer/HBoxContainer2/RallyButton.pressed.connect(on_rally_button_pressed)
 	ui.update_selected_unit(hero)
+	hero.movement_finished.connect(_on_hero_movement_finished)
 
 
 func _input(event):
@@ -199,7 +200,7 @@ func handle_build_cursor_move():
 #	if ($Hero.position - walk_marker.position).
 
 
-func _on_hero_end_movement():
+func _on_hero_movement_finished():
 	walk_marker.hide()
 
 
