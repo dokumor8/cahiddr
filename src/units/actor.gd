@@ -1,115 +1,108 @@
-extends Node2D
+extends Area2D
 
-var movement_state = "idle"
-@export var movement_speed: float = 200.0
-var movement_target_position: Vector2 = Vector2(0.0, 0.0)
-var movement_target_unit: Node2D
-var attack_target_unit: Node2D
-var aggro_group = "allies" # or "enemies"
+signal selected
+signal deselected
+signal hp_changed
+signal action_changed(new_action)
+signal action_updated
 
-# const?
-var aggro_radius = 200
+const MATERIAL_ALBEDO_TO_REPLACE = Color(0.99, 0.81, 0.48)
+const MATERIAL_ALBEDO_TO_REPLACE_EPSILON = 0.05
 
-@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
-var stop_distance = 100.0
-var path_desired_distance = 100.0
+var hp = null:
+	set = _set_hp
+var hp_max = null:
+	set = _set_hp_max
+var attack_damage = null
+var attack_interval = null
+var attack_range = null
+var attack_domains = []
+var radius = null:
+	set = _ignore,
+	get = _get_radius
+var movement_speed = null:
+	set = _ignore,
+	get = _get_movement_speed
+var sight_range = null
 
-# ready block
+var player = null
+var color = null:
+	set = _set_color
+var action = null:
+	set = _set_action
+
+var _action_locked = false
+
+@onready var _game_world = find_parent("GameWorld")
+
+
 func _ready():
-	ready_navigation()
-	ready_aggro_collision()
+	if player == null:
+		await _game_world.ready
 
 
-func ready_navigation():
-	# These values need to be adjusted for the actor's speed
-	# and the navigation layout.
-	navigation_agent.path_desired_distance = stop_distance
-	navigation_agent.target_desired_distance = stop_distance
-	
-	# Make sure to not await during _ready.
-	call_deferred("actor_setup")
+func _ignore(_value):
+	pass
 
 
-func actor_setup():
-	# Wait for the first physics frame so the NavigationServer can sync.
-	await get_tree().physics_frame
+func _set_hp(value):
+	hp = max(0, value)
+	hp_changed.emit()
+	if hp == 0:
+		_handle_unit_death()
 
 
-func ready_aggro_collision():
-	var aggro_area = $AggroArea
-	var aggro_circle: CircleShape2D = $AggroArea/CollisionShape2D.shape
-	aggro_circle.set_radius(aggro_radius)
-	# TODO set up masks
+func _set_hp_max(value):
+	hp_max = value
+	hp_changed.emit()
 
-# Process every frame block
-func _physics_process(_delta):
-	if movement_state == "idle":
-		# don't do anything, but aggro to nearby enemies
+
+func _get_radius():
+	if find_child("Movement") != null:
+		return find_child("Movement").radius
+	if find_child("MovementObstacle") != null:
+		return find_child("MovementObstacle").radius
+	return null
+
+
+func _get_movement_speed():
+	if find_child("Movement") != null:
+		return find_child("Movement").speed
+	return 0.0
+
+
+func _set_color(a_color):
+	color = a_color
+	var material = player.get_color_material()
+
+
+func _set_action(action_node):
+	if not is_inside_tree() or _action_locked:
+		if action_node != null:
+			action_node.queue_free()
 		return
-
-	elif movement_state == "m_move":
-		# non-aggro move
-		# just navigate to the place, don't attack
-		keep_moving_to_position()
-	elif movement_state == "a_move":
-		# attack-move
-		# navigate, but keep checking for enemies
-		keep_moving_to_position()
-	elif movement_state == "attack":
-		# attack a specific enemy
-		# move towards and enemy and attack it
-		# don't aggro
-		keep_moving_to_position()
+	_action_locked = true
+	_teardown_current_action()
+	action = action_node
+	if action != null:
+		var action_copy = action  # bind() performs copy itself, but lets force copy just in case
+		action.tree_exited.connect(_on_action_node_tree_exited.bind(action_copy))
+		add_child(action_node)
+	_action_locked = false
+	action_changed.emit(action)
 
 
-func keep_moving_to_position():
-	if navigation_agent.is_navigation_finished():
-		return
-
-	var current_agent_position: Vector2 = global_position
-	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
-
-	var new_velocity: Vector2 = next_path_position - current_agent_position
-	new_velocity = new_velocity.normalized()
-	new_velocity = new_velocity * movement_speed
-
-	navigation_agent.set_velocity(new_velocity)
+func _teardown_current_action():
+	if action != null and action.is_inside_tree():
+		action.queue_free()
+		remove_child(action)  # triggers _on_action_node_tree_exited immediately
 
 
-# Event and slot block
-func set_movement_target(movement_target: Vector2):
-	movement_target_position = movement_target
-	navigation_agent.target_position = movement_target
+func _handle_unit_death():
+	tree_exited.connect(func(): GlobalSignals.unit_died.emit(self))
+	queue_free()
 
 
-func move_to_position(target_position: Vector2):
-	movement_state = "m_move"
-	set_movement_target(target_position)
-	
-	
-func attack_move_to_position(target_position: Vector2):
-	movement_state = "a_move"
-	set_movement_target(target_position)
-
-
-func attack_unit(unit):
-	# TODO get close enough to attack
-	attack_target_unit = unit
-	movement_state = "attack"
-	set_movement_target(unit.position)
-
-
-func _on_navigation_agent_2d_velocity_computed(safe_velocity):
-	move_with_velocity(safe_velocity)
-
-func move_with_velocity(velocity):
-	var delta = get_physics_process_delta_time()
-	translate(velocity * delta)
-
-
-func _on_area_entered(area):
-	if movement_state == "idle" or movement_state == "a_move":
-		# change state to aggro
-		# check if in enemy faction
-		if area.is_in_group(aggro_group):
-			attack_unit(area)
+func _on_action_node_tree_exited(action_node):
+	assert(action_node == action, "unexpected action released")
+	action = null
