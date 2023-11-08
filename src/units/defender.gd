@@ -14,6 +14,7 @@ var movement_speed: float = 200.0
 @onready var aggro_target: CharacterBody2D
 @onready var shoot_timer = $ShootTimer
 @onready var builder
+@onready var game_world = find_parent("GameWorld")
 @export var speed = 100
 var shoot_distance = 200.0
 var can_shoot = true
@@ -21,6 +22,8 @@ var health = 5
 var max_health = 5
 var state = "idle"
 var unit_name = "defender"
+var bullet_speed = 700
+var damage = 1
 
 
 func _ready():
@@ -39,14 +42,13 @@ var Bullet = preload("res://src/hero_bullet.tscn")
 func shoot(target):
 	if can_shoot:
 		var bul = Bullet.instantiate()
-		get_tree().get_root().add_child(bul)
-		bul.global_position = global_position
-		bul.look_at(target.global_position)
-		var dir = (target.global_position - global_position).normalized()
-		bul.global_rotation = dir.angle() + PI / 2.0
-		bul.velocity = dir * bul.speed
-		bul.target = target
-		bul.sender = self
+		var bullet_parameters = {
+			"global_position": global_position,
+			"speed": bullet_speed,
+			"damage": damage
+		}
+		bul.setup(self, target, bullet_parameters)
+		game_world.add_child(bul)
 
 		can_shoot = false
 		await get_tree().create_timer(0.5).timeout

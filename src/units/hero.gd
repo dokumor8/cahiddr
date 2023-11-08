@@ -1,10 +1,11 @@
 extends CharacterBody2D
 
 @export var speed = 250
-var shoot_distance = 400
+var shoot_distance = 500
 var stop_distance = 300
 @onready var shoot_timer = $Timer
 @onready var _movement_trait = $Movement
+@onready var game_world = find_parent("GameWorld")
 # TODO redo via navigation
 
 signal health_changed(new_health, max_health)
@@ -21,6 +22,7 @@ var aggro_target
 var can_shoot = true
 var unit_name = "Hero"
 var shoot_damage = 1
+var bullet_speed = 400
 
 var shots_per_second = 1.5
 var shooting_speedup = 0.3
@@ -30,6 +32,7 @@ var can_update_aggro = true
 func _ready():
 	$AnimatedSprite2D.play()
 	_movement_trait.my_ready()
+	_movement_trait.speed = 200
 	health = max_health
 	shoot_timer.wait_time = 1.0 / shots_per_second
 	_movement_trait.movement_finished.connect(on_movement_finished)
@@ -87,16 +90,14 @@ func shoot(shoot_target):
 	if can_shoot:
 		state = "shooting"
 		var bul = HeroBullet.instantiate()
-		get_tree().get_root().add_child(bul)
-		bul.global_position = global_position
-		bul.look_at(shoot_target.global_position)
-		var dir = (shoot_target.global_position - global_position).normalized()
-		bul.global_rotation = dir.angle() + PI / 2.0
-		bul.velocity = dir * bul.speed
-		bul.target = shoot_target
-		bul.sender = self
-		bul.damage = shoot_damage
-
+		var bullet_parameters = {
+			"global_position": global_position,
+			"speed": bullet_speed,
+			"damage": shoot_damage
+		}
+		bul.setup(self, shoot_target, bullet_parameters)
+		game_world.add_child(bul)
+		
 		can_shoot = false
 		await get_tree().create_timer(1.0 / shots_per_second).timeout
 		can_shoot = true

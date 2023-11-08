@@ -1,10 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://brwktcn0lbwvl"]
+[gd_scene load_steps=4 format=3 uid="uid://brwktcn0lbwvl"]
 
 [ext_resource type="Texture2D" uid="uid://b8k8uvcu6eq8n" path="res://img/bullets/hero_bullet.png" id="1_kp7sf"]
 [ext_resource type="Script" path="res://src/hero_bullet.gd" id="1_m2i4m"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_wqd7u"]
-radius = 6.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nhqoh"]
 animations = [{
@@ -17,13 +14,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="HeroBullet" type="Area2D"]
-collision_layer = 0
-collision_mask = 2
+[node name="HeroBullet" type="Node2D"]
 script = ExtResource("1_m2i4m")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_wqd7u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_nhqoh")

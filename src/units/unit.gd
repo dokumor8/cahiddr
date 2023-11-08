@@ -15,6 +15,7 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var aggro_target: CharacterBody2D
 @onready var shoot_timer = $Timer
+@onready var game_world = find_parent("GameWorld")
 @export var speed = 100
 var stop_distance = 100.0
 var shoot_distance = 150.0
@@ -26,6 +27,7 @@ var unit_name = "Enemy"
 var unit_exp_value = 2
 var money_reward = 5
 var _king
+var shots_per_second = 0.87
 
 
 func _ready():
@@ -58,18 +60,24 @@ var Bullet = preload("res://src/enemy_bullet.tscn")
 func shoot(target):
 	if can_shoot:
 		var bul = Bullet.instantiate()
-		get_tree().get_root().add_child(bul)
-		bul.global_position = global_position
-		bul.look_at(target.global_position)
-		var dir = (target.global_position - global_position).normalized()
-		bul.global_rotation = dir.angle() + PI / 2.0
-		bul.velocity = dir * bul.speed
-		bul.target = target
-		bul.sender = self
+		var bullet_parameters = {
+			"global_position": global_position,
+			"speed": 600,
+			"damage": 1
+		}
+		bul.setup(self, target, bullet_parameters)
+		game_world.add_child(bul)
+#		bul.global_position = global_position
+#		bul.look_at(target.global_position)
+#		var dir = (target.global_position - global_position).normalized()
+#		bul.global_rotation = dir.angle() + PI / 2.0
+#		bul.velocity = dir * bul.speed
+#		bul.target = target
+#		bul.sender = self
 
 		can_shoot = false
-		shoot_timer.start()
-
+		await get_tree().create_timer(1.0 / shots_per_second).timeout
+		can_shoot = true
 
 
 func _physics_process(_delta):
