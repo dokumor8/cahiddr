@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://yscxacryvse1"]
+[gd_scene load_steps=17 format=3 uid="uid://yscxacryvse1"]
 
 [ext_resource type="Script" path="res://src/units/unit.gd" id="1_4rcxq"]
 [ext_resource type="Texture2D" uid="uid://bkja5rv4rcecq" path="res://img/enemy_walk/frame0000.png" id="2_w7anb"]
@@ -8,6 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://dbrkbbe8a1dbb" path="res://img/markers/select_marker.png" id="6_2vadc"]
 [ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="7_t4m6d"]
 [ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="8_xtqdo"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="9_85ae5"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="10_1ufwa"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="11_wpv6v"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_uiodj"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k5hti"]
 radius = 24.0
@@ -82,6 +86,34 @@ offset_left = -23.0
 offset_top = -49.0
 offset_right = 25.0
 offset_bottom = -39.0
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("9_85ae5")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("10_1ufwa")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root"]
+script = ExtResource("11_wpv6v")
+
+[node name="EnemyDetected" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("12_uiodj")
+to = NodePath("../../AttackChasing")
+event = &"enemy_detected"
+
+[node name="AttackChasing" type="Node" parent="StateChart/Root"]
+script = ExtResource("10_1ufwa")
+initial_state = NodePath("Chasing")
+
+[node name="AttackOnMove" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("11_wpv6v")
+
+[node name="Chasing" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("11_wpv6v")
+
+[node name="Moving" type="Node" parent="StateChart/Root"]
+script = ExtResource("11_wpv6v")
 
 [connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
 [connection signal="mouse_entered" from="ClickArea" to="." method="_on_click_area_mouse_entered"]

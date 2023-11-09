@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bux85c7w7a2et"]
+[gd_scene load_steps=6 format=3 uid="uid://bux85c7w7a2et"]
 
 [ext_resource type="Script" path="res://src/units/actor.gd" id="1_10co8"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_jr5is"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_pe7ht"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_w1i5i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ttajh"]
 
@@ -13,6 +16,29 @@ radius = 13.11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ttajh")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("2_jr5is")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("3_pe7ht")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_w1i5i")
+
+[node name="AttackChasing" type="Node" parent="StateChart/Root"]
+script = ExtResource("3_pe7ht")
+initial_state = NodePath("Chasing")
+
+[node name="AttackOnMove" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("4_w1i5i")
+
+[node name="Chasing" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("4_w1i5i")
+
+[node name="Moving" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_w1i5i")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
