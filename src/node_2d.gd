@@ -16,7 +16,7 @@ var hero_in_game = true
 
 const BUILDABLE_TERRAIN = 3
 const REGULAR_TERRAIN = 0
-var respawn_cooldown = 2
+var respawn_cooldown = 5
 
 var building_to_build = "defenders"
 var can_build = false

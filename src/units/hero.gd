@@ -54,8 +54,9 @@ func set_attack_target(enemy):
 	_movement_trait.move(enemy.position)
 	
 
-func _physics_process(_delta):
+func _physics_process(delta):
 
+#	_movement_trait.manual_physics_process(delta)
 	if state == "aggro" or state == "shooting":
 		if not is_instance_valid(aggro_target):
 			state = "idle"
@@ -107,7 +108,7 @@ var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 func hit(damage, _sender):
 	
 	var hitEffectHero = HitEffectHero.instantiate()
-	get_tree().get_root().add_child(hitEffectHero)
+	game_world.add_child(hitEffectHero)
 	hitEffectHero.global_position = global_position
 	set_health(health - damage)
 #	print(health)

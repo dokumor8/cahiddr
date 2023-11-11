@@ -92,7 +92,7 @@ script = ExtResource("9_85ae5")
 
 [node name="Root" type="Node" parent="StateChart"]
 script = ExtResource("10_1ufwa")
-initial_state = NodePath("Idle")
+initial_state = NodePath("MovingToKing")
 
 [node name="Idle" type="Node" parent="StateChart/Root"]
 script = ExtResource("11_wpv6v")
@@ -100,21 +100,58 @@ script = ExtResource("11_wpv6v")
 [node name="EnemyDetected" type="Node" parent="StateChart/Root/Idle"]
 script = ExtResource("12_uiodj")
 to = NodePath("../../AttackChasing")
-event = &"enemy_detected"
+event = &"found_target"
 
 [node name="AttackChasing" type="Node" parent="StateChart/Root"]
 script = ExtResource("10_1ufwa")
 initial_state = NodePath("Chasing")
 
-[node name="AttackOnMove" type="Node" parent="StateChart/Root/AttackChasing"]
+[node name="Shoot" type="Node" parent="StateChart/Root/AttackChasing"]
 script = ExtResource("11_wpv6v")
+
+[node name="OutOfRange" type="Node" parent="StateChart/Root/AttackChasing/Shoot"]
+script = ExtResource("12_uiodj")
+to = NodePath("../../Chasing")
+event = &"out_of_range"
 
 [node name="Chasing" type="Node" parent="StateChart/Root/AttackChasing"]
 script = ExtResource("11_wpv6v")
 
-[node name="Moving" type="Node" parent="StateChart/Root"]
+[node name="InRange" type="Node" parent="StateChart/Root/AttackChasing/Chasing"]
+script = ExtResource("12_uiodj")
+to = NodePath("../../Shoot")
+event = &"in_range"
+
+[node name="On TargetLost" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("12_uiodj")
+to = NodePath("../../MovingToKing")
+event = &"target_lost"
+
+[node name="MovingToKing" type="Node" parent="StateChart/Root"]
 script = ExtResource("11_wpv6v")
+
+[node name="AttackKing" type="Node" parent="StateChart/Root/MovingToKing"]
+script = ExtResource("12_uiodj")
+to = NodePath("../../AttackChasing")
+event = &"in_range"
+
+[node name="On FoundTarget" type="Node" parent="StateChart/Root/MovingToKing"]
+script = ExtResource("12_uiodj")
+to = NodePath("../../AttackChasing")
+event = &"found_target"
+
+[node name="On NoKing" type="Node" parent="StateChart/Root/MovingToKing"]
+script = ExtResource("12_uiodj")
+to = NodePath("../../Idle")
+event = &"no_king"
 
 [connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
 [connection signal="mouse_entered" from="ClickArea" to="." method="_on_click_area_mouse_entered"]
 [connection signal="mouse_exited" from="ClickArea" to="." method="_on_click_area_mouse_exited"]
+[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/AttackChasing/Shoot" to="." method="_on_shoot_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Shoot" to="." method="_on_shoot_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Chasing" to="." method="_on_chasing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/MovingToKing" to="." method="_on_moving_to_king_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/MovingToKing" to="." method="_on_attack_chasing_state_physics_processing"]

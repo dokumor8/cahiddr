@@ -32,7 +32,6 @@ func my_ready():
 	print(is_connected("velocity_computed", _on_velocity_computed))
 
 
-
 func _physics_process(delta):
 	_interim_speed = speed * delta
 	var next_path_position: Vector2 = get_next_path_position()
