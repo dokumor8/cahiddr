@@ -13,7 +13,7 @@ var movement_speed: float = 200.0
 @onready var _movement_trait = $Movement
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var aggro_target: CharacterBody2D
-var potential_target: CharacterBody2D
+var potential_target: Node2D
 #@onready var shoot_timer = $ShootTimer
 @onready var state_chart:StateChart = $StateChart
 @export var builder: Node2D

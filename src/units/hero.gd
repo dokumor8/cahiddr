@@ -7,6 +7,7 @@ var stop_distance = 300
 @onready var _movement_trait = $Movement
 @onready var aggro_area = $AggroArea
 @onready var game_world = find_parent("GameWorld")
+var potential_target: Node2D
 
 signal health_changed(new_health, max_health)
 signal movement_finished()
@@ -50,7 +51,7 @@ func update_chasing_position():
 	if can_update_chase:
 		can_update_chase = false
 		_movement_trait.move(aggro_target.get_global_position())
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(0.1).timeout
 		can_update_chase = true
 
 
@@ -66,13 +67,18 @@ func walk_to(walk_marker):
 	aggro_target = null
 #	state = "moving"
 
+
 func attack(enemy):
 	aggro_target = enemy
 #	state = "aggro"
 	state_chart.send_event("attack_command")
 	if not is_in_range(enemy):
-		_movement_trait.move(enemy.position)
+		_movement_trait.move(enemy.global_position)
 	
+
+func set_potential_target(body):
+	potential_target = body
+
 
 func _physics_process(delta):
 	set_health(health + regen*delta)
@@ -85,6 +91,7 @@ func _physics_process(delta):
 #			update_aggro_movement()
 #			print(can_update_aggro)
 
+
 func _on_aggro_area_body_entered(body):
 #	print("hero aggro")
 #	print(body)
@@ -93,7 +100,7 @@ func _on_aggro_area_body_entered(body):
 #		print(body.is_in_group("enemy"))
 		if body.is_in_group("enemy"):
 #			print("hero aggro3")
-			aggro_target = body
+			set_potential_target(body)
 			state_chart.send_event("found_target")
 
 
@@ -190,3 +197,9 @@ func receive_exp(exp_value):
 	if PlayerVariables.hero_experience >= PlayerVariables.max_experience:
 		level_up()
 	
+
+
+func _on_attack_chasing_state_entered():
+	if potential_target and is_instance_valid(potential_target):
+		attack(potential_target)
+
