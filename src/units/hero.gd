@@ -24,7 +24,7 @@ var aggro_target
 var can_shoot = true
 var unit_name = "Hero"
 var shoot_damage = 3
-var bullet_speed = 400
+var bullet_speed = 1000
 var regen = 2 # per second
 
 var shots_per_second = 1.5

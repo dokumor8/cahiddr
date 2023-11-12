@@ -71,7 +71,6 @@ offset_bottom = -40.0
 
 [node name="Movement" parent="." instance=ExtResource("7_adnk7")]
 path_desired_distance = 35.63
-debug_enabled = true
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("8_t0bhy")
