@@ -57,7 +57,7 @@ func shoot(target):
 
 
 func _physics_process(delta):
-	_movement_trait.manual_physics_process(delta)
+#	_movement_trait.manual_physics_process(delta)
 	if not is_instance_valid(aggro_target):
 		# TODO query space around the unit and switch aggro there
 		# if no one is close, set state to idle

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://diuobw6bjl1nw" path="res://src/units/hero.tscn" id="5_sj74m"]
 [ext_resource type="PackedScene" uid="uid://5royanfnfv60" path="res://src/walk_marker.tscn" id="6_kq1q8"]
 [ext_resource type="PackedScene" uid="uid://drapmpdq3r5vo" path="res://src/units/king.tscn" id="7_8bfo6"]
-[ext_resource type="PackedScene" uid="uid://yscxacryvse1" path="res://src/units/unit.tscn" id="9_1mqcl"]
+[ext_resource type="PackedScene" uid="uid://cakqx0khmasxy" path="res://src/spawn_area.tscn" id="8_6iexh"]
 [ext_resource type="PackedScene" uid="uid://c6kghfkovuej0" path="res://src/gui/gui_canvas_layer.tscn" id="11_4suld"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="11_co1w3"]
 [ext_resource type="Theme" uid="uid://s2bj74tt0y7f" path="res://godot_state_charts_examples/new_theme.tres" id="12_shb05"]
@@ -81,6 +81,9 @@ position = Vector2(345, 275)
 texture = SubResource("GradientTexture2D_qa3f2")
 centered = false
 
+[node name="SpawnArea" parent="GameWorld" instance=ExtResource("8_6iexh")]
+position = Vector2(1043, 518)
+
 [node name="StaticBody2D" type="StaticBody2D" parent="GameWorld"]
 position = Vector2(943, -16)
 collision_layer = 9
@@ -117,12 +120,10 @@ collision_mask = 9
 position = Vector2(0, 898)
 shape = SubResource("RectangleShape2D_nbb5c")
 
-[node name="Unit" parent="GameWorld" instance=ExtResource("9_1mqcl")]
-position = Vector2(874, 548)
-
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 
 [node name="StateChartDebugger" parent="GUICanvasLayer" instance=ExtResource("11_co1w3")]
+visible = false
 modulate = Color(1, 1, 1, 0.572549)
 z_index = 40
 offset_left = 333.0
@@ -130,7 +131,7 @@ offset_top = 56.0
 offset_right = -143.0
 offset_bottom = -151.0
 theme = ExtResource("12_shb05")
-initial_node_to_watch = NodePath("../../GameWorld/Hero")
+enabled = false
 
 [connection signal="died" from="GameWorld/Hero" to="." method="_on_hero_died"]
 [connection signal="died" from="GameWorld/King" to="." method="_on_king_died"]

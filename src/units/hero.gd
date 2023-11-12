@@ -173,7 +173,7 @@ func level_up():
 	max_health += 5
 	shoot_damage += 1
 	shots_per_second += shooting_speedup
-	shoot_timer.wait_time = 1.0 / shots_per_second
+#	shoot_timer.wait_time = 1.0 / shots_per_second
 	print("level up")
 
 

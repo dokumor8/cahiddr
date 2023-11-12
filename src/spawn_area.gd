@@ -12,13 +12,13 @@ func _ready():
 	await get_tree().create_timer(1).timeout
 	await spawn_sequence(1, 1)
 	await get_tree().create_timer(5).timeout
-#	await spawn_sequence(10, 0.1)
+	await spawn_sequence(10, 0.1)
 	await get_tree().create_timer(15).timeout
-#	await spawn_sequence(10, 1)
+	await spawn_sequence(10, 1)
 	await get_tree().create_timer(5).timeout
-#	await spawn_sequence(10, 0.5)
+	await spawn_sequence(10, 0.5)
 	await get_tree().create_timer(1).timeout
-#	await spawn_sequence(100, 0.5)
+	await spawn_sequence(100, 0.5)
 
 
 func spawn_sequence(amount, delay):
