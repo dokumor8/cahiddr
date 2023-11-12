@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cunpbcsp6ewxp"]
+
+[ext_resource type="Script" path="res://src/gui/highlight_marker.gd" id="1_6g7r8"]
+[ext_resource type="Texture2D" uid="uid://cevqksiyxs80t" path="res://img/markers/select_marker_unit.png" id="2_qoee1"]
+
+[node name="HighlightMarker" type="Node2D"]
+script = ExtResource("1_6g7r8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_qoee1")

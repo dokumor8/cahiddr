@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://mi838qbrvw2e"]
+
+[ext_resource type="Script" path="res://src/gui/highlight.gd" id="1_5r223"]
+[ext_resource type="PackedScene" uid="uid://cunpbcsp6ewxp" path="res://src/gui/highlight_marker.tscn" id="2_iohll"]
+
+[node name="Highlight" type="Node2D"]
+script = ExtResource("1_5r223")
+
+[node name="HighlightMarker" parent="." instance=ExtResource("2_iohll")]

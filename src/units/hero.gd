@@ -6,7 +6,6 @@ var stop_distance = 300
 @onready var shoot_timer = $Timer
 @onready var _movement_trait = $Movement
 @onready var game_world = find_parent("GameWorld")
-# TODO redo via navigation
 
 signal health_changed(new_health, max_health)
 signal movement_finished()
@@ -55,8 +54,6 @@ func set_attack_target(enemy):
 	
 
 func _physics_process(delta):
-
-#	_movement_trait.manual_physics_process(delta)
 	if state == "aggro" or state == "shooting":
 		if not is_instance_valid(aggro_target):
 			state = "idle"

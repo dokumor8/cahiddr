@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://diuobw6bjl1nw"]
+[gd_scene load_steps=14 format=3 uid="uid://diuobw6bjl1nw"]
 
 [ext_resource type="Texture2D" uid="uid://bhv268dw2vnnl" path="res://img/hero_walk/frame0000.png" id="1_42vrn"]
 [ext_resource type="Script" path="res://src/units/hero.gd" id="1_xbdfg"]
@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://c7sxav8xrokdm" path="res://img/hero_walk/frame0003.png" id="4_c8e2w"]
 [ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="6_uq5ag"]
 [ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="7_adnk7"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="8_t0bhy"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="9_6ec2p"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="10_etdkk"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="11_v3glc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tn1mc"]
 radius = 12.0
@@ -42,17 +46,81 @@ collision_mask = 8
 script = ExtResource("1_xbdfg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_tn1mc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -15)
 sprite_frames = SubResource("SpriteFrames_lxkdj")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.303
 
 [node name="HealthBar" parent="." instance=ExtResource("6_uq5ag")]
+offset_left = -23.0
+offset_top = -50.0
+offset_right = 25.0
+offset_bottom = -40.0
 
 [node name="Movement" parent="." instance=ExtResource("7_adnk7")]
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("8_t0bhy")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("9_6ec2p")
+initial_state = NodePath("MovingToKing")
+
+[node name="Idle" type="Node" parent="StateChart/Root"]
+script = ExtResource("10_etdkk")
+
+[node name="EnemyDetected" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../AttackChasing")
+event = &"found_target"
+
+[node name="AttackChasing" type="Node" parent="StateChart/Root"]
+script = ExtResource("9_6ec2p")
+initial_state = NodePath("Chasing")
+
+[node name="Shoot" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("10_etdkk")
+
+[node name="OutOfRange" type="Node" parent="StateChart/Root/AttackChasing/Shoot"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../Chasing")
+event = &"out_of_range"
+
+[node name="Chasing" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("10_etdkk")
+
+[node name="InRange" type="Node" parent="StateChart/Root/AttackChasing/Chasing"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../Shoot")
+event = &"in_range"
+
+[node name="On TargetLost" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../MovingToKing")
+event = &"target_lost"
+
+[node name="MovingToKing" type="Node" parent="StateChart/Root"]
+script = ExtResource("10_etdkk")
+
+[node name="AttackKing" type="Node" parent="StateChart/Root/MovingToKing"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../AttackChasing")
+event = &"in_range"
+
+[node name="On FoundTarget" type="Node" parent="StateChart/Root/MovingToKing"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../AttackChasing")
+event = &"found_target"
+
+[node name="On NoKing" type="Node" parent="StateChart/Root/MovingToKing"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../Idle")
+event = &"no_king"
 
 [connection signal="health_changed" from="." to="HealthBar" method="_on_health_changed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

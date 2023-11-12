@@ -125,10 +125,10 @@ position = Vector2(682, 544)
 [node name="StateChartDebugger" parent="GUICanvasLayer" instance=ExtResource("11_co1w3")]
 modulate = Color(1, 1, 1, 0.572549)
 z_index = 40
-offset_left = 378.0
-offset_top = 34.0
-offset_right = 640.0
-offset_bottom = 265.0
+offset_left = 438.0
+offset_top = 68.0
+offset_right = -38.0
+offset_bottom = -139.0
 theme = ExtResource("12_shb05")
 initial_node_to_watch = NodePath("../../GameWorld/Unit")
 
