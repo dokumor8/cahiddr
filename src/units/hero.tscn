@@ -42,7 +42,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kakey"]
-radius = 288.58
+radius = 356.34
 
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
 collision_mask = 8
@@ -57,6 +57,8 @@ position = Vector2(0, -15)
 sprite_frames = SubResource("SpriteFrames_lxkdj")
 
 [node name="AggroArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea"]
 shape = SubResource("CircleShape2D_kakey")
@@ -74,7 +76,7 @@ script = ExtResource("8_t0bhy")
 
 [node name="Root" type="Node" parent="StateChart"]
 script = ExtResource("9_6ec2p")
-initial_state = NodePath("MovingWithoutAttacking")
+initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateChart/Root"]
 script = ExtResource("10_etdkk")
@@ -138,6 +140,7 @@ to = NodePath("../../AttackChasing")
 event = &"attack_command"
 
 [connection signal="health_changed" from="." to="HealthBar" method="_on_health_changed"]
+[connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
 [connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/AttackChasing/Shoot" to="." method="_on_shoot_state_entered"]

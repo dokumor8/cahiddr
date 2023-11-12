@@ -41,6 +41,7 @@ func _ready():
 
 
 func on_movement_finished():
+	state_chart.send_event("movement_finished")
 	emit_signal("movement_finished")
 
 
@@ -81,6 +82,17 @@ func attack(enemy):
 #				shoot(aggro_target)
 #			update_aggro_movement()
 #			print(can_update_aggro)
+
+func _on_aggro_area_body_entered(body):
+	print("hero aggro")
+	print(body)
+	if is_instance_valid(body):
+		print("hero aggro2")
+		print(body.is_in_group("enemy"))
+		if body.is_in_group("enemy"):
+			print("hero aggro3")
+			aggro_target = body
+			state_chart.send_event("found_target")
 
 
 func is_in_range(enemy):

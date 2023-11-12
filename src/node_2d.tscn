@@ -118,17 +118,17 @@ position = Vector2(0, 898)
 shape = SubResource("RectangleShape2D_nbb5c")
 
 [node name="Unit" parent="GameWorld" instance=ExtResource("9_1mqcl")]
-position = Vector2(682, 544)
+position = Vector2(874, 548)
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 
 [node name="StateChartDebugger" parent="GUICanvasLayer" instance=ExtResource("11_co1w3")]
 modulate = Color(1, 1, 1, 0.572549)
 z_index = 40
-offset_left = 438.0
-offset_top = 68.0
-offset_right = -38.0
-offset_bottom = -139.0
+offset_left = 333.0
+offset_top = 56.0
+offset_right = -143.0
+offset_bottom = -151.0
 theme = ExtResource("12_shb05")
 initial_node_to_watch = NodePath("../../GameWorld/Hero")
 
