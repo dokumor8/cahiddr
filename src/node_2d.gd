@@ -16,7 +16,7 @@ var hero_in_game = true
 
 const BUILDABLE_TERRAIN = 3
 const REGULAR_TERRAIN = 0
-var respawn_cooldown = 5
+var respawn_cooldown = 10
 
 var building_to_build = "defenders"
 var can_build = false
@@ -221,6 +221,8 @@ func _on_hero_died():
 #	$GameWorld/HeroReviveTimer.start()
 	hero_in_game = false
 	await get_tree().create_timer(respawn_cooldown).timeout
+	if not is_instance_valid($GameWorld/King):
+		return
 	hero.set_health(hero.max_health)
 	hero.global_position = $GameWorld/King.global_position
 	game_world.add_child(hero)

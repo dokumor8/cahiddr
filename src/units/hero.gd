@@ -16,14 +16,15 @@ signal died()
 @onready var state_chart:StateChart = $StateChart
 var target = position
 var moving = false
-var max_health = 10.0
-var health = 10.0
+var max_health = 25.0
+var health = 25.0
 var state = "idle"
 var aggro_target
 var can_shoot = true
 var unit_name = "Hero"
-var shoot_damage = 1
+var shoot_damage = 3
 var bullet_speed = 400
+var regen = 2 # per second
 
 var shots_per_second = 1.5
 var shooting_speedup = 0.3
@@ -49,7 +50,7 @@ func update_chasing_position():
 	if can_update_chase:
 		can_update_chase = false
 		_movement_trait.move(aggro_target.get_global_position())
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.5).timeout
 		can_update_chase = true
 
 
@@ -68,12 +69,13 @@ func walk_to(walk_marker):
 func attack(enemy):
 	aggro_target = enemy
 #	state = "aggro"
-
 	state_chart.send_event("attack_command")
-	_movement_trait.move(enemy.position)
+	if not is_in_range(enemy):
+		_movement_trait.move(enemy.position)
 	
 
-#func _physics_process(delta):
+func _physics_process(delta):
+	set_health(health + regen*delta)
 #	if state == "aggro" or state == "shooting":
 #		if not is_instance_valid(aggro_target):
 #			state = "idle"
@@ -84,13 +86,13 @@ func attack(enemy):
 #			print(can_update_aggro)
 
 func _on_aggro_area_body_entered(body):
-	print("hero aggro")
-	print(body)
+#	print("hero aggro")
+#	print(body)
 	if is_instance_valid(body):
-		print("hero aggro2")
-		print(body.is_in_group("enemy"))
+#		print("hero aggro2")
+#		print(body.is_in_group("enemy"))
 		if body.is_in_group("enemy"):
-			print("hero aggro3")
+#			print("hero aggro3")
 			aggro_target = body
 			state_chart.send_event("found_target")
 
@@ -110,6 +112,10 @@ func _on_shoot_state_physics_processing(delta):
 
 func _on_idle_state_entered():
 	_movement_trait.stop()
+	var target = query_surroundings_for_target()
+	if target and is_instance_valid(target):
+		attack(target)
+		state_chart.send_event("found_target")
 
 
 func _on_shoot_state_entered():
@@ -121,16 +127,18 @@ func _on_attack_chasing_state_physics_processing(delta):
 		state_chart.send_event("target_lost")
 
 
-#func update_aggro_movement():
-#	if can_update_aggro:
-#		_movement_trait.move(aggro_target.global_position)
-#		can_update_aggro = false
-#		await get_tree().create_timer(0.2).timeout
-#		can_update_aggro = true
+func query_surroundings_for_target():
+	var surrounding_bodies = aggro_area.get_overlapping_bodies()
+	if surrounding_bodies.size() == 0:
+		return false
+	var target = GlobalUtils.find_closest(surrounding_bodies, get_global_position())
+	return target
 
 
 func set_health(new_health):
 	health = new_health
+	if health > max_health:
+		health = max_health
 	emit_signal("health_changed", new_health, max_health)
 
 	if health <= 0:
@@ -169,9 +177,9 @@ func level_up():
 	PlayerVariables.hero_experience -= PlayerVariables.max_experience
 	PlayerVariables.hero_level += 1
 	PlayerVariables.max_experience = PlayerVariables.hero_level * 5
-	health += 5
-	max_health += 5
-	shoot_damage += 1
+	max_health += 10
+	set_health(health + 10)
+	shoot_damage += 2
 	shots_per_second += shooting_speedup
 #	shoot_timer.wait_time = 1.0 / shots_per_second
 	print("level up")

@@ -60,7 +60,6 @@ layer_0/tile_data = PackedInt32Array(0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="GameWorld"]
 navigation_polygon = SubResource("NavigationPolygon_tx7oa")
-constrain_avoidance = true
 metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="GameWorld"]
@@ -123,13 +122,12 @@ shape = SubResource("RectangleShape2D_nbb5c")
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 
 [node name="StateChartDebugger" parent="GUICanvasLayer" instance=ExtResource("11_co1w3")]
-visible = false
 modulate = Color(1, 1, 1, 0.572549)
 z_index = 40
-offset_left = 333.0
-offset_top = 56.0
-offset_right = -143.0
-offset_bottom = -151.0
+offset_left = 375.0
+offset_top = 113.0
+offset_right = -101.0
+offset_bottom = -94.0
 theme = ExtResource("12_shb05")
 enabled = false
 

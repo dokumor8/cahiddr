@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://di1fw0dliqjfi"]
+[gd_scene load_steps=15 format=3 uid="uid://di1fw0dliqjfi"]
 
 [ext_resource type="Script" path="res://src/units/defender.gd" id="1_f5fo7"]
 [ext_resource type="Texture2D" uid="uid://c7bcncgdadedn" path="res://img/defender/walk/frame0000.png" id="1_rx3t5"]
@@ -6,6 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://dpaiph8e1d5rx" path="res://img/defender/walk/frame0002.png" id="3_vf4xp"]
 [ext_resource type="Texture2D" uid="uid://bd72vvf7e025y" path="res://img/defender/walk/frame0003.png" id="4_d0xg4"]
 [ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="6_xkq63"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="7_r5udw"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="8_j4dxl"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="9_geja2"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="10_b6f68"]
+[ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="11_yddxw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qf18c"]
 
@@ -30,7 +35,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jsm2w"]
-radius = 226.009
+radius = 263.66
 
 [node name="Defender" type="CharacterBody2D" groups=["defender"]]
 collision_mask = 0
@@ -50,10 +55,69 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea"]
 shape = SubResource("CircleShape2D_jsm2w")
 
-[node name="ShootTimer" type="Timer" parent="."]
-
 [node name="Movement" parent="." instance=ExtResource("6_xkq63")]
 speed = 150.0
 
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("7_r5udw")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("8_j4dxl")
+initial_state = NodePath("MovingToRally")
+
+[node name="Idle" type="Node" parent="StateChart/Root"]
+script = ExtResource("9_geja2")
+
+[node name="EnemyDetected" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("10_b6f68")
+to = NodePath("../../AttackChasing")
+event = &"found_target"
+
+[node name="AttackChasing" type="Node" parent="StateChart/Root"]
+script = ExtResource("8_j4dxl")
+initial_state = NodePath("Chasing")
+
+[node name="Shoot" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("9_geja2")
+
+[node name="OutOfRange" type="Node" parent="StateChart/Root/AttackChasing/Shoot"]
+script = ExtResource("10_b6f68")
+to = NodePath("../../Chasing")
+event = &"out_of_range"
+
+[node name="Chasing" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("9_geja2")
+
+[node name="InRange" type="Node" parent="StateChart/Root/AttackChasing/Chasing"]
+script = ExtResource("10_b6f68")
+to = NodePath("../../Shoot")
+event = &"in_range"
+
+[node name="On TargetLost" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("10_b6f68")
+to = NodePath("../../MovingToRally")
+event = &"target_lost"
+
+[node name="MovingToRally" type="Node" parent="StateChart/Root"]
+script = ExtResource("9_geja2")
+
+[node name="On FoundTarget" type="Node" parent="StateChart/Root/MovingToRally"]
+script = ExtResource("10_b6f68")
+to = NodePath("../../AttackChasing")
+event = &"found_target"
+
+[node name="On ReachedDestination" type="Node" parent="StateChart/Root/MovingToRally"]
+script = ExtResource("10_b6f68")
+to = NodePath("../../Idle")
+event = &"movement_finished"
+
+[node name="HealthBar" parent="." instance=ExtResource("11_yddxw")]
+
 [connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
-[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/AttackChasing/Shoot" to="." method="_on_shoot_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Shoot" to="." method="_on_shoot_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Chasing" to="." method="_on_chasing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/MovingToRally" to="." method="_on_moving_to_rally_state_entered"]

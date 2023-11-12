@@ -6,7 +6,7 @@ var _sender = null
 var speed = null
 var damage = null
 var _target_position = null
-const hit_distance = 5
+const hit_distance = 15
 
 func setup(sender, target, parameters):
 	if not is_instance_valid(target):

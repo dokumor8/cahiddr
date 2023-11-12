@@ -7,7 +7,7 @@ signal built_unit
 @onready var spawn_timer = $SpawnTimer
 
 var built_units = 0
-var max_units = 1
+var max_units = 5
 var width
 var height
 var unit_name = "Building"
@@ -16,10 +16,12 @@ var can_build = true
 
 func _ready():
 	var shape_size = $CollisionShape2D.shape.get_size()
-	spawn_timer.wait_time = 0.1
+	spawn_timer.wait_time = 10
 	width = shape_size.x
 	height = shape_size.y
-
+	await get_tree().create_timer(1).timeout
+	emit_signal("built_unit", "defender", self)
+	built_units += 1
 
 #var Defender = preload("res://src/units/defender.tscn")
 func _on_spawn_timer_timeout():

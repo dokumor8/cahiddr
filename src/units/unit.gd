@@ -16,6 +16,7 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 @onready var aggro_target: CharacterBody2D
 @onready var aggro_area = $AggroArea
 @onready var game_world = find_parent("GameWorld")
+var potential_target: Node2D
 
 ## The state chart
 @onready var state_chart:StateChart = $StateChart
@@ -23,12 +24,12 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 @export var speed = 100
 var stop_distance = 100.0
 var shoot_distance = 150.0
-var health = 4
-var max_health = 4
+var health = 10
+var max_health = 10
 var unit_name = "Enemy"
-var unit_exp_value = 2
+var unit_exp_value = 3
 var attack_damage = 4
-var money_reward = 5
+var money_reward = 10
 var _king = null
 var shots_per_second = 0.87
 var can_shoot = true
@@ -104,7 +105,7 @@ func _on_aggro_area_body_entered(body):
 	if is_instance_valid(aggro_target) and aggro_target.is_in_group("king"):
 		if body.is_in_group("hero") or body.is_in_group("defender") or body.is_in_group("king"):
 			print(body)
-			set_aggro_target(body)
+			set_potential_target(body)
 			state_chart.send_event("found_target")
 #			print("aggro_switch")
 #		target_object = body
@@ -128,7 +129,7 @@ var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 func hit(damage, sender):
 #	if is_instance_valid(sender) and not is_aggroed:
 	if is_instance_valid(sender) and is_instance_valid(aggro_target) and aggro_target.is_in_group("king"):
-		set_aggro_target(sender)
+		set_potential_target(sender)
 		state_chart.send_event("found_target")
 
 	var hitEffectHero = HitEffectHero.instantiate()
@@ -166,12 +167,10 @@ func _on_chasing_state_physics_processing(delta):
 
 func _on_idle_state_entered():
 	_movement_trait.stop()
-	pass # Replace with function body.
 
 
 func _on_shoot_state_entered():
 	_movement_trait.stop()
-	pass # Replace with function body.
 
 
 func _on_attack_chasing_state_physics_processing(delta):
@@ -182,10 +181,20 @@ func _on_attack_chasing_state_physics_processing(delta):
 func _on_moving_to_king_state_entered():
 	var target = query_surroundings_for_target()
 	if target and is_instance_valid(target):
-		set_aggro_target(target)
+		set_potential_target(target)
 		state_chart.send_event("found_target")
 	
 	if is_instance_valid(_king):
 		set_aggro_target(_king)
 	else:
 		state_chart.send_event("no_king")
+
+
+func set_potential_target(unit):
+	potential_target = unit
+
+
+func _on_attack_chasing_state_entered():
+	if potential_target and is_instance_valid(potential_target):
+		set_aggro_target(potential_target)
+

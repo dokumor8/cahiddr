@@ -3,6 +3,11 @@
 [ext_resource type="Script" path="res://src/traits/Movement.gd" id="1_mdw6b"]
 
 [node name="Movement" type="NavigationAgent2D"]
+path_desired_distance = 27.81
 avoidance_enabled = true
+radius = 15.0
+neighbor_distance = 200.0
 max_neighbors = 5
+time_horizon_agents = 2.88
+max_speed = 400.0
 script = ExtResource("1_mdw6b")
