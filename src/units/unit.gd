@@ -48,24 +48,6 @@ func _ready():
 	_king = game_world.find_child("King")
 
 
-func select():
-	selected = true
-	$Selected.visible = true
-
-
-func deselect():
-	selected = false
-	$Selected.visible = false
-
-
-func _on_click_area_mouse_entered():
-	select()
-
-
-func _on_click_area_mouse_exited():
-	deselect()
-
-
 var Bullet = preload("res://src/enemy_bullet.tscn")
 func shoot(target):
 	if can_shoot:
@@ -113,17 +95,7 @@ func _on_shoot_state_physics_processing(delta):
 #		shoot(aggro_target)
 
 ## Finds the closest position to the given position from the given list of nodes.
-func _find_closest(targets:Array, from:Vector2) -> Node2D:
-	var shortest_distance := 99999999.00
-	var result = null
 
-	for target in targets:
-		var distance := from.distance_squared_to(target.get_global_position())
-		if distance < shortest_distance:
-			shortest_distance = distance
-			result = target
-	
-	return result
 
 
 func _on_aggro_area_body_entered(body):
@@ -143,7 +115,7 @@ func query_surroundings_for_target():
 	var surrounding_bodies = aggro_area.get_overlapping_bodies()
 	if surrounding_bodies.size() == 0:
 		return false
-	var target = _find_closest(surrounding_bodies, get_global_position())
+	var target = GlobalUtils.find_closest(surrounding_bodies, get_global_position())
 	return target
 
 

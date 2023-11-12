@@ -1,10 +1,11 @@
 extends CharacterBody2D
 
 @export var speed = 250
-var shoot_distance = 500
+var shoot_distance = 300
 var stop_distance = 300
 @onready var shoot_timer = $Timer
 @onready var _movement_trait = $Movement
+@onready var aggro_area = $AggroArea
 @onready var game_world = find_parent("GameWorld")
 
 signal health_changed(new_health, max_health)
@@ -12,6 +13,7 @@ signal movement_finished()
 signal died()
 
 
+@onready var state_chart:StateChart = $StateChart
 var target = position
 var moving = false
 var max_health = 10.0
@@ -25,7 +27,7 @@ var bullet_speed = 400
 
 var shots_per_second = 1.5
 var shooting_speedup = 0.3
-var can_update_aggro = true
+var can_update_chase = true
 
 
 func _ready():
@@ -33,7 +35,7 @@ func _ready():
 	_movement_trait.my_ready()
 	_movement_trait.speed = 200
 	health = max_health
-	shoot_timer.wait_time = 1.0 / shots_per_second
+#	shoot_timer.wait_time = 1.0 / shots_per_second
 	_movement_trait.movement_finished.connect(on_movement_finished)
 #	shoot_timer.wait_time = respawn_cooldown
 
@@ -42,37 +44,77 @@ func on_movement_finished():
 	emit_signal("movement_finished")
 
 
+func update_chasing_position():
+	if can_update_chase:
+		can_update_chase = false
+		_movement_trait.move(aggro_target.get_global_position())
+		await get_tree().create_timer(0.1).timeout
+		can_update_chase = true
+
+
+func _on_chasing_state_physics_processing(delta):
+	update_chasing_position()
+	if is_in_range(aggro_target):
+		state_chart.send_event("in_range")
+
+
 func walk_to(walk_marker):
+	state_chart.send_event("move_command")
 	_movement_trait.move(walk_marker.global_position)
 	aggro_target = null
-	state = "moving"
+#	state = "moving"
 
-func set_attack_target(enemy):
+func attack(enemy):
 	aggro_target = enemy
-	state = "aggro"
+#	state = "aggro"
+
+	state_chart.send_event("attack_command")
 	_movement_trait.move(enemy.position)
 	
 
-func _physics_process(delta):
-	if state == "aggro" or state == "shooting":
-		if not is_instance_valid(aggro_target):
-			state = "idle"
-		else:
-			if position.distance_to(aggro_target.position) < shoot_distance:
-				shoot(aggro_target)
-			update_aggro_movement()
-			print(can_update_aggro)
+#func _physics_process(delta):
+#	if state == "aggro" or state == "shooting":
+#		if not is_instance_valid(aggro_target):
+#			state = "idle"
+#		else:
+#			if position.distance_to(aggro_target.position) < shoot_distance:
+#				shoot(aggro_target)
+#			update_aggro_movement()
+#			print(can_update_aggro)
 
 
-func update_aggro_movement():
-	print("updating")
-	if can_update_aggro:
-		print("updating2")
-		_movement_trait.move(aggro_target.global_position)
-		can_update_aggro = false
-		await get_tree().create_timer(0.2).timeout
-		print("updating3")
-		can_update_aggro = true
+func is_in_range(enemy):
+	if get_global_position().distance_to(enemy.global_position) < shoot_distance:
+		return true
+	return false
+
+
+func _on_shoot_state_physics_processing(delta):
+	if is_in_range(aggro_target):
+		shoot(aggro_target)
+	else:
+		state_chart.send_event("out_of_range")
+
+
+func _on_idle_state_entered():
+	_movement_trait.stop()
+
+
+func _on_shoot_state_entered():
+	_movement_trait.stop()
+
+
+func _on_attack_chasing_state_physics_processing(delta):
+	if not is_instance_valid(aggro_target) or aggro_target.get_parent() == null:
+		state_chart.send_event("target_lost")
+
+
+#func update_aggro_movement():
+#	if can_update_aggro:
+#		_movement_trait.move(aggro_target.global_position)
+#		can_update_aggro = false
+#		await get_tree().create_timer(0.2).timeout
+#		can_update_aggro = true
 
 
 func set_health(new_health):
@@ -109,17 +151,6 @@ func hit(damage, _sender):
 	hitEffectHero.global_position = global_position
 	set_health(health - damage)
 #	print(health)
-
-#func _process(delta):
-#	if Input.is_action_pressed("right_click"):
-		
-
-
-func _on_timer_timeout():
-	can_shoot = true
-	if state == "shooting":
-		state = "idle"
-	pass # Replace with function body.
 
 
 func level_up():

@@ -48,10 +48,6 @@ func _input(event):
 			set_rally_points()
 	
 
-#		elif cursor_mode == "build":
-#			pass
-			# try building here - refuse or build
-
 var DefenderBuilding = preload("res://src/buildings/defender_building.tscn")
 var Defender = preload("res://src/units/defender.tscn")
 func place_building():
@@ -75,8 +71,6 @@ func place_building():
 		PlayerVariables.money -= PlayerVariables.building_cost
 		print(defender_building)
 		set_cursor_mode_normal()
-		# TODO
-		# mark tiles as taken
 
 
 func on_built_unit(unit_type: String, builder):
@@ -135,7 +129,7 @@ func click_game_world():
 		hero.walk_to(walk_marker)
 	else:
 		var enemy_collider = intersect_objects[0]["collider"]
-		hero.set_attack_target(enemy_collider)
+		hero.attack(enemy_collider)
 		walk_marker.hide()
 	
 

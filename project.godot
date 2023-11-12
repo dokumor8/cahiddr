@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 PlayerVariables="*res://src/singleton/player_variables.gd"
 GlobalSignals="*res://src/global_signals.gd"
+GlobalUtils="*res://src/singleton/global_utils.gd"
 
 [display]
 

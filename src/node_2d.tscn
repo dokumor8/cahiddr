@@ -130,7 +130,7 @@ offset_top = 68.0
 offset_right = -38.0
 offset_bottom = -139.0
 theme = ExtResource("12_shb05")
-initial_node_to_watch = NodePath("../../GameWorld/Unit")
+initial_node_to_watch = NodePath("../../GameWorld/Hero")
 
 [connection signal="died" from="GameWorld/Hero" to="." method="_on_hero_died"]
 [connection signal="died" from="GameWorld/King" to="." method="_on_king_died"]

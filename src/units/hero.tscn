@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://diuobw6bjl1nw"]
+[gd_scene load_steps=15 format=3 uid="uid://diuobw6bjl1nw"]
 
 [ext_resource type="Texture2D" uid="uid://bhv268dw2vnnl" path="res://img/hero_walk/frame0000.png" id="1_42vrn"]
 [ext_resource type="Script" path="res://src/units/hero.gd" id="1_xbdfg"]
@@ -41,6 +41,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_kakey"]
+radius = 288.58
+
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
 collision_mask = 8
 script = ExtResource("1_xbdfg")
@@ -53,8 +56,10 @@ shape = SubResource("CapsuleShape2D_tn1mc")
 position = Vector2(0, -15)
 sprite_frames = SubResource("SpriteFrames_lxkdj")
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.303
+[node name="AggroArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea"]
+shape = SubResource("CircleShape2D_kakey")
 
 [node name="HealthBar" parent="." instance=ExtResource("6_uq5ag")]
 offset_left = -23.0
@@ -69,7 +74,7 @@ script = ExtResource("8_t0bhy")
 
 [node name="Root" type="Node" parent="StateChart"]
 script = ExtResource("9_6ec2p")
-initial_state = NodePath("MovingToKing")
+initial_state = NodePath("MovingWithoutAttacking")
 
 [node name="Idle" type="Node" parent="StateChart/Root"]
 script = ExtResource("10_etdkk")
@@ -78,6 +83,16 @@ script = ExtResource("10_etdkk")
 script = ExtResource("11_v3glc")
 to = NodePath("../../AttackChasing")
 event = &"found_target"
+
+[node name="On AttackCommand" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../AttackChasing")
+event = &"attack_command"
+
+[node name="On MoveCommand" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../MovingWithoutAttacking")
+event = &"move_command"
 
 [node name="AttackChasing" type="Node" parent="StateChart/Root"]
 script = ExtResource("9_6ec2p")
@@ -101,26 +116,30 @@ event = &"in_range"
 
 [node name="On TargetLost" type="Node" parent="StateChart/Root/AttackChasing"]
 script = ExtResource("11_v3glc")
-to = NodePath("../../MovingToKing")
+to = NodePath("../../Idle")
 event = &"target_lost"
 
-[node name="MovingToKing" type="Node" parent="StateChart/Root"]
+[node name="On MoveCommand" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../MovingWithoutAttacking")
+event = &"move_command"
+
+[node name="MovingWithoutAttacking" type="Node" parent="StateChart/Root"]
 script = ExtResource("10_etdkk")
 
-[node name="AttackKing" type="Node" parent="StateChart/Root/MovingToKing"]
-script = ExtResource("11_v3glc")
-to = NodePath("../../AttackChasing")
-event = &"in_range"
-
-[node name="On FoundTarget" type="Node" parent="StateChart/Root/MovingToKing"]
-script = ExtResource("11_v3glc")
-to = NodePath("../../AttackChasing")
-event = &"found_target"
-
-[node name="On NoKing" type="Node" parent="StateChart/Root/MovingToKing"]
+[node name="On ReachedDestination" type="Node" parent="StateChart/Root/MovingWithoutAttacking"]
 script = ExtResource("11_v3glc")
 to = NodePath("../../Idle")
-event = &"no_king"
+event = &"movement_finished"
+
+[node name="On AttackCommand" type="Node" parent="StateChart/Root/MovingWithoutAttacking"]
+script = ExtResource("11_v3glc")
+to = NodePath("../../AttackChasing")
+event = &"attack_command"
 
 [connection signal="health_changed" from="." to="HealthBar" method="_on_health_changed"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/AttackChasing/Shoot" to="." method="_on_shoot_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Shoot" to="." method="_on_shoot_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Chasing" to="." method="_on_chasing_state_physics_processing"]
