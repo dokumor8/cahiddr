@@ -8,9 +8,22 @@ Defend your base against waves of monsters. Control a hero, roam the map, recrui
 
 ## How to run the game
 
-For now it can't be properly called a game, so there are no builds. Opening the project in Godot and running it should work.
 
-Making it playable is the top priority right now, but the progress is pretty slow.
+https://dokumor8.itch.io/cahiddr, password "doku".
+
+The game is at an early prototype stage, everything (art, gameplay) is temporary placeholders.
+
+Controls:
+
+- WASD: move camera
+- Right click: move / attack
+- Left click: select unit (does nothing, only shows HP, you only control a single unit)
+- B: build mode (same as the UI button). A building costs 200 resources and spawns allied defenders.
+
+The "rally point" UI button lets you move the rally points of all buildings to a new spot.
+
+Enemy units come from the right and attack your base. Protect the orange unit - "King".
+
 
 ## Comment
 
