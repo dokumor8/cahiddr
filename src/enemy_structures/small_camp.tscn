@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0o85tyw370q5"]
+
+[ext_resource type="Texture2D" uid="uid://cx6ypq8ng4pim" path="res://img/enemy_structures/camp.png" id="1_pkhtt"]
+
+[node name="SmallCamp" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_pkhtt")
