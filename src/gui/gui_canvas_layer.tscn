@@ -89,6 +89,25 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RestartButton" type="Button" parent="VBoxContainer/Control/MarginContainer"]
+visible = false
+layout_mode = 2
+text = "Restart"
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
@@ -129,3 +148,5 @@ anchor_right = 0.649
 anchor_bottom = 0.695
 offset_right = -747.648
 offset_bottom = -450.36
+
+[connection signal="pressed" from="VBoxContainer/Control/MarginContainer/RestartButton" to="." method="_on_restart_button_pressed"]

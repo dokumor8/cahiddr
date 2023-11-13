@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://deb6xe72w2557"]
+[gd_scene load_steps=18 format=3 uid="uid://deb6xe72w2557"]
 
 [ext_resource type="Script" path="res://src/node_2d.gd" id="1_pjd1t"]
 [ext_resource type="Script" path="res://src/GameWorld.gd" id="2_fiulx"]
@@ -39,12 +39,6 @@ colors = PackedColorArray(0, 0.556863, 0, 1, 1, 1, 1, 1)
 gradient = SubResource("Gradient_8sg87")
 width = 96
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hffnm"]
-size = Vector2(4861.25, 32)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nbb5c"]
-size = Vector2(33.625, 2788.62)
-
 [node name="Main" type="Node2D"]
 script = ExtResource("1_pjd1t")
 
@@ -82,42 +76,6 @@ centered = false
 
 [node name="SpawnArea" parent="GameWorld" instance=ExtResource("8_6iexh")]
 position = Vector2(1043, 518)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="GameWorld"]
-position = Vector2(943, -16)
-collision_layer = 9
-collision_mask = 9
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GameWorld/StaticBody2D"]
-position = Vector2(1379, -3)
-shape = SubResource("RectangleShape2D_hffnm")
-
-[node name="StaticBody2D4" type="StaticBody2D" parent="GameWorld"]
-position = Vector2(922, 976)
-collision_layer = 9
-collision_mask = 9
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GameWorld/StaticBody2D4"]
-position = Vector2(1464, 1837)
-shape = SubResource("RectangleShape2D_hffnm")
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="GameWorld"]
-position = Vector2(1905, 495)
-collision_layer = 9
-collision_mask = 9
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="GameWorld/StaticBody2D2"]
-position = Vector2(2882, 918)
-shape = SubResource("RectangleShape2D_nbb5c")
-
-[node name="StaticBody2D3" type="StaticBody2D" parent="GameWorld"]
-position = Vector2(-17, 496)
-collision_layer = 9
-collision_mask = 9
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="GameWorld/StaticBody2D3"]
-position = Vector2(0, 898)
-shape = SubResource("RectangleShape2D_nbb5c")
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 

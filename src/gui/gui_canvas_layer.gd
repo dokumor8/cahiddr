@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var money_label = $VBoxContainer/HBoxContainer/EssenceAmount
 @onready var exp_label = $VBoxContainer/HBoxContainer3/ExpAmount
 @onready var level_label = $VBoxContainer/HBoxContainer4/LevelAmount
+@onready var restart_button = find_child("RestartButton")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -35,3 +36,9 @@ func on_selected_health_changed(health, max_health):
 func update_selected_unit(unit):
 	health_bar.value = 100.0 * unit.health / unit.max_health
 	selected_unit_label.text = unit.unit_name
+
+
+func _on_restart_button_pressed():
+	print("pressed")
+#	get_tree().paused = false
+	get_tree().change_scene_to_file("res://src/main-menu/Main.tscn")
