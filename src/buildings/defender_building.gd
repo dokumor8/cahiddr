@@ -19,7 +19,7 @@ func _ready():
 	spawn_timer.wait_time = 10
 	width = shape_size.x
 	height = shape_size.y
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(1, false).timeout
 	emit_signal("built_unit", "defender", self)
 	built_units += 1
 

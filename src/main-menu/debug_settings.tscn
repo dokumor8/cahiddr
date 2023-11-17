@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://dc8rs83ha41vk"]
+
+[ext_resource type="Texture2D" uid="uid://c4o0le2esikuw" path="res://img/ui/menu-background.png" id="1_5yk0c"]
+
+[node name="DebugSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_5yk0c")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="EnemyParameters" type="VBoxContainer" parent="MarginContainer/TabContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/EnemyParameters"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="EnemyDamageLabel" type="Label" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer"]
+layout_mode = 2
+text = "Enemy damage"
+
+[node name="EnemyDamageSpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/TabContainer/EnemyParameters"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="EnemyHealthLabel" type="Label" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer2"]
+layout_mode = 2
+text = "Enemy health"
+
+[node name="EnemyHealthSpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer2"]
+layout_mode = 2

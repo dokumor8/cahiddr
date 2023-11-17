@@ -74,7 +74,7 @@ func shoot(target):
 		game_world.add_child(bul)
 
 		can_shoot = false
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(0.5, false).timeout
 		can_shoot = true
 #		shoot_timer.start()
 
@@ -124,7 +124,7 @@ func update_chasing_position():
 	if can_update_chase:
 		can_update_chase = false
 		_movement_trait.move(aggro_target.get_global_position())
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.1, false).timeout
 		can_update_chase = true
 
 

@@ -16,7 +16,7 @@ func _ready():
 #	var rotation_shift = deg_to_rad(rng.randi_range(-10, 10))
 #	rotate(rotation_shift)
 	label.text = initial_text
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(0.3, false).timeout
 	queue_free()
 
 func set_text(text):

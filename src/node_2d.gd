@@ -220,7 +220,7 @@ func _on_hero_died():
 	game_world.remove_child(hero)
 #	$GameWorld/HeroReviveTimer.start()
 	hero_in_game = false
-	await get_tree().create_timer(respawn_cooldown).timeout
+	await get_tree().create_timer(respawn_cooldown, false).timeout
 	if not is_instance_valid($GameWorld/King):
 		return
 	hero.set_health(hero.max_health)

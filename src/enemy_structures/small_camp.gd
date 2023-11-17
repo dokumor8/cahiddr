@@ -1,7 +1,8 @@
-extends Area2D
+extends Node2D
 
 var spawn_width = 20
 var spawn_height = 40
+@export var spawn_area :RectangleShape2D
 var rng = RandomNumberGenerator.new()
 var Unit = preload("res://src/units/unit.tscn")
 
@@ -24,7 +25,7 @@ func _ready():
 func spawn_sequence(amount, delay):
 	spawn_enemy()
 	for i in amount - 1:
-		await get_tree().create_timer(delay).timeout
+		await get_tree().create_timer(delay, false).timeout
 		spawn_enemy()
 	
 
@@ -33,13 +34,12 @@ func spawn_enemy():
 
 	var game_world = find_parent("GameWorld")
 	game_world.add_child(unit)
-#		shoot_target.emit(Bullet, rotation, position)
+
 	var x_spawn = rng.randi() % spawn_width
 	var y_spawn = rng.randi() % spawn_height
 
 	unit.global_position = global_position + Vector2(x_spawn, y_spawn)
-#	var king = game_world.find_child("King")
-#	unit.set_aggro_target(king)
+
 
 func _on_king_died():
 	$Timer.stop()

@@ -3,7 +3,6 @@ extends CharacterBody2D
 @export var speed = 250
 var shoot_distance = 300
 var stop_distance = 300
-@onready var shoot_timer = $Timer
 @onready var _movement_trait = $Movement
 @onready var aggro_area = $AggroArea
 @onready var game_world = find_parent("GameWorld")
@@ -51,7 +50,7 @@ func update_chasing_position():
 	if can_update_chase:
 		can_update_chase = false
 		_movement_trait.move(aggro_target.get_global_position())
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.1, false).timeout
 		can_update_chase = true
 
 
@@ -166,7 +165,7 @@ func shoot(shoot_target):
 		game_world.add_child(bul)
 		
 		can_shoot = false
-		await get_tree().create_timer(1.0 / shots_per_second).timeout
+		await get_tree().create_timer(1.0 / shots_per_second, false).timeout
 		can_shoot = true
 
 
