@@ -206,7 +206,7 @@ texture = SubResource("GradientTexture2D_qa3f2")
 centered = false
 
 [node name="SmallCamp" parent="GameWorld" instance=ExtResource("9_garsw")]
-position = Vector2(2757, 697)
+position = Vector2(817, 441)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="GameWorld"]
 navigation_polygon = SubResource("NavigationPolygon_tx7oa")
@@ -222,7 +222,7 @@ offset_top = 113.0
 offset_right = -101.0
 offset_bottom = -94.0
 theme = ExtResource("12_shb05")
-enabled = false
+initial_node_to_watch = NodePath("../../GameWorld/SmallCamp")
 
 [connection signal="died" from="GameWorld/Hero" to="." method="_on_hero_died"]
 [connection signal="died" from="GameWorld/King" to="." method="_on_king_died"]

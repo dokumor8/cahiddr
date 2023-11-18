@@ -23,16 +23,22 @@ script = ExtResource("3_kv5uv")
 script = ExtResource("4_s4nit")
 initial_state = NodePath("BuildingUnits")
 
+[node name="SendWave" type="Node" parent="StateChart/Root"]
+script = ExtResource("5_ewnik")
+
+[node name="ContinueUpgrading" type="Node" parent="StateChart/Root/SendWave"]
+script = ExtResource("6_aobhw")
+to = NodePath("../../Upgrading")
+event = &"building_finished"
+delay_seconds = 0.1
+
 [node name="BuildingUnits" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_ewnik")
 
 [node name="On FinishedUnits" type="Node" parent="StateChart/Root/BuildingUnits"]
 script = ExtResource("6_aobhw")
-to = NodePath("../../Upgrading")
-
-[node name="On Attacked" type="Node" parent="StateChart/Root/BuildingUnits"]
-script = ExtResource("6_aobhw")
-to = NodePath("../../BuildingGuards")
+to = NodePath("../../SendWave")
+delay_seconds = 5.0
 
 [node name="BuildingGuards" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_ewnik")
@@ -40,14 +46,25 @@ script = ExtResource("5_ewnik")
 [node name="FinishedGuard" type="Node" parent="StateChart/Root/BuildingGuards"]
 script = ExtResource("6_aobhw")
 to = NodePath("../../Upgrading")
+delay_seconds = 1.0
 
 [node name="Upgrading" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_ewnik")
 
-[node name="On Attacked" type="Node" parent="StateChart/Root/Upgrading"]
-script = ExtResource("6_aobhw")
-to = NodePath("../../BuildingGuards")
-
 [node name="On Upgrade Finished" type="Node" parent="StateChart/Root/Upgrading"]
 script = ExtResource("6_aobhw")
-to = NodePath("../../BuildingGuards")
+to = NodePath("../../Upgrade")
+delay_seconds = 10.0
+
+[node name="Upgrade" type="Node" parent="StateChart/Root"]
+script = ExtResource("5_ewnik")
+
+[node name="ContinueBuilding" type="Node" parent="StateChart/Root/Upgrade"]
+script = ExtResource("6_aobhw")
+to = NodePath("../../BuildingUnits")
+delay_seconds = 0.1
+
+[connection signal="state_entered" from="StateChart/Root/SendWave" to="." method="_on_send_wave_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/BuildingUnits" to="." method="_on_building_units_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Upgrading" to="." method="_on_upgrading_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Upgrade" to="." method="_on_upgrade_state_entered"]
