@@ -59,7 +59,10 @@ func _update_rect_params():
 	_rect.fill = false
 
 
-func _on_input_event(event):
+func _on_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		print("right click caught here")
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		print("selected")
+		GlobalSignals.deselect_all_units.emit()
 		select()

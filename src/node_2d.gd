@@ -123,9 +123,12 @@ func click_game_world():
 	var space = get_world_2d().direct_space_state
 	var parameters = PhysicsPointQueryParameters2D.new()
 	parameters.position = get_global_mouse_position()
-	parameters.collision_mask = 0x00000002
-	var max_selected = 1
+#	parameters.collision_mask = 0x00000005
+	parameters.set_collide_with_areas(true)
+	print(parameters.is_collide_with_areas_enabled())
+	var max_selected = 10
 	var intersect_objects = space.intersect_point(parameters, max_selected)
+	print(intersect_objects)
 
 	if (intersect_objects.is_empty()):
 		walk_marker.global_position = get_global_mouse_position()

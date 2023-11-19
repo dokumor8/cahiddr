@@ -14,9 +14,12 @@
 [ext_resource type="PackedScene" uid="uid://mi838qbrvw2e" path="res://src/gui/highlight.tscn" id="13_2eb5x"]
 [ext_resource type="PackedScene" uid="uid://bbdtnbx6jn452" path="res://src/traits/selection.tscn" id="13_gxpib"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k5hti"]
-radius = 24.0
-height = 84.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lvxpn"]
+radius = 26.0
+height = 88.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hnsns"]
+radius = 400.33
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4yr7o"]
 animations = [{
@@ -38,35 +41,31 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_hnsns"]
-radius = 400.33
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lvxpn"]
-radius = 23.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k5hti"]
+radius = 24.0
 height = 84.0
 
-[node name="Unit" type="CharacterBody2D" groups=["enemy"]]
+[node name="Unit" type="Area2D" groups=["enemy"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_4rcxq")
 
+[node name="HealthBar" parent="." instance=ExtResource("8_xtqdo")]
+offset_left = -23.0
+offset_top = -53.0
+offset_right = 25.0
+offset_bottom = -43.0
+
+[node name="Selection" parent="." instance=ExtResource("13_gxpib")]
+position = Vector2(0, -12)
+width = 30
+height = 60
+
+[node name="Movement" parent="." instance=ExtResource("7_t4m6d")]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -12)
-shape = SubResource("CapsuleShape2D_k5hti")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -14)
-sprite_frames = SubResource("SpriteFrames_4yr7o")
-frame_progress = 0.516983
-
-[node name="AggroArea" type="Area2D" parent="."]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea"]
-shape = SubResource("CircleShape2D_hnsns")
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 1.139
+shape = SubResource("CapsuleShape2D_lvxpn")
 
 [node name="ClickArea" type="Area2D" parent="."]
 position = Vector2(0, -12)
@@ -75,16 +74,24 @@ collision_mask = 0
 
 [node name="Highlight" parent="ClickArea" instance=ExtResource("13_2eb5x")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
-shape = SubResource("CapsuleShape2D_lvxpn")
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.139
 
-[node name="Movement" parent="." instance=ExtResource("7_t4m6d")]
+[node name="AggroArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
 
-[node name="HealthBar" parent="." instance=ExtResource("8_xtqdo")]
-offset_left = -23.0
-offset_top = -49.0
-offset_right = 25.0
-offset_bottom = -39.0
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea"]
+shape = SubResource("CircleShape2D_hnsns")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -14)
+sprite_frames = SubResource("SpriteFrames_4yr7o")
+frame_progress = 0.516983
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("CapsuleShape2D_k5hti")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("9_85ae5")
@@ -144,9 +151,13 @@ script = ExtResource("12_uiodj")
 to = NodePath("../../Idle")
 event = &"no_king"
 
-[node name="Selection" parent="." instance=ExtResource("13_gxpib")]
+[node name="Unit" type="CharacterBody2D" parent="." groups=["enemy"]]
+collision_layer = 2
+collision_mask = 0
+input_pickable = true
 
-[connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
+[connection signal="area_entered" from="AggroArea" to="." method="_on_aggro_area_area_entered"]
+[connection signal="body_entered" from="AggroArea" to="Unit" method="_on_aggro_area_body_entered"]
 [connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_physics_processing"]

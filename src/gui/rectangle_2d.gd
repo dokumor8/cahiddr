@@ -14,5 +14,5 @@ func _ready():
 
 func _draw():
 	line_width = 2.0
-	draw_rect(Rect2(position.x, position.y, width, height), color, fill, line_width)
+	draw_rect(Rect2(position.x-width/2, position.y-height/2, width, height), color, fill, line_width)
 

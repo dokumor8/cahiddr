@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Area2D
 
 
 var target_object = 0
@@ -14,7 +14,7 @@ var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 
 @onready var _movement_trait = $Movement
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var aggro_target: CharacterBody2D
+@onready var aggro_target: Node2D
 @onready var aggro_area = $AggroArea
 @onready var game_world = find_parent("GameWorld")
 var potential_target: Node2D
@@ -100,13 +100,13 @@ func _on_shoot_state_physics_processing(delta):
 
 
 
-func _on_aggro_area_body_entered(body):
+func _on_aggro_area_area_entered(area):
 	# change state to aggro
-#	print(body)
+#	print(area)
 	if is_instance_valid(aggro_target) and aggro_target.is_in_group("king"):
-		if body.is_in_group("hero") or body.is_in_group("defender") or body.is_in_group("king"):
-			print(body)
-			set_potential_target(body)
+		if area.is_in_group("hero") or area.is_in_group("defender") or area.is_in_group("king"):
+			print(area)
+			set_potential_target(area)
 			state_chart.send_event("found_target")
 #			print("aggro_switch")
 #		target_object = body

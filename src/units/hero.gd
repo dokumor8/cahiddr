@@ -92,15 +92,15 @@ func _physics_process(delta):
 #			print(can_update_aggro)
 
 
-func _on_aggro_area_body_entered(body):
+func _on_aggro_area_area_entered(area):
 #	print("hero aggro")
-#	print(body)
-	if is_instance_valid(body):
+#	print(area)
+	if is_instance_valid(area):
 #		print("hero aggro2")
-#		print(body.is_in_group("enemy"))
-		if body.is_in_group("enemy"):
+#		print(area.is_in_group("enemy"))
+		if area.is_in_group("enemy"):
 #			print("hero aggro3")
-			set_potential_target(body)
+			set_potential_target(area)
 			state_chart.send_event("found_target")
 
 

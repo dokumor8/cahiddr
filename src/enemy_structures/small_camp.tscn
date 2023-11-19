@@ -38,7 +38,7 @@ script = ExtResource("5_ewnik")
 [node name="On FinishedUnits" type="Node" parent="StateChart/Root/BuildingUnits"]
 script = ExtResource("6_aobhw")
 to = NodePath("../../SendWave")
-delay_seconds = 5.0
+delay_seconds = 1.0
 
 [node name="BuildingGuards" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_ewnik")
