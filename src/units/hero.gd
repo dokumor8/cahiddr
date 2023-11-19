@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Area2D
 
 @export var speed = 250
 var shoot_distance = 300
@@ -212,7 +212,12 @@ func _on_attack_chasing_state_entered():
 #	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 #		print("selected")
 
+#
+#
+#func _on_root_state_input(event):
+#	input_happened.emit(event)
 
 
-func _on_root_state_input(event):
-	input_happened.emit(event)
+func _on_input_event(viewport, event, shape_idx):
+	print(event)
+	pass # Replace with function body.

@@ -14,8 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://bbdtnbx6jn452" path="res://src/traits/selection.tscn" id="12_ycsu6"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tn1mc"]
-radius = 18.0
-height = 56.0
+radius = 61.0
+height = 148.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lxkdj"]
 animations = [{
@@ -45,9 +45,8 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_kakey"]
 radius = 356.34
 
-[node name="Hero" type="CharacterBody2D" groups=["hero"]]
+[node name="Hero" type="Area2D"]
 collision_mask = 8
-input_pickable = true
 script = ExtResource("1_xbdfg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -150,12 +149,15 @@ position = Vector2(-14, -45)
 width = 30
 height = 60
 
-[connection signal="health_changed" from="." to="HealthBar" method="_on_health_changed"]
-[connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
-[connection signal="state_input" from="StateChart/Root" to="." method="_on_root_state_input"]
-[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_entered"]
-[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/AttackChasing/Shoot" to="." method="_on_shoot_state_entered"]
-[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Shoot" to="." method="_on_shoot_state_physics_processing"]
-[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Chasing" to="." method="_on_chasing_state_physics_processing"]
+[node name="Hero" type="CharacterBody2D" parent="." groups=["hero"]]
+collision_mask = 8
+input_pickable = true
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="body_entered" from="AggroArea" to="Hero" method="_on_aggro_area_body_entered"]
+[connection signal="state_entered" from="StateChart/Root/Idle" to="Hero" method="_on_idle_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/AttackChasing" to="Hero" method="_on_attack_chasing_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing" to="Hero" method="_on_attack_chasing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/AttackChasing/Shoot" to="Hero" method="_on_shoot_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Shoot" to="Hero" method="_on_shoot_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/AttackChasing/Chasing" to="Hero" method="_on_chasing_state_physics_processing"]

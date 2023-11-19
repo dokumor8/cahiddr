@@ -23,10 +23,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
+mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
+mouse_filter = 2
 
 [node name="EssenceLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
@@ -88,6 +90,7 @@ horizontal_alignment = 1
 [node name="Control" type="Control" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Control"]
 layout_mode = 1

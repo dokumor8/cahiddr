@@ -13,7 +13,7 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 	GlobalSignals.deselect_all_units.connect(deselect)
-	_unit.input_happened.connect(_on_input_event)
+	_unit.input_event.connect(_on_input_event)
 	print("connected input")
 	_rect.hide()
 #	var texture:GradientTexture2D = _sprite.texture
@@ -39,6 +39,7 @@ func select():
 
 
 func deselect():
+	print("deselected")
 	if not _selected:
 		return
 	_selected = false

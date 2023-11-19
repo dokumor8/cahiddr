@@ -1,12 +1,13 @@
 extends CharacterBody2D
 
-var selected = false
+
 var target_object = 0
 @onready var aggroed = false
 var shot_count = 0
 
 signal health_changed(new_health, max_health)
 signal died()
+signal input_happened(event)
 
 var movement_speed: float = 100.0
 var movement_target_position: Vector2 = Vector2(60.0, 180.0)
@@ -198,3 +199,6 @@ func _on_attack_chasing_state_entered():
 	if potential_target and is_instance_valid(potential_target):
 		set_aggro_target(potential_target)
 
+#
+#func _on_root_state_input(event):
+#	input_happened.emit(event)
