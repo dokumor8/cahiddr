@@ -5,7 +5,7 @@ var target_object = 0
 @onready var aggroed = false
 var shot_count = 0
 signal health_changed(new_health, max_health)
-
+signal movement_finished()
 var movement_speed: float = 200.0
 #var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 

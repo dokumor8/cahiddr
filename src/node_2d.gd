@@ -14,7 +14,8 @@ var camera_speed = 500
 var cursor_mode = "normal"
 var hero_in_game = true
 
-const BUILDABLE_TERRAIN = 3
+# source_id 2, atlas coords (0, 4)
+const BUILDABLE_TERRAIN = [2, 0, 4]
 const REGULAR_TERRAIN = 0
 var respawn_cooldown = 10
 
@@ -27,6 +28,7 @@ func _ready():
 	$GUICanvasLayer/VBoxContainer/HBoxContainer2/RallyButton.pressed.connect(on_rally_button_pressed)
 	ui.update_selected_unit(hero)
 	hero.movement_finished.connect(_on_hero_movement_finished)
+#	set_buildable_tiles()
 
 
 func _input(event):
@@ -68,7 +70,9 @@ func place_building():
 		var y = tile_coords.y
 		for h in range(2):
 			for w in range(3):
-				tile_map.set_cell(0, Vector2i(x + w, y + h), REGULAR_TERRAIN, Vector2i(0, 0))
+				var tile_data = tile_map.get_cell_tile_data(0, Vector2i(x + w, y + h))
+				tile_data.set_custom_data("buildable", false)
+#				tile_map.set_cell(0, tile_data, REGULAR_TERRAIN, Vector2i(0, 0))
 				
 				
 		PlayerVariables.money -= PlayerVariables.building_cost
@@ -123,7 +127,7 @@ func click_game_world():
 	var space = get_world_2d().direct_space_state
 	var parameters = PhysicsPointQueryParameters2D.new()
 	parameters.position = get_global_mouse_position()
-#	parameters.collision_mask = 0x00000005
+	parameters.collision_mask = 0x00000002
 	parameters.set_collide_with_areas(true)
 	print(parameters.is_collide_with_areas_enabled())
 	var max_selected = 10
@@ -154,8 +158,8 @@ func check_build_position(_building, tile_coords):
 	for w in range(0, 3):
 		for h in range(0, 2):
 			var checking_tile = tile_coords + Vector2i(w, h)
-			var tile_data = tile_map.get_cell_source_id(0, checking_tile)
-			if tile_data != BUILDABLE_TERRAIN:
+			var tile_data = tile_map.get_cell_tile_data(0, checking_tile)
+			if tile_data and not tile_data.get_custom_data("buildable"):
 				return false
 	return true
 	

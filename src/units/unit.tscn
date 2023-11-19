@@ -157,7 +157,6 @@ collision_mask = 0
 input_pickable = true
 
 [connection signal="area_entered" from="AggroArea" to="." method="_on_aggro_area_area_entered"]
-[connection signal="body_entered" from="AggroArea" to="Unit" method="_on_aggro_area_body_entered"]
 [connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_physics_processing"]

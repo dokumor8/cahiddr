@@ -36,7 +36,10 @@ func _ready():
 	$AnimatedSprite2D.play()
 	_movement_trait.my_ready()
 	_movement_trait.speed = 200
-	health = max_health
+	health_changed.connect($HealthBar._on_health_changed)
+	set_health(max_health)
+	
+#	health = max_health
 #	shoot_timer.wait_time = 1.0 / shots_per_second
 	_movement_trait.movement_finished.connect(on_movement_finished)
 #	shoot_timer.wait_time = respawn_cooldown
@@ -135,7 +138,7 @@ func _on_attack_chasing_state_physics_processing(delta):
 
 
 func query_surroundings_for_target():
-	var surrounding_bodies = aggro_area.get_overlapping_bodies()
+	var surrounding_bodies = aggro_area.get_overlapping_areas()
 	if surrounding_bodies.size() == 0:
 		return false
 	var target = GlobalUtils.find_closest(surrounding_bodies, get_global_position())

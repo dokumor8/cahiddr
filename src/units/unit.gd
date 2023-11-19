@@ -114,7 +114,7 @@ func _on_aggro_area_area_entered(area):
 
 
 func query_surroundings_for_target():
-	var surrounding_bodies = aggro_area.get_overlapping_bodies()
+	var surrounding_bodies = aggro_area.get_overlapping_areas()
 	if surrounding_bodies.size() == 0:
 		return false
 	var target = GlobalUtils.find_closest(surrounding_bodies, get_global_position())
@@ -202,3 +202,4 @@ func _on_attack_chasing_state_entered():
 #
 #func _on_root_state_input(event):
 #	input_happened.emit(event)
+
