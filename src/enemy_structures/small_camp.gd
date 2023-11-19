@@ -11,7 +11,6 @@ var camp_level = 2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	seed(1)
-	
 
 
 func spawn_wave(amount, delay):

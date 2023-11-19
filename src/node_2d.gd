@@ -30,6 +30,7 @@ func _ready():
 
 
 func _input(event):
+
 	if event.is_action_pressed("right_click"):
 
 		if cursor_mode == "normal":
@@ -39,14 +40,16 @@ func _input(event):
 		elif cursor_mode == "rally":
 			set_cursor_mode_normal()
 
+
 	if event.is_action_pressed("left_click"):
 		if cursor_mode == "build":
 			place_building()
 		elif cursor_mode == "normal":
-			click_select_unit()
+#			click_select_unit()
+			pass
 		elif cursor_mode == "rally":
 			set_rally_points()
-	
+
 
 var DefenderBuilding = preload("res://src/buildings/defender_building.tscn")
 var Defender = preload("res://src/units/defender.tscn")
@@ -71,6 +74,7 @@ func place_building():
 		PlayerVariables.money -= PlayerVariables.building_cost
 		print(defender_building)
 		set_cursor_mode_normal()
+
 
 
 func on_built_unit(unit_type: String, builder):
@@ -151,6 +155,8 @@ func check_build_position(_building, tile_coords):
 			if tile_data != BUILDABLE_TERRAIN:
 				return false
 	return true
+	
+
 
 
 func _physics_process(delta):
@@ -182,7 +188,8 @@ func handle_build_cursor_move():
 
 #		print(snapped_local_coords)
 		tile_highlighter.position = snapped_local_coords
-		tile_highlighter.position -= Vector2(tile_map.cell_quadrant_size/2, tile_map.cell_quadrant_size/2)
+		tile_highlighter.position -= Vector2(tile_map.cell_quadrant_size/2, 
+		tile_map.cell_quadrant_size/2)
 		tile_highlighter.show()
 
 

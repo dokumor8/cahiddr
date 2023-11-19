@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbdtnbx6jn452"]
+
+[ext_resource type="Script" path="res://src/traits/selection.gd" id="1_8pqcs"]
+[ext_resource type="PackedScene" uid="uid://c3t8nod3j2hqm" path="res://src/gui/rectangle_2d.tscn" id="2_feem3"]
+
+[node name="Selection" type="Node2D"]
+script = ExtResource("1_8pqcs")
+
+[node name="Rectangle2D" parent="." instance=ExtResource("2_feem3")]

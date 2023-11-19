@@ -11,6 +11,7 @@ var potential_target: Node2D
 signal health_changed(new_health, max_health)
 signal movement_finished()
 signal died()
+signal input_happened(event)
 
 
 @onready var state_chart:StateChart = $StateChart
@@ -202,3 +203,16 @@ func _on_attack_chasing_state_entered():
 	if potential_target and is_instance_valid(potential_target):
 		attack(potential_target)
 
+
+
+#func _on_input_event(viewport, event, shape_idx):
+#	print("event")
+#	print(event)
+#	print(shape_idx)
+#	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+#		print("selected")
+
+
+
+func _on_root_state_input(event):
+	input_happened.emit(event)
