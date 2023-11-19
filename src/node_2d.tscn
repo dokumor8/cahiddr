@@ -185,6 +185,7 @@ y_sort_enabled = true
 script = ExtResource("2_fiulx")
 
 [node name="Hero" parent="GameWorld" instance=ExtResource("5_sj74m")]
+unique_name_in_owner = true
 position = Vector2(232, 515)
 
 [node name="TileMap" type="TileMap" parent="GameWorld"]
@@ -210,11 +211,17 @@ texture = SubResource("GradientTexture2D_qa3f2")
 centered = false
 
 [node name="SmallCamp" parent="GameWorld" instance=ExtResource("9_garsw")]
-position = Vector2(817, 441)
+position = Vector2(875, 485)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="GameWorld"]
 visible = false
 navigation_polygon = SubResource("NavigationPolygon_tx7oa")
+
+[node name="SmallCamp2" parent="GameWorld" instance=ExtResource("9_garsw")]
+position = Vector2(2698, 750)
+
+[node name="SmallCamp3" parent="GameWorld" instance=ExtResource("9_garsw")]
+position = Vector2(904.138, 1094.82)
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 offset = Vector2(1.655, 0)

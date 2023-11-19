@@ -16,7 +16,7 @@ var hero_in_game = true
 
 # source_id 2, atlas coords (0, 4)
 const BUILDABLE_TERRAIN = [2, 0, 4]
-const REGULAR_TERRAIN = 0
+const REGULAR_TERRAIN = [2, 1, 4]
 var respawn_cooldown = 10
 
 var building_to_build = "defenders"
@@ -28,6 +28,7 @@ func _ready():
 	$GUICanvasLayer/VBoxContainer/HBoxContainer2/RallyButton.pressed.connect(on_rally_button_pressed)
 	ui.update_selected_unit(hero)
 	hero.movement_finished.connect(_on_hero_movement_finished)
+	PlayerVariables.hero = hero
 #	set_buildable_tiles()
 
 
@@ -70,9 +71,12 @@ func place_building():
 		var y = tile_coords.y
 		for h in range(2):
 			for w in range(3):
-				var tile_data = tile_map.get_cell_tile_data(0, Vector2i(x + w, y + h))
-				tile_data.set_custom_data("buildable", false)
-#				tile_map.set_cell(0, tile_data, REGULAR_TERRAIN, Vector2i(0, 0))
+				var cell_coords = Vector2i(x + w, y + h)
+				var tile_data = tile_map.get_cell_tile_data(0, cell_coords)
+#				tile_data.set_custom_data("buildable", false)
+				var target_source_id = 2
+				var target_atlas_coords = Vector2i(1, 4)
+				tile_map.set_cell(0, cell_coords, target_source_id, target_atlas_coords)
 				
 				
 		PlayerVariables.money -= PlayerVariables.building_cost

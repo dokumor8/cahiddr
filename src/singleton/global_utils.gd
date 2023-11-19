@@ -12,3 +12,9 @@ func find_closest(targets:Array, from:Vector2) -> Node2D:
 			result = target
 	
 	return result
+
+func on_send_exp(exp_sender_pos, amount):
+	var player_pos = PlayerVariables.hero.global_position
+	if player_pos.distance_to(exp_sender_pos) < 800:
+		PlayerVariables.hero.receive_exp(amount)
+#	pass

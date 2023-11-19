@@ -30,7 +30,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="King" type="Area2D" groups=["king"]]
+[node name="King" type="Area2D" groups=["king", "targetable_allies"]]
 collision_mask = 8
 script = ExtResource("1_ny0j3")
 

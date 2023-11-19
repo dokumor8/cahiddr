@@ -7,13 +7,5 @@ extends Node
 @export var hero_experience = 0
 @export var max_experience = 5
 @export var hero_level = 1
+@onready var hero: Area2D
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

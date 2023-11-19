@@ -45,7 +45,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_kakey"]
 radius = 356.34
 
-[node name="Hero" type="Area2D" groups=["hero"]]
+[node name="Hero" type="Area2D" groups=["hero", "targetable_allies"]]
 collision_mask = 8
 script = ExtResource("1_xbdfg")
 

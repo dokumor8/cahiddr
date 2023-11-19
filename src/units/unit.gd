@@ -8,6 +8,7 @@ var shot_count = 0
 signal health_changed(new_health, max_health)
 signal died()
 signal input_happened(event)
+signal send_exp(coords, amount)
 
 var movement_speed: float = 100.0
 var movement_target_position: Vector2 = Vector2(60.0, 180.0)
@@ -32,6 +33,7 @@ var unit_exp_value = 3
 var attack_damage = 4
 var money_reward = 10
 var _king = null
+var _hero :Area2D = null
 var shots_per_second = 0.87
 var can_shoot = true
 var can_update_chase = true
@@ -41,13 +43,16 @@ func _ready():
 	# These values need to be adjusted for the actor's speed
 	# and the navigation layout.
 	animated_sprite.play()
+	send_exp.connect(GlobalUtils.on_send_exp)
 
 #	print("calling myready")
 	_movement_trait.my_ready()
 	health_changed.connect($HealthBar._on_health_changed)
 
 	var root_node = get_tree().get_root()
+	
 	_king = game_world.find_child("King")
+	_hero = game_world.find_child("Hero")
 
 
 var Bullet = preload("res://src/enemy_bullet.tscn")
@@ -115,6 +120,9 @@ func _on_aggro_area_area_entered(area):
 
 func query_surroundings_for_target():
 	var surrounding_bodies = aggro_area.get_overlapping_areas()
+	surrounding_bodies = surrounding_bodies.filter(
+		func(area): return area.is_in_group("targetable_allies")
+	)
 	if surrounding_bodies.size() == 0:
 		return false
 	var target = GlobalUtils.find_closest(surrounding_bodies, get_global_position())
@@ -139,8 +147,9 @@ func hit(damage, sender):
 	set_health(health - damage)
 	if health <= 0:
 #		emit_signal("died")
-		if is_instance_valid(sender) and sender.is_in_group("hero"):
-			sender.receive_exp(unit_exp_value)
+		send_exp.emit(global_position, unit_exp_value)
+#		if is_instance_valid(sender) and sender.is_in_group("hero"):
+#			sender.receive_exp(unit_exp_value)
 		PlayerVariables.money += money_reward
 		queue_free()
 
