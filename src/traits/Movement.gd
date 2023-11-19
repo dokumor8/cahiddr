@@ -13,11 +13,11 @@ var _interim_speed: float = 0.0
 
 func my_ready():
 	
-	print("before timer")
+#	print("before timer")
 	if !is_instance_valid(_game_world) or _game_world._navigation_region == null:
-		print(is_instance_valid(_game_world))
-		print(_game_world._navigation_region)
-		print("waiting")
+#		print(is_instance_valid(_game_world))
+#		print(_game_world._navigation_region)
+#		print("waiting")
 		await _game_world.ready
 	velocity_computed.connect(_on_velocity_computed)
 	navigation_finished.connect(_on_navigation_finished)
@@ -29,7 +29,7 @@ func my_ready():
 #			+ Vector2(randf(), randf()).normalized() * INITIAL_DISPERSION_FACTOR
 #		)
 #	)
-	print(is_connected("velocity_computed", _on_velocity_computed))
+#	print(is_connected("velocity_computed", _on_velocity_computed))
 
 
 func _physics_process(delta):

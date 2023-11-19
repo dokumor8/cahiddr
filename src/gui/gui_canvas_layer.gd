@@ -39,6 +39,6 @@ func update_selected_unit(unit):
 
 
 func _on_restart_button_pressed():
-	print("pressed")
+#	print("pressed")
 #	get_tree().paused = false
 	get_tree().change_scene_to_file("res://src/main-menu/Main.tscn")

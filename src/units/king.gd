@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Area2D
 @export var max_health = 100.0
 @export var health = 100.0
 var rng = RandomNumberGenerator.new()

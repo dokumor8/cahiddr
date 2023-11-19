@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6kghfkovuej0"]
+[gd_scene load_steps=7 format=3 uid="uid://c6kghfkovuej0"]
 
 [ext_resource type="Script" path="res://src/gui/gui_canvas_layer.gd" id="1_rjfe0"]
 
@@ -12,6 +12,14 @@ unicode = 98
 
 [sub_resource type="Shortcut" id="Shortcut_wygvf"]
 events = [SubResource("InputEventKey_ovvka")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_05u4m"]
+device = -1
+keycode = 82
+unicode = 114
+
+[sub_resource type="Shortcut" id="Shortcut_p5m25"]
+events = [SubResource("InputEventKey_05u4m")]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_rjfe0")
@@ -38,10 +46,15 @@ size_flags_vertical = 8
 text = "Money:"
 
 [node name="EssenceAmount" type="Label" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "0"
+
+[node name="HelpLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "WASD - move camera, right click - move/shoot"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -118,11 +131,12 @@ size_flags_vertical = 8
 [node name="BuildButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 shortcut = SubResource("Shortcut_wygvf")
-text = "Build"
+text = "Build [B]"
 
 [node name="RallyButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Rally Point"
+shortcut = SubResource("Shortcut_p5m25")
+text = "Rally Point [R]"
 
 [node name="SelectContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

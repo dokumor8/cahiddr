@@ -42,7 +42,7 @@ func _ready():
 	# and the navigation layout.
 	animated_sprite.play()
 
-	print("calling myready")
+#	print("calling myready")
 	_movement_trait.my_ready()
 	health_changed.connect($HealthBar._on_health_changed)
 
@@ -105,7 +105,7 @@ func _on_aggro_area_area_entered(area):
 #	print(area)
 	if is_instance_valid(aggro_target) and aggro_target.is_in_group("king"):
 		if area.is_in_group("hero") or area.is_in_group("defender") or area.is_in_group("king"):
-			print(area)
+#			print(area)
 			set_potential_target(area)
 			state_chart.send_event("found_target")
 #			print("aggro_switch")

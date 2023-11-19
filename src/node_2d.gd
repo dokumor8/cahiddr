@@ -10,7 +10,7 @@ extends Node2D
 @onready var selected_unit = null
 
 var cursor_state = "move"
-var camera_speed = 500
+var camera_speed = 600
 var cursor_mode = "normal"
 var hero_in_game = true
 
@@ -57,7 +57,7 @@ var DefenderBuilding = preload("res://src/buildings/defender_building.tscn")
 var Defender = preload("res://src/units/defender.tscn")
 func place_building():
 	if can_build:
-		print("placing building")
+#		print("placing building")
 		var defender_building = DefenderBuilding.instantiate()
 		defender_building.global_position = tile_highlighter.global_position
 		game_world.add_child(defender_building)
@@ -76,7 +76,7 @@ func place_building():
 				
 				
 		PlayerVariables.money -= PlayerVariables.building_cost
-		print(defender_building)
+#		print(defender_building)
 		set_cursor_mode_normal()
 
 
@@ -85,17 +85,23 @@ func on_built_unit(unit_type: String, builder):
 	var defender = Defender.instantiate()
 	defender.builder = builder
 	defender.global_position = builder.spawn_point.global_position
-	print("built")
+#	print("built")
 	game_world.add_child(defender)
 	builder.add_unit(defender)
 
 
 func set_rally_points():
 	var mc = get_global_mouse_position()
-	var all_buildings = get_tree().get_nodes_in_group("building")
-	for b in all_buildings:
-		print(b)
-		b.set_rally_point(mc)
+#	var all_buildings = get_tree().get_nodes_in_group("building")
+	var selected_units = get_tree().get_nodes_in_group("selected_units")
+	if selected_units.is_empty():
+		set_cursor_mode_normal()
+		return
+	var selected_building = selected_units[0]
+	if selected_building.is_in_group("building"):
+#	for b in all_buildings:
+#		print(selected_building)
+		selected_building.set_rally_point(mc)
 	set_cursor_mode_normal()
 #	set_rally_point
 
@@ -114,11 +120,11 @@ func click_select_unit():
 	var intersect_objects = space.intersect_point(parameters, max_selected)
 	if not intersect_objects.is_empty():
 		var collider_object = intersect_objects[0]["collider"]
-		print(collider_object)
+#		print(collider_object)
 		if selected_unit != null:
 			selected_unit.health_changed.disconnect(ui.on_selected_health_changed)
 		selected_unit = collider_object
-		print("... is selected")
+#		print("... is selected")
 		ui.update_selected_unit(selected_unit)
 		selected_unit.health_changed.connect(ui.on_selected_health_changed)
 
@@ -129,10 +135,10 @@ func click_game_world():
 	parameters.position = get_global_mouse_position()
 	parameters.collision_mask = 0x00000002
 	parameters.set_collide_with_areas(true)
-	print(parameters.is_collide_with_areas_enabled())
+#	print(parameters.is_collide_with_areas_enabled())
 	var max_selected = 10
 	var intersect_objects = space.intersect_point(parameters, max_selected)
-	print(intersect_objects)
+#	print(intersect_objects)
 
 	if (intersect_objects.is_empty()):
 		walk_marker.global_position = get_global_mouse_position()
@@ -214,12 +220,12 @@ func _on_hero_movement_finished():
 
 func on_build_button_pressed():
 	start_build_mode()
-	print("build mode")
+#	print("build mode")
 
 
 func on_rally_button_pressed():
 	cursor_mode = "rally"
-	print("rally mode")
+#	print("rally mode")
 
 
 #func _on_unit_shoot_target(Bullet, direction, location):
@@ -250,7 +256,7 @@ func _on_king_died():
 
 
 func spawn_unit(building, spawn_position, type):
-	print("spawning unit in world")
+#	print("spawning unit in world")
 	var defender = Defender.instantiate()
 	defender.position = spawn_position
 

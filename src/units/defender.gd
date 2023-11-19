@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Area2D
 
 var selected = false
 var target_object = 0
@@ -12,7 +12,7 @@ var movement_speed: float = 200.0
 
 @onready var _movement_trait = $Movement
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var aggro_target: CharacterBody2D
+@onready var aggro_target: Area2D
 var potential_target: Node2D
 #@onready var shoot_timer = $ShootTimer
 @onready var state_chart:StateChart = $StateChart
@@ -92,12 +92,6 @@ func _physics_process(delta):
 #			shoot(aggro_target)
 
 
-func _on_aggro_area_body_entered(body):
-	if is_instance_valid(body) and body.is_in_group("enemy"):
-		set_potential_target(body) 
-		state_chart.send_event("found_target")
-
-
 func _on_attack_chasing_state_physics_processing(delta):
 	if not is_instance_valid(aggro_target) or aggro_target.get_parent() == null:
 		state_chart.send_event("target_lost")
@@ -164,7 +158,7 @@ func set_aggro_target(unit):
 #	move_and_slide()
 
 func query_surroundings_for_target():
-	var surrounding_bodies = aggro_area.get_overlapping_bodies()
+	var surrounding_bodies = aggro_area.get_overlapping_areas()
 	if surrounding_bodies.size() == 0:
 		return false
 	var target = GlobalUtils.find_closest(surrounding_bodies, get_global_position())
@@ -194,3 +188,9 @@ func set_potential_target(unit):
 func _on_attack_chasing_state_entered():
 	if potential_target and is_instance_valid(potential_target):
 		set_aggro_target(potential_target)
+
+
+func _on_aggro_area_area_entered(area):
+	if is_instance_valid(area) and area.is_in_group("enemy"):
+		set_potential_target(area) 
+		state_chart.send_event("found_target")

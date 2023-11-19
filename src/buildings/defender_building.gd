@@ -26,7 +26,7 @@ func _ready():
 #var Defender = preload("res://src/units/defender.tscn")
 func _on_spawn_timer_timeout():
 	if built_units < max_units:
-		print("Spawining Defender")
+#		print("Spawining Defender")
 		emit_signal("built_unit", "defender", self)
 		built_units += 1
 #	var defender = Defender.instantiate()

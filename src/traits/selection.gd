@@ -14,7 +14,7 @@ func _ready():
 		return
 	GlobalSignals.deselect_all_units.connect(deselect)
 	_unit.input_event.connect(_on_input_event)
-	print("connected input")
+#	print("connected input")
 	_rect.hide()
 #	var texture:GradientTexture2D = _sprite.texture
 #	var gradient = texture.gradient
@@ -39,7 +39,7 @@ func select():
 
 
 func deselect():
-	print("deselected")
+#	print("deselected")
 	if not _selected:
 		return
 	_selected = false
@@ -61,8 +61,9 @@ func _update_rect_params():
 
 func _on_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		print("right click caught here")
+#		print("right click caught here")
+		pass
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		print("selected")
+#		print("selected")
 		GlobalSignals.deselect_all_units.emit()
 		select()

@@ -15,6 +15,7 @@ signal input_happened(event)
 
 
 @onready var state_chart:StateChart = $StateChart
+@onready var _king:Area2D
 var target = position
 var moving = false
 var max_health = 25.0
@@ -192,7 +193,7 @@ func level_up():
 	shoot_damage += 2
 	shots_per_second += shooting_speedup
 #	shoot_timer.wait_time = 1.0 / shots_per_second
-	print("level up")
+#	print("level up")
 
 
 func receive_exp(exp_value):
@@ -222,5 +223,5 @@ func _on_attack_chasing_state_entered():
 
 
 func _on_input_event(viewport, event, shape_idx):
-	print(event)
+#	print(event)
 	pass # Replace with function body.
