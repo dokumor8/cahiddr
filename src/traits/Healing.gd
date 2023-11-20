@@ -12,7 +12,7 @@ func _ready():
 
 # every N seconds sends a healing effect around itself
 # always, unless the game is paused
-	await get_tree().create_timer(1, false).timeout
+#	await get_tree().create_timer(1, false).timeout
 
 
 var HealingEffect = preload("res://src/effects/heal_effect.tscn")

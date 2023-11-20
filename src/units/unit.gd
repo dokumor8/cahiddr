@@ -29,9 +29,9 @@ var shoot_distance = 150.0
 var health = 10
 var max_health = 10
 var unit_name = "Enemy"
-var unit_exp_value = 3
+var unit_exp_value = 2
 var attack_damage = 4
-var money_reward = 10
+var money_reward = 1
 var _king = null
 var _hero :Area2D = null
 var shots_per_second = 0.87
@@ -54,6 +54,14 @@ func _ready():
 	_king = game_world.find_child("King")
 	_hero = game_world.find_child("Hero")
 
+
+func set_parameters(parameters):
+	
+	max_health = parameters.get("health", max_health)
+	set_health(max_health)
+	attack_damage = parameters.get("attack_damage", attack_damage)
+	shots_per_second = parameters.get("shots_per_second", shots_per_second)
+	
 
 var Bullet = preload("res://src/enemy_bullet.tscn")
 func shoot(target):

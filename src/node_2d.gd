@@ -184,6 +184,8 @@ func _physics_process(delta):
 
 	if cursor_mode == "build":
 		handle_build_cursor_move()
+#	elif cursor_mode == "rally":
+#		draw_rally_point_cursor()
 
 
 func handle_build_cursor_move():

@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://l6h56kberarv"]
+
+[ext_resource type="Texture2D" uid="uid://fy6k5po347yy" path="res://img/effect/aoe_damage/10_weaponhit_spritesheet_flat.png" id="1_3ueca"]
+[ext_resource type="Script" path="res://src/effects/damaging_wave.gd" id="2_xjpwd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ucmd"]
+atlas = ExtResource("1_3ueca")
+region = Rect2(200, 0, 200, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2tnx"]
+atlas = ExtResource("1_3ueca")
+region = Rect2(400, 100, 200, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_np2pw"]
+atlas = ExtResource("1_3ueca")
+region = Rect2(600, 200, 200, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nswvd"]
+atlas = ExtResource("1_3ueca")
+region = Rect2(800, 300, 200, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41rei"]
+atlas = ExtResource("1_3ueca")
+region = Rect2(1000, 400, 200, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3k07g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ucmd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o2tnx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_np2pw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nswvd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41rei")
+}],
+"loop": false,
+"name": &"default",
+"speed": 18.0
+}]
+
+[node name="DamagingWave" type="AnimatedSprite2D"]
+scale = Vector2(6.43437, 6.43437)
+sprite_frames = SubResource("SpriteFrames_3k07g")
+autoplay = "default"
+frame = 4
+frame_progress = 1.0
+script = ExtResource("2_xjpwd")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

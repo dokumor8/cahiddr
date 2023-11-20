@@ -71,7 +71,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
-"speed": 12.0
+"speed": 24.0
 }]
 
 [node name="HealEffect" type="AnimatedSprite2D"]

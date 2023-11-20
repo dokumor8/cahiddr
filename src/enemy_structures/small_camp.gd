@@ -5,6 +5,9 @@ signal health_changed(new_health, max_health)
 var spawn_width = 20
 var spawn_height = 40
 @export var spawn_area :RectangleShape2D
+@export var health_upgrade_rate: float = 0
+@export var attack_upgrade_rate: float = 0
+@export var shots_per_second_upgrade_rate: float = 0
 var rng = RandomNumberGenerator.new()
 var Unit = preload("res://src/units/unit.tscn")
 var camp_level = 2
@@ -24,18 +27,30 @@ func set_health(new_health):
 	emit_signal("health_changed", new_health, max_health)
 
 
+func get_enemy_amount_for_level():
+	var amount = floor(sqrt(camp_level) * 1.5 )
+	return amount
+
 func spawn_wave(amount, delay):
 	spawn_enemy()
-	for i in amount - 1:
+	var enemy_amount = get_enemy_amount_for_level()
+	for i in enemy_amount - 1:
 		await get_tree().create_timer(delay, false).timeout
 		spawn_enemy()
-	
+
 
 func spawn_enemy():
 	var unit = Unit.instantiate()
 
 	var game_world = find_parent("GameWorld")
 	game_world.add_child(unit)
+	var parameters = {
+		"health": 10 + camp_level * health_upgrade_rate,
+		"attack_damage": 4 + camp_level * attack_upgrade_rate,
+		"shots_per_second": 0.9 + camp_level * shots_per_second_upgrade_rate,
+		
+	}
+	unit.set_parameters(parameters)
 
 	var x_spawn = rng.randi() % spawn_width
 	var y_spawn = rng.randi() % spawn_height

@@ -8,6 +8,6 @@ func _ready():
 
 
 func _on_animation_finished():
-	print("quitting")
+#	print("quitting")
 	queue_free()
 #	pass # Replace with function body.

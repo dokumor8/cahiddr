@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://drapmpdq3r5vo"]
+[gd_scene load_steps=12 format=3 uid="uid://drapmpdq3r5vo"]
 
 [ext_resource type="Script" path="res://src/units/king.gd" id="1_ny0j3"]
 [ext_resource type="Texture2D" uid="uid://d0bjfriddxbgs" path="res://img/king_walk/frame0000.png" id="2_p6roy"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://2h72y4smblit" path="res://img/king_walk/frame0003.png" id="5_wcqac"]
 [ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="6_bxb7u"]
 [ext_resource type="Script" path="res://src/traits/Healing.gd" id="7_21bu3"]
+[ext_resource type="Script" path="res://src/traits/AreaAttack.gd" id="8_a86ry"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p776h"]
 radius = 23.0868
@@ -32,8 +33,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6gy3e"]
-radius = 145.0
-height = 574.0
+radius = 144.0
+height = 560.0
 
 [node name="King" type="Area2D" groups=["king", "targetable_allies"]]
 collision_mask = 8
@@ -59,5 +60,19 @@ collision_layer = 0
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_6gy3e")
 
+[node name="AreaAttack" type="Node2D" parent="."]
+script = ExtResource("8_a86ry")
+
+[node name="Timer" type="Timer" parent="AreaAttack"]
+
+[node name="DamagingArea" type="Area2D" parent="AreaAttack"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaAttack/DamagingArea"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_6gy3e")
+
 [connection signal="health_changed" from="." to="HealthBar" method="_on_health_changed"]
 [connection signal="timeout" from="Healing/Timer" to="Healing" method="_on_timer_timeout"]
+[connection signal="timeout" from="AreaAttack/Timer" to="AreaAttack" method="_on_timer_timeout"]
