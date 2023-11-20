@@ -5,9 +5,13 @@ extends Node2D
 @onready var camera = $GameWorld/Camera2D
 @onready var tile_map = $GameWorld/TileMap
 @onready var tile_highlighter = $GameWorld/TileHighlighter
+@onready var rally_cursor = $GameWorld/RallyPointCursor
 @onready var game_world = $GameWorld
 @onready var ui = $GUICanvasLayer
 @onready var selected_unit = null
+@onready var rally_possible_area = $GameWorld/RallyPossibleArea
+@onready var rally_rect = $GameWorld/RallyPossibleArea/RallyShape2D
+@onready var rally_root = $GameWorld/RallyRoot
 
 var cursor_state = "move"
 var camera_speed = 600
@@ -95,7 +99,8 @@ func on_built_unit(unit_type: String, builder):
 
 
 func set_rally_points():
-	var mc = get_global_mouse_position()
+#	var mc = get_global_mouse_position()
+	var mc = rally_cursor.global_position
 #	var all_buildings = get_tree().get_nodes_in_group("building")
 	var selected_units = get_tree().get_nodes_in_group("selected_units")
 	if selected_units.is_empty():
@@ -112,6 +117,7 @@ func set_rally_points():
 
 func set_cursor_mode_normal():
 	cursor_mode = "normal"
+	rally_cursor.hide()
 	tile_highlighter.hide()
 
 
@@ -172,8 +178,34 @@ func check_build_position(_building, tile_coords):
 			if tile_data and not tile_data.get_custom_data("buildable"):
 				return false
 	return true
-	
 
+
+func draw_rally_point_cursor():
+	var mouse_coords = get_global_mouse_position()
+
+	var space = get_world_2d().direct_space_state
+	var parameters_point = PhysicsPointQueryParameters2D.new()
+	parameters_point.collide_with_areas = true
+	parameters_point.collide_with_bodies = false
+	parameters_point.position = mouse_coords
+	parameters_point.collision_mask = 0x00000008
+	
+	var max_selected = 1
+	var intersect_objects = space.intersect_point(parameters_point, 1)
+	if intersect_objects:
+		rally_cursor.global_position = mouse_coords
+	else:
+		var space_state = get_world_2d().direct_space_state
+		var parameters = PhysicsRayQueryParameters2D.new()
+		parameters.collide_with_areas = true
+		parameters.collide_with_bodies = false
+		parameters.collision_mask = 0x00000008
+		parameters.from = mouse_coords
+		parameters.to = rally_root.global_position
+		
+		var ray_result = space_state.intersect_ray(parameters)
+		if not ray_result.is_empty():
+			rally_cursor.global_position = ray_result["position"]
 
 
 func _physics_process(delta):
@@ -184,8 +216,8 @@ func _physics_process(delta):
 
 	if cursor_mode == "build":
 		handle_build_cursor_move()
-#	elif cursor_mode == "rally":
-#		draw_rally_point_cursor()
+	elif cursor_mode == "rally":
+		draw_rally_point_cursor()
 
 
 func handle_build_cursor_move():
@@ -231,6 +263,7 @@ func on_build_button_pressed():
 
 func on_rally_button_pressed():
 	cursor_mode = "rally"
+	rally_cursor.show()
 #	print("rally mode")
 
 

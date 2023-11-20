@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://deb6xe72w2557"]
+[gd_scene load_steps=22 format=3 uid="uid://deb6xe72w2557"]
 
 [ext_resource type="Script" path="res://src/node_2d.gd" id="1_pjd1t"]
 [ext_resource type="Script" path="res://src/GameWorld.gd" id="2_fiulx"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://5royanfnfv60" path="res://src/walk_marker.tscn" id="6_kq1q8"]
 [ext_resource type="PackedScene" uid="uid://drapmpdq3r5vo" path="res://src/units/king.tscn" id="7_8bfo6"]
 [ext_resource type="PackedScene" uid="uid://c0o85tyw370q5" path="res://src/enemy_structures/small_camp.tscn" id="9_garsw"]
+[ext_resource type="Texture2D" uid="uid://ce53mwj0g5q2m" path="res://img/markers/rally_point.png" id="10_grk02"]
 [ext_resource type="PackedScene" uid="uid://c6kghfkovuej0" path="res://src/gui/gui_canvas_layer.tscn" id="11_4suld"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="11_co1w3"]
 [ext_resource type="Theme" uid="uid://s2bj74tt0y7f" path="res://godot_state_charts_examples/new_theme.tres" id="12_shb05"]
@@ -177,6 +178,9 @@ vertices = PackedVector2Array(4769, 60, 2603, 600, 2462, 604, 1342, 521, 1337, 4
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(0, 6, 7, 8), PackedInt32Array(9, 7, 6, 10, 11), PackedInt32Array(11, 3, 2, 9), PackedInt32Array(11, 10, 12, 13), PackedInt32Array(13, 12, 14), PackedInt32Array(15, 13, 14, 16), PackedInt32Array(16, 17, 18, 19, 20, 15), PackedInt32Array(21, 15, 20, 22), PackedInt32Array(22, 20, 4, 3), PackedInt32Array(1, 0, 8, 23)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(34, 32, 1153, 51, 1147, 445, 1337, 443, 1344, 51, 4769, 60, 4791, 2798, 34, 2787, 34.0001, 973.66, 853, 973, 852, 815, 34, 810.502), PackedVector2Array(1161, 522, 1158, 809, 907, 812, 908, 977, 1336, 980, 1342, 521), PackedVector2Array(2462, 604, 2470, 934, 2946, 955, 2890, 834, 2631, 806, 2603, 600)])
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5tay0"]
+size = Vector2(1151, 719)
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_pjd1t")
 
@@ -222,6 +226,22 @@ position = Vector2(2698, 750)
 
 [node name="SmallCamp3" parent="GameWorld" instance=ExtResource("9_garsw")]
 position = Vector2(904.138, 1094.82)
+
+[node name="RallyPointCursor" type="Sprite2D" parent="GameWorld"]
+visible = false
+texture = ExtResource("10_grk02")
+
+[node name="RallyPossibleArea" type="Area2D" parent="GameWorld"]
+visible = false
+collision_layer = 8
+collision_mask = 0
+
+[node name="RallyShape2D" type="CollisionShape2D" parent="GameWorld/RallyPossibleArea"]
+position = Vector2(596.5, 469.5)
+shape = SubResource("RectangleShape2D_5tay0")
+
+[node name="RallyRoot" type="Node2D" parent="GameWorld"]
+position = Vector2(614, 527)
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 offset = Vector2(1.655, 0)
