@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://drapmpdq3r5vo"]
+[gd_scene load_steps=11 format=3 uid="uid://drapmpdq3r5vo"]
 
 [ext_resource type="Script" path="res://src/units/king.gd" id="1_ny0j3"]
 [ext_resource type="Texture2D" uid="uid://d0bjfriddxbgs" path="res://img/king_walk/frame0000.png" id="2_p6roy"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cwd6sp75kgk60" path="res://img/king_walk/frame0002.png" id="4_gpnho"]
 [ext_resource type="Texture2D" uid="uid://2h72y4smblit" path="res://img/king_walk/frame0003.png" id="5_wcqac"]
 [ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="6_bxb7u"]
+[ext_resource type="Script" path="res://src/traits/Healing.gd" id="7_21bu3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p776h"]
 radius = 23.0868
@@ -30,6 +31,10 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6gy3e"]
+radius = 145.0
+height = 574.0
+
 [node name="King" type="Area2D" groups=["king", "targetable_allies"]]
 collision_mask = 8
 script = ExtResource("1_ny0j3")
@@ -42,4 +47,17 @@ sprite_frames = SubResource("SpriteFrames_3ppiy")
 
 [node name="HealthBar" parent="." instance=ExtResource("6_bxb7u")]
 
+[node name="Healing" type="Node2D" parent="."]
+script = ExtResource("7_21bu3")
+
+[node name="Timer" type="Timer" parent="Healing"]
+
+[node name="HealingArea" type="Area2D" parent="Healing"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Healing/HealingArea"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_6gy3e")
+
 [connection signal="health_changed" from="." to="HealthBar" method="_on_health_changed"]
+[connection signal="timeout" from="Healing/Timer" to="Healing" method="_on_timer_timeout"]

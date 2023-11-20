@@ -18,15 +18,15 @@ signal input_happened(event)
 @onready var _king:Area2D
 var target = position
 var moving = false
-var max_health = 25.0
-var health = 25.0
+var max_health = 35.0
+var health = 35.0
 var state = "idle"
 var aggro_target
 var can_shoot = true
 var unit_name = "Hero"
 var shoot_damage = 3
 var bullet_speed = 1000
-var regen = 2 # per second
+var regen = 1 # per second
 
 var shots_per_second = 1.5
 var shooting_speedup = 0.3
@@ -156,6 +156,10 @@ func set_health(new_health):
 		emit_signal("died")
 
 
+func heal(amount):
+	set_health(health + amount)
+	
+
 var HeroBullet = preload("res://src/hero_bullet.tscn")
 func shoot(shoot_target):
 	if can_shoot:
@@ -188,9 +192,9 @@ func level_up():
 	PlayerVariables.hero_experience -= PlayerVariables.max_experience
 	PlayerVariables.hero_level += 1
 	PlayerVariables.max_experience = PlayerVariables.hero_level * 5
-	max_health += 10
-	set_health(health + 10)
-	shoot_damage += 2
+	max_health += 5
+	set_health(health + 5)
+	shoot_damage += 0.5
 	shots_per_second += shooting_speedup
 #	shoot_timer.wait_time = 1.0 / shots_per_second
 #	print("level up")

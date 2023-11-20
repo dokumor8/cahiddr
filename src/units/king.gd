@@ -1,6 +1,6 @@
 extends Area2D
-@export var max_health = 100.0
-@export var health = 100.0
+@export var max_health = 200.0
+@export var health = 200.0
 var rng = RandomNumberGenerator.new()
 var unit_name = "King"
 
@@ -20,6 +20,11 @@ func set_health(new_health):
 		queue_free()
 	emit_signal("health_changed", new_health, max_health)
 	health = new_health
+
+
+func heal(amount):
+	set_health(health + amount)
+	
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 var DamageTextLabel = preload("res://src/effects/damage_text_label.tscn")
@@ -44,3 +49,4 @@ func hit(damage, _sender):
 	hitEffectHero.global_rotation = rotation_shift
 	
 	set_health(health - damage)
+

@@ -23,11 +23,11 @@ var potential_target: Node2D
 var shoot_distance = 250.0
 var can_shoot = true
 var health = null
-var max_health = 40
+var max_health = 60
 var state = "idle"
 var unit_name = "defender"
 var bullet_speed = 600
-var damage = 1
+var damage = 2
 var can_update_chase = true
 
 var regen = 0.5 # per second
@@ -59,6 +59,11 @@ func set_health(new_health):
 	if health > max_health:
 		health = max_health
 	emit_signal("health_changed", new_health, max_health)
+
+
+
+func heal(amount):
+	set_health(health + amount)
 
 
 var Bullet = preload("res://src/hero_bullet.tscn")
