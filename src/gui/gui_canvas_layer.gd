@@ -39,6 +39,11 @@ func update_selected_unit(unit):
 
 
 func _on_restart_button_pressed():
+	
+	PlayerVariables.money = PlayerVariables.default_money
+	PlayerVariables.hero_experience = PlayerVariables.default_hero_experience
+	PlayerVariables.max_experience = PlayerVariables.default_max_experience
+	PlayerVariables.hero_level = PlayerVariables.default_hero_level
 #	print("pressed")
 #	get_tree().paused = false
 	get_tree().change_scene_to_file("res://src/main-menu/Main.tscn")
