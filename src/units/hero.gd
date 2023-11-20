@@ -18,8 +18,8 @@ signal input_happened(event)
 @onready var _king:Area2D
 var target = position
 var moving = false
-var max_health = 35.0
-var health = 35.0
+var max_health = 45.0
+var health = 45.0
 var state = "idle"
 var aggro_target
 var can_shoot = true
@@ -27,6 +27,8 @@ var unit_name = "Hero"
 var shoot_damage = 3
 var bullet_speed = 1000
 var regen = 1 # per second
+var regen_increase_rate = 0.1
+var health_increase_rate = 10
 
 var shots_per_second = 1.5
 var shooting_speedup = 0.3
@@ -192,10 +194,11 @@ func level_up():
 	PlayerVariables.hero_experience -= PlayerVariables.max_experience
 	PlayerVariables.hero_level += 1
 	PlayerVariables.max_experience = PlayerVariables.hero_level * 5
-	max_health += 5
-	set_health(health + 5)
+	max_health += health_increase_rate
+	set_health(health + health_increase_rate)
 	shoot_damage += 0.5
 	shots_per_second += shooting_speedup
+	regen += regen_increase_rate
 #	shoot_timer.wait_time = 1.0 / shots_per_second
 #	print("level up")
 

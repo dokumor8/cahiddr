@@ -3,7 +3,7 @@ extends Node2D
 @onready var _damager = get_parent()
 @onready var damaging_timer = $Timer
 @onready var damaging_area = $DamagingArea
-var damaging_amount = 10
+var damaging_amount = 5
 
 func _ready():
 	damaging_timer.wait_time = 3.1415
@@ -22,7 +22,6 @@ func make_damaging_wave():
 
 	var areas = damaging_area.get_overlapping_areas()
 	for area in areas:
-		print(area)
 		if area.is_in_group("enemy"):
 			area.hit(damaging_amount, _damager)
 

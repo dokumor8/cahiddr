@@ -222,10 +222,14 @@ visible = false
 navigation_polygon = SubResource("NavigationPolygon_tx7oa")
 
 [node name="SmallCamp2" parent="GameWorld" instance=ExtResource("9_garsw")]
-position = Vector2(2698, 750)
+position = Vector2(2751, 784)
+health_upgrade_rate = 1.0
+attack_upgrade_rate = 0.1
 
 [node name="SmallCamp3" parent="GameWorld" instance=ExtResource("9_garsw")]
-position = Vector2(904.138, 1094.82)
+position = Vector2(897, 1546)
+attack_upgrade_rate = 0.5
+shots_per_second_upgrade_rate = 0.1
 
 [node name="RallyPointCursor" type="Sprite2D" parent="GameWorld"]
 visible = false
@@ -241,7 +245,7 @@ position = Vector2(596.5, 469.5)
 shape = SubResource("RectangleShape2D_5tay0")
 
 [node name="RallyRoot" type="Node2D" parent="GameWorld"]
-position = Vector2(614, 527)
+position = Vector2(658, 490)
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 offset = Vector2(1.655, 0)
@@ -257,7 +261,6 @@ offset_right = -101.0
 offset_bottom = -94.0
 theme = ExtResource("12_shb05")
 enabled = false
-initial_node_to_watch = NodePath("../../GameWorld/Hero")
 
 [connection signal="died" from="GameWorld/Hero" to="." method="_on_hero_died"]
 [connection signal="died" from="GameWorld/King" to="." method="_on_king_died"]
