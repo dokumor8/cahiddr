@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dc8rs83ha41vk"]
+[gd_scene load_steps=3 format=3 uid="uid://dc8rs83ha41vk"]
 
 [ext_resource type="Texture2D" uid="uid://c4o0le2esikuw" path="res://img/ui/menu-background.png" id="1_5yk0c"]
+[ext_resource type="Script" path="res://src/main-menu/debug_settings.gd" id="1_8878b"]
 
 [node name="DebugSettings" type="Control"]
 layout_mode = 3
@@ -9,8 +10,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_8878b")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("1_5yk0c")
@@ -60,3 +63,5 @@ text = "Enemy health"
 
 [node name="EnemyHealthSpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer2"]
 layout_mode = 2
+
+[connection signal="value_changed" from="MarginContainer/TabContainer/EnemyParameters/HBoxContainer/EnemyDamageSpinBox" to="." method="_on_enemy_damage_spin_box_value_changed"]

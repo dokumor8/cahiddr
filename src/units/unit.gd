@@ -23,18 +23,18 @@ var potential_target: Node2D
 ## The state chart
 @onready var state_chart:StateChart = $StateChart
 
-@export var speed = 100
-var stop_distance = 100.0
-var shoot_distance = 150.0
-var health = 10
-var max_health = 10
+var speed = GlobalVar.unit_parameters.speed
 var unit_name = "Enemy"
-var unit_exp_value = 2
-var attack_damage = 4
-var money_reward = 1
+var stop_distance = 100.0
+var shoot_distance = GlobalVar.unit_parameters.shoot_distance
+var health = 10
+var max_health = GlobalVar.unit_parameters.max_health
+var unit_exp_value = GlobalVar.unit_parameters.exp_value
+var attack_damage = GlobalVar.unit_parameters.attack_damage
+var money_reward = GlobalVar.unit_parameters.money_reward
 var _king = null
 var _hero :Area2D = null
-var shots_per_second = 0.87
+var shots_per_second = GlobalVar.unit_parameters.shots_per_second
 var can_shoot = true
 var can_update_chase = true
 
@@ -47,6 +47,7 @@ func _ready():
 
 #	print("calling myready")
 	_movement_trait.my_ready()
+	_movement_trait.speed = speed
 	health_changed.connect($HealthBar._on_health_changed)
 
 	var root_node = get_tree().get_root()

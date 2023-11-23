@@ -175,6 +175,8 @@ func check_build_position(_building, tile_coords):
 		for h in range(0, 2):
 			var checking_tile = tile_coords + Vector2i(w, h)
 			var tile_data = tile_map.get_cell_tile_data(0, checking_tile)
+			if not tile_data:
+				return false
 			if tile_data and not tile_data.get_custom_data("buildable"):
 				return false
 	return true
