@@ -1,10 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://diuobw6bjl1nw"]
+[gd_scene load_steps=21 format=3 uid="uid://diuobw6bjl1nw"]
 
-[ext_resource type="Texture2D" uid="uid://bhv268dw2vnnl" path="res://img/hero_walk/frame0000.png" id="1_42vrn"]
 [ext_resource type="Script" path="res://src/units/hero.gd" id="1_xbdfg"]
-[ext_resource type="Texture2D" uid="uid://dhtp5kbyg288" path="res://img/hero_walk/frame0001.png" id="2_xdsjo"]
-[ext_resource type="Texture2D" uid="uid://vnono8tncxi0" path="res://img/hero_walk/frame0002.png" id="3_woi7k"]
-[ext_resource type="Texture2D" uid="uid://c7sxav8xrokdm" path="res://img/hero_walk/frame0003.png" id="4_c8e2w"]
+[ext_resource type="Texture2D" uid="uid://knc7tw6eao2j" path="res://img/units/hero_walk_48x48.png" id="2_lkuri"]
 [ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="6_uq5ag"]
 [ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="7_adnk7"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="8_t0bhy"]
@@ -17,20 +14,64 @@
 radius = 16.0
 height = 50.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ifym"]
+atlas = ExtResource("2_lkuri")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hv5ne"]
+atlas = ExtResource("2_lkuri")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rovan"]
+atlas = ExtResource("2_lkuri")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggqv0"]
+atlas = ExtResource("2_lkuri")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5hli"]
+atlas = ExtResource("2_lkuri")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oopqq"]
+atlas = ExtResource("2_lkuri")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cxk8"]
+atlas = ExtResource("2_lkuri")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1shn"]
+atlas = ExtResource("2_lkuri")
+region = Rect2(336, 0, 48, 48)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_lxkdj"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_42vrn")
+"texture": SubResource("AtlasTexture_6ifym")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_xdsjo")
+"texture": SubResource("AtlasTexture_hv5ne")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_woi7k")
+"texture": SubResource("AtlasTexture_rovan")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_c8e2w")
+"texture": SubResource("AtlasTexture_ggqv0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5hli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oopqq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5cxk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1shn")
 }],
 "loop": true,
 "name": &"default",
@@ -55,6 +96,7 @@ shape = SubResource("CapsuleShape2D_tn1mc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -15)
+scale = Vector2(1.75, 1.75)
 sprite_frames = SubResource("SpriteFrames_lxkdj")
 
 [node name="AggroArea" type="Area2D" parent="."]

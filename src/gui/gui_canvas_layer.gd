@@ -1,5 +1,5 @@
 extends CanvasLayer
-@onready var game_end_text = $VBoxContainer/CenterContainer/GameEndText
+@onready var game_end_text = $%GameEndText
 @onready var build_button = $%BuildButton
 @onready var health_bar = $%HealthBar
 @onready var exp_bar = $%ExpBar

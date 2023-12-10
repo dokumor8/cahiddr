@@ -72,6 +72,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="GameEndText" type="Label" parent="MarginContainer/MarginContainer/CenterContainer"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Your king has died."

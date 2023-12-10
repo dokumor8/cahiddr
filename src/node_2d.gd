@@ -58,8 +58,6 @@ func _input(event):
 			set_rally_points()
 			
 
-		
-
 
 var DefenderBuilding = preload("res://src/buildings/defender_building.tscn")
 var Defender = preload("res://src/units/defender.tscn")
