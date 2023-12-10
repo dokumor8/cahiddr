@@ -47,10 +47,12 @@ alignment = 2
 
 [node name="EnemyDamageLabel" type="Label" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer"]
 layout_mode = 2
-text = "Enemy damage"
+text = "Damage"
 
 [node name="EnemyDamageSpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer"]
 layout_mode = 2
+step = 0.1
+value = 4.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/TabContainer/EnemyParameters"]
 custom_minimum_size = Vector2(300, 0)
@@ -59,9 +61,86 @@ alignment = 2
 
 [node name="EnemyHealthLabel" type="Label" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer2"]
 layout_mode = 2
-text = "Enemy health"
+text = "Health"
 
 [node name="EnemyHealthSpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer2"]
 layout_mode = 2
+value = 10.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/TabContainer/EnemyParameters"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="EnemySpeedLabel" type="Label" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer3"]
+layout_mode = 2
+text = "Speed"
+
+[node name="EnemySpeedSpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer3"]
+layout_mode = 2
+value = 100.0
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/TabContainer/EnemyParameters"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="EnemyShootDistanceLabel" type="Label" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer4"]
+layout_mode = 2
+text = "Shoot distance"
+
+[node name="EnemyShootDistanceSpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer4"]
+layout_mode = 2
+max_value = 600.0
+step = 10.0
+value = 150.0
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/TabContainer/EnemyParameters"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="EnemyExpDropLabel" type="Label" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer5"]
+layout_mode = 2
+text = "Exp drop"
+
+[node name="EnemyExpDropSpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer5"]
+layout_mode = 2
+step = 0.1
+value = 2.0
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="MarginContainer/TabContainer/EnemyParameters"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="EnemyMoneyLabel" type="Label" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer6"]
+layout_mode = 2
+text = "Money drop"
+
+[node name="EnemyMoneySpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer6"]
+layout_mode = 2
+step = 0.01
+value = 1.0
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="MarginContainer/TabContainer/EnemyParameters"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="EnemyShotsPerSecondLabel" type="Label" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer7"]
+layout_mode = 2
+text = "Shots per second"
+
+[node name="EnemyShotsPerSecondSpinBox" type="SpinBox" parent="MarginContainer/TabContainer/EnemyParameters/HBoxContainer7"]
+layout_mode = 2
+step = 0.001
+value = 0.87
 
 [connection signal="value_changed" from="MarginContainer/TabContainer/EnemyParameters/HBoxContainer/EnemyDamageSpinBox" to="." method="_on_enemy_damage_spin_box_value_changed"]
+[connection signal="value_changed" from="MarginContainer/TabContainer/EnemyParameters/HBoxContainer2/EnemyHealthSpinBox" to="." method="_on_enemy_health_spin_box_value_changed"]
+[connection signal="value_changed" from="MarginContainer/TabContainer/EnemyParameters/HBoxContainer3/EnemySpeedSpinBox" to="." method="_on_enemy_speed_spin_box_value_changed"]
+[connection signal="value_changed" from="MarginContainer/TabContainer/EnemyParameters/HBoxContainer4/EnemyShootDistanceSpinBox" to="." method="_on_enemy_shoot_distance_spin_box_value_changed"]
+[connection signal="value_changed" from="MarginContainer/TabContainer/EnemyParameters/HBoxContainer5/EnemyExpDropSpinBox" to="." method="_on_enemy_exp_drop_spin_box_value_changed"]
+[connection signal="value_changed" from="MarginContainer/TabContainer/EnemyParameters/HBoxContainer6/EnemyMoneySpinBox" to="." method="_on_enemy_money_spin_box_value_changed"]
+[connection signal="value_changed" from="MarginContainer/TabContainer/EnemyParameters/HBoxContainer7/EnemyShotsPerSecondSpinBox" to="." method="_on_enemy_shots_per_second_spin_box_value_changed"]

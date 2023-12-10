@@ -1,9 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6kghfkovuej0"]
+[gd_scene load_steps=12 format=3 uid="uid://c6kghfkovuej0"]
 
 [ext_resource type="Script" path="res://src/gui/gui_canvas_layer.gd" id="1_rjfe0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrpg"]
 font_size = 30
+
+[sub_resource type="Gradient" id="Gradient_llej8"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t0grg"]
+gradient = SubResource("Gradient_llej8")
+width = 48
+height = 48
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2q1p6"]
+bg_color = Color(0.768627, 0.690196, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_be345"]
+bg_color = Color(0, 0.72549, 0.239216, 1)
 
 [sub_resource type="InputEventKey" id="InputEventKey_ovvka"]
 device = -1
@@ -21,143 +34,206 @@ unicode = 114
 [sub_resource type="Shortcut" id="Shortcut_p5m25"]
 events = [SubResource("InputEventKey_05u4m")]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqj7k"]
+bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.360784)
+
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_rjfe0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainerTop" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
 size_flags_horizontal = 0
+size_flags_vertical = 0
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 8
-mouse_filter = 2
-
-[node name="EssenceLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "Money:"
-
-[node name="EssenceAmount" type="Label" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "0"
-
-[node name="HelpLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "WASD - move camera, right click - move/shoot"
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="ExpLabel" type="Label" parent="VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "Exp:"
-
-[node name="ExpAmount" type="Label" parent="VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "0"
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="LevelLabel" type="Label" parent="VBoxContainer/HBoxContainer4"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "Level:"
-
-[node name="LevelAmount" type="Label" parent="VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "0"
-
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="GameEndText" type="Label" parent="VBoxContainer/CenterContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="RestartButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Restart"
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/MarginContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GameEndText" type="Label" parent="MarginContainer/MarginContainer/CenterContainer"]
 visible = false
 layout_mode = 2
 text = "Your king has died."
 label_settings = SubResource("LabelSettings_rgrpg")
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 1
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="RestartButton" type="Button" parent="VBoxContainer/Control/MarginContainer"]
-visible = false
-layout_mode = 2
-text = "Restart"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="BuildButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
-shortcut = SubResource("Shortcut_wygvf")
-text = "Build [B]"
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="RallyButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-shortcut = SubResource("Shortcut_p5m25")
-text = "Rally Point [R]"
-
-[node name="SelectContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="Label" type="Label" parent="VBoxContainer/SelectContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(150, 50)
+[node name="Control" type="Control" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "No unit selected"
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/SelectContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_t0grg")
+
+[node name="HBoxContainer4" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="LevelLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 10
+text = "LEVEL"
+horizontal_alignment = 1
+
+[node name="LevelAmount" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+text = "1"
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 
-[node name="HealthBar" type="ProgressBar" parent="VBoxContainer/SelectContainer/CenterContainer"]
-modulate = Color(0.403922, 0.866667, 0.431373, 1)
-custom_minimum_size = Vector2(300, 20)
+[node name="ExpBar" type="ProgressBar" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(300, 5)
 layout_mode = 2
-value = 50.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_2q1p6")
+value = 100.0
 show_percentage = false
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/CenterContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 15)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_be345")
+value = 100.0
+show_percentage = false
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/PanelContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer2/MarginContainer2"]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="EssenceLabel" type="Label" parent="MarginContainer/PanelContainer2/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 14
+text = "Money:"
+
+[node name="EssenceAmount" type="Label" parent="MarginContainer/PanelContainer2/MarginContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "0"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/PanelContainer2/MarginContainer2"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="BuildButton" type="Button" parent="MarginContainer/PanelContainer2/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+shortcut = SubResource("Shortcut_wygvf")
+text = "Build [B]"
+clip_text = true
+
+[node name="RallyButton" type="Button" parent="MarginContainer/PanelContainer2/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+shortcut = SubResource("Shortcut_p5m25")
+text = "Set Rally Point [R]"
+clip_text = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="PanelContainer3" type="PanelContainer" parent="MarginContainer/MarginContainer2"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_eqj7k")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer2/PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer2/PanelContainer3/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/MarginContainer2/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Enemy name"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer2/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SelectedAttackLabel" type="Label" parent="MarginContainer/MarginContainer2/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Attack damage:"
+
+[node name="SelectedAttackValue" type="Label" parent="MarginContainer/MarginContainer2/PanelContainer3/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "5"
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
@@ -166,4 +242,4 @@ anchor_bottom = 0.695
 offset_right = -747.648
 offset_bottom = -450.36
 
-[connection signal="pressed" from="VBoxContainer/Control/MarginContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/MarginContainer/RestartButton" to="." method="_on_restart_button_pressed"]

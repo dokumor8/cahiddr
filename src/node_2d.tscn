@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://deb6xe72w2557"]
+[gd_scene load_steps=23 format=3 uid="uid://deb6xe72w2557"]
 
 [ext_resource type="Script" path="res://src/node_2d.gd" id="1_pjd1t"]
 [ext_resource type="Script" path="res://src/GameWorld.gd" id="2_fiulx"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://c6kghfkovuej0" path="res://src/gui/gui_canvas_layer.tscn" id="11_4suld"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="11_co1w3"]
 [ext_resource type="Theme" uid="uid://s2bj74tt0y7f" path="res://godot_state_charts_examples/new_theme.tres" id="12_shb05"]
+[ext_resource type="Script" path="res://src/gui/PauseHandler.gd" id="14_yq3yx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f2j16"]
 texture = ExtResource("2_ov8mc")
@@ -261,6 +262,10 @@ offset_right = -101.0
 offset_bottom = -94.0
 theme = ExtResource("12_shb05")
 enabled = false
+
+[node name="PauseHandler" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("14_yq3yx")
 
 [connection signal="died" from="GameWorld/Hero" to="." method="_on_hero_died"]
 [connection signal="died" from="GameWorld/King" to="." method="_on_king_died"]

@@ -1,12 +1,13 @@
 extends CanvasLayer
 @onready var game_end_text = $VBoxContainer/CenterContainer/GameEndText
-@onready var build_button = $VBoxContainer/HBoxContainer2/BuildButton
-@onready var health_bar = $VBoxContainer/SelectContainer/CenterContainer/HealthBar
-@onready var selected_unit_label = $VBoxContainer/SelectContainer/Label
-@onready var money_label = $VBoxContainer/HBoxContainer/EssenceAmount
-@onready var exp_label = $VBoxContainer/HBoxContainer3/ExpAmount
-@onready var level_label = $VBoxContainer/HBoxContainer4/LevelAmount
-@onready var restart_button = find_child("RestartButton")
+@onready var build_button = $%BuildButton
+@onready var health_bar = $%HealthBar
+@onready var exp_bar = $%ExpBar
+@onready var money_label = $%EssenceAmount
+#@onready var exp_label = $VBoxContainer/HBoxContainer3/ExpAmount
+@onready var level_label = $%LevelAmount
+@onready var restart_button = $%RestartButton
+@onready var rally_button = $%RallyButton
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,7 +22,9 @@ func _process(delta):
 		build_button.disabled = true
 	
 	money_label.text = str(PlayerVariables.money)
-	exp_label.text = str(PlayerVariables.hero_experience) + " / " + str(PlayerVariables.max_experience)
+	if is_instance_valid(exp_bar):
+		exp_bar.value = 100.0 * PlayerVariables.hero_experience / PlayerVariables.max_experience
+#	exp_label.text = str(PlayerVariables.hero_experience) + " / " + str(PlayerVariables.max_experience)
 	level_label.text = str(PlayerVariables.hero_level)
 
 
@@ -34,8 +37,9 @@ func on_selected_health_changed(health, max_health):
 
 
 func update_selected_unit(unit):
-	health_bar.value = 100.0 * unit.health / unit.max_health
-	selected_unit_label.text = unit.unit_name
+	pass
+#	health_bar.value = 100.0 * unit.health / unit.max_health
+#	selected_unit_label.text = unit.unit_name
 
 
 func _on_restart_button_pressed():

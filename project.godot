@@ -27,6 +27,7 @@ GlobalSignals="*res://src/singleton/global_signals.gd"
 window/size/viewport_width=1000
 window/size/viewport_height=600
 window/size/resizable=false
+window/stretch/mode="viewport"
 
 [editor_plugins]
 
@@ -67,6 +68,11 @@ right_click={
 build={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":66,"key_label":0,"unicode":98,"echo":false,"script":null)
+]
+}
+pause={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":80,"key_label":0,"unicode":112,"echo":false,"script":null)
 ]
 }
 

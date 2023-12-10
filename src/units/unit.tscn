@@ -64,10 +64,12 @@ height = 60
 [node name="Movement" parent="." instance=ExtResource("7_t4m6d")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_lvxpn")
 
 [node name="ClickArea" type="Area2D" parent="."]
+visible = false
 position = Vector2(0, -12)
 collision_layer = 256
 collision_mask = 0
@@ -78,6 +80,7 @@ collision_mask = 0
 wait_time = 1.139
 
 [node name="AggroArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea"]
@@ -89,6 +92,7 @@ sprite_frames = SubResource("SpriteFrames_4yr7o")
 frame_progress = 0.516983
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_k5hti")
 

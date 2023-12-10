@@ -28,8 +28,8 @@ var can_build = false
 
 func _ready():
 	PlayerVariables.hero_respawn_cooldown = 5
-	$GUICanvasLayer/VBoxContainer/HBoxContainer2/BuildButton.pressed.connect(on_build_button_pressed)
-	$GUICanvasLayer/VBoxContainer/HBoxContainer2/RallyButton.pressed.connect(on_rally_button_pressed)
+	$GUICanvasLayer.build_button.pressed.connect(on_build_button_pressed)
+	$GUICanvasLayer.rally_button.pressed.connect(on_rally_button_pressed)
 	ui.update_selected_unit(hero)
 	hero.movement_finished.connect(_on_hero_movement_finished)
 	PlayerVariables.hero = hero
@@ -56,6 +56,9 @@ func _input(event):
 			pass
 		elif cursor_mode == "rally":
 			set_rally_points()
+			
+
+		
 
 
 var DefenderBuilding = preload("res://src/buildings/defender_building.tscn")
