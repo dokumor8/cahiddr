@@ -1,9 +1,9 @@
 extends Area2D
 
-@export var unit_name :String = ""
-@export var aggro_area :Area2D = null
-@export var state_chart :StateChart = null
-@export var health_bar :TextureProgressBar = null
+@export var unit_name: String = ""
+@export var aggro_area: Area2D = null
+@export var state_chart: StateChart = null
+@export var health_bar: TextureProgressBar = null
 @export var movement_speed = 250.0
 @export var max_health = 100.0
 @export var regen_rate = 0.0
@@ -11,6 +11,12 @@ extends Area2D
 @export var attack_damage = 3.0
 @export var shots_per_second = 1.5
 @export var bullet_speed = 1000.0
+
+@export var state_idle: AtomicState = null
+@export var state_chasing: AtomicState = null
+@export var state_shoot: AtomicState = null
+@export var state_attack_chasing: CompoundState = null
+
 
 @onready var _movement_trait = $Movement
 @onready var game_world = find_parent("GameWorld")
@@ -23,18 +29,30 @@ signal input_happened(event)
 # internal
 var potential_target: Node2D
 var aggro_target = null
-var health
+var health: float = 0.0
 var target = position
 var can_shoot = true
 var can_update_chase = true
 
+var HeroBullet = preload("res://src/hero_bullet.tscn")
+var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
+
 
 func _ready():
+	print("actor_ready")
 	_movement_trait.my_ready()
 	_movement_trait.speed = movement_speed
-	health_changed.connect($HealthBar._on_health_changed)
+	health_changed.connect(health_bar._on_health_changed)
 	set_health(max_health)
 	
+	aggro_area.area_entered.connect(_on_aggro_area_area_entered)
+	state_idle.state_entered.connect(_on_idle_state_entered)
+	state_shoot.state_entered.connect(_on_shoot_state_entered)
+	state_shoot.state_physics_processing.connect(_on_shoot_state_physics_processing)
+	state_chasing.state_physics_processing.connect(_on_chasing_state_physics_processing)
+	state_attack_chasing.state_entered.connect(_on_attack_chasing_state_entered)
+	state_attack_chasing.state_physics_processing.connect(_on_attack_chasing_state_physics_processing)
+
 	_movement_trait.movement_finished.connect(on_movement_finished)
 
 
@@ -137,7 +155,6 @@ func heal(amount):
 	set_health(health + amount)
 	
 
-var HeroBullet = preload("res://src/hero_bullet.tscn")
 func shoot(shoot_target):
 	if can_shoot:
 		var bul = HeroBullet.instantiate()
@@ -154,7 +171,6 @@ func shoot(shoot_target):
 		can_shoot = true
 
 
-var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 func hit(damage, _sender):
 	
 	var hitEffectHero = HitEffectHero.instantiate()
@@ -167,8 +183,3 @@ func hit(damage, _sender):
 func _on_attack_chasing_state_entered():
 	if potential_target and is_instance_valid(potential_target):
 		attack(potential_target)
-
-
-func _on_input_event(viewport, event, shape_idx):
-#	print(event)
-	pass # Replace with function body.

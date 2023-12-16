@@ -1,7 +1,8 @@
 extends Node2D
 
 @onready var walk_marker = $GameWorld/WalkMarker
-@onready var hero = $GameWorld/Hero
+@onready var hero = $GameWorld/DeathWarden
+#@onready var hero = $GameWorld/Hero
 @onready var camera = $GameWorld/Camera2D
 @onready var tile_map = $GameWorld/TileMap
 @onready var tile_highlighter = $GameWorld/TileHighlighter
@@ -82,7 +83,6 @@ func place_building():
 				var target_source_id = 2
 				var target_atlas_coords = Vector2i(1, 4)
 				tile_map.set_cell(0, cell_coords, target_source_id, target_atlas_coords)
-				
 				
 		PlayerVariables.money -= PlayerVariables.building_cost
 #		print(defender_building)
@@ -225,10 +225,7 @@ func _physics_process(delta):
 
 func handle_build_cursor_move():
 	var building_size = Vector2(96, 64)
-#	var building_height = 64
 	var mouse_coords = get_global_mouse_position()
-#	mouse_coords.x -= 42
-#	mouse_coords.y -= 28
 	mouse_coords.x += tile_map.cell_quadrant_size / 2
 	mouse_coords.y += tile_map.cell_quadrant_size / 2
 	mouse_coords -= building_size / 2
@@ -240,19 +237,10 @@ func handle_build_cursor_move():
 	if can_build:
 		var snapped_local_coords = tile_map.map_to_local(tile_coords)
 
-#		print(snapped_local_coords)
 		tile_highlighter.position = snapped_local_coords
 		tile_highlighter.position -= Vector2(tile_map.cell_quadrant_size/2, 
 		tile_map.cell_quadrant_size/2)
 		tile_highlighter.show()
-
-
-#func _process(delta):
-#	if Input.is_action_pressed("right_click"):
-#		walk_marker.show()
-#		walk_marker.position = get_global_mouse_position()
-#
-#	if ($Hero.position - walk_marker.position).
 
 
 func _on_hero_movement_finished():
@@ -261,26 +249,15 @@ func _on_hero_movement_finished():
 
 func on_build_button_pressed():
 	start_build_mode()
-#	print("build mode")
 
 
 func on_rally_button_pressed():
 	cursor_mode = "rally"
 	rally_cursor.show()
-#	print("rally mode")
-
-
-#func _on_unit_shoot_target(Bullet, direction, location):
-#	var spawned_bullet = Bullet.instantiate()
-#	add_child(spawned_bullet)
-#	spawned_bullet.rotation = direction
-#	spawned_bullet.position = location
-#	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)
 
 
 func _on_hero_died():
 	game_world.remove_child(hero)
-#	$GameWorld/HeroReviveTimer.start()
 	hero_in_game = false
 	await get_tree().create_timer(respawn_cooldown, false).timeout
 	if not is_instance_valid($GameWorld/King):
@@ -293,12 +270,9 @@ func _on_hero_died():
 
 func _on_king_died():
 	ui.restart_button.show()
-#	get_tree().paused = true
-#	pass # Replace with function body.
 
 
 func spawn_unit(building, spawn_position, type):
-#	print("spawning unit in world")
 	var defender = Defender.instantiate()
 	defender.position = spawn_position
 

@@ -1,0 +1,160 @@
+[gd_scene load_steps=14 format=3 uid="uid://caq4t0knoifyv"]
+
+[ext_resource type="Script" path="res://src/units/death_warden.gd" id="1_2ka6p"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_srjs8"]
+[ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="3_uxe7t"]
+[ext_resource type="Texture2D" uid="uid://knc7tw6eao2j" path="res://img/units/hero_walk_48x48.png" id="4_uex6k"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="5_24iuk"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="6_oj7av"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_hrwpq"]
+[ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="8_ecrww"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1l8su"]
+radius = 18.0
+height = 56.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7yktq"]
+radius = 64.0
+height = 194.0
+
+[sub_resource type="Animation" id="Animation_if8pt"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_f3o27"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qgqu8"]
+_data = {
+"RESET": SubResource("Animation_f3o27"),
+"walk": SubResource("Animation_if8pt")
+}
+
+[node name="DeathWarden" type="Area2D" node_paths=PackedStringArray("aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing")]
+collision_mask = 8
+script = ExtResource("1_2ka6p")
+unit_name = "Warden of Death"
+aggro_area = NodePath("Area2D")
+state_chart = NodePath("StateChart")
+health_bar = NodePath("HealthBar")
+state_idle = NodePath("StateChart/Root/Idle")
+state_chasing = NodePath("StateChart/Root/AttackChasing/Chasing")
+state_shoot = NodePath("StateChart/Root/AttackChasing/Shoot")
+state_attack_chasing = NodePath("StateChart/Root/AttackChasing")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_1l8su")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_7yktq")
+
+[node name="HealthBar" parent="." instance=ExtResource("3_uxe7t")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qgqu8")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_uex6k")
+hframes = 8
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("2_srjs8")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("5_24iuk")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root"]
+script = ExtResource("6_oj7av")
+
+[node name="EnemyDetected" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../AttackChasing")
+event = &"found_target"
+
+[node name="On AttackCommand" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../AttackChasing")
+event = &"attack_command"
+
+[node name="On MoveCommand" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../MovingWithoutAttacking")
+event = &"move_command"
+
+[node name="AttackChasing" type="Node" parent="StateChart/Root"]
+script = ExtResource("5_24iuk")
+initial_state = NodePath("Chasing")
+
+[node name="Shoot" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("6_oj7av")
+
+[node name="OutOfRange" type="Node" parent="StateChart/Root/AttackChasing/Shoot"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../Chasing")
+event = &"out_of_range"
+
+[node name="Chasing" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("6_oj7av")
+
+[node name="InRange" type="Node" parent="StateChart/Root/AttackChasing/Chasing"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../Shoot")
+event = &"in_range"
+
+[node name="On TargetLost" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../Idle")
+event = &"target_lost"
+
+[node name="On MoveCommand" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../MovingWithoutAttacking")
+event = &"move_command"
+
+[node name="MovingWithoutAttacking" type="Node" parent="StateChart/Root"]
+script = ExtResource("6_oj7av")
+
+[node name="On ReachedDestination" type="Node" parent="StateChart/Root/MovingWithoutAttacking"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../Idle")
+event = &"movement_finished"
+
+[node name="On AttackCommand" type="Node" parent="StateChart/Root/MovingWithoutAttacking"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../AttackChasing")
+event = &"attack_command"
+
+[node name="Movement" parent="." instance=ExtResource("8_ecrww")]
