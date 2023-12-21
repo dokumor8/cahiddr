@@ -215,7 +215,12 @@ func _physics_process(delta):
 	
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	var camera_velocity = input_direction * camera_speed
-	camera.translate(delta * camera_velocity)
+	var camera_target_pos = camera.position + delta * camera_velocity
+	var top_left = Vector2(camera.limit_left + 500, camera.limit_top + 300)
+	var bottom_right = Vector2(camera.limit_right - 500, camera.limit_bottom - 300)
+	var camera_target_pos2 = camera_target_pos.clamp(top_left, bottom_right)
+	print(camera_target_pos2)
+	camera.position = camera_target_pos2
 
 	if cursor_mode == "build":
 		handle_build_cursor_move()
