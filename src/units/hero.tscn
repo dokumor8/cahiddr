@@ -86,7 +86,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_kakey"]
 radius = 180.044
 
-[node name="Hero" type="Area2D" groups=["hero", "targetable_allies"]]
+[node name="Hero" type="Area2D" groups=["hero", "minimap_objects", "targetable_allies"]]
 collision_mask = 8
 script = ExtResource("1_xbdfg")
 
@@ -190,10 +190,6 @@ event = &"attack_command"
 position = Vector2(0, -15)
 width = 30
 height = 60
-
-[node name="Hero" type="CharacterBody2D" parent="." groups=["hero"]]
-collision_mask = 8
-input_pickable = true
 
 [connection signal="area_entered" from="AggroArea" to="." method="_on_aggro_area_area_entered"]
 [connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]

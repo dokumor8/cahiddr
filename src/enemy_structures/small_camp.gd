@@ -15,6 +15,7 @@ var camp_level = 2
 var max_health = 200.0
 var health = 200.0
 var money_reward = 100
+var minimap_icon = "mob"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

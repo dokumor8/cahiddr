@@ -36,7 +36,7 @@ animations = [{
 radius = 144.0
 height = 560.0
 
-[node name="King" type="Area2D" groups=["king", "targetable_allies"]]
+[node name="King" type="Area2D" groups=["king", "minimap_objects", "targetable_allies"]]
 collision_mask = 8
 script = ExtResource("1_ny0j3")
 

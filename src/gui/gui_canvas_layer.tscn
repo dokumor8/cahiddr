@@ -127,6 +127,7 @@ custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 
 [node name="ExpBar" type="ProgressBar" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/CenterContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 5)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_2q1p6")

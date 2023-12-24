@@ -33,6 +33,7 @@ func _ready():
 	$GUICanvasLayer.rally_button.pressed.connect(on_rally_button_pressed)
 	ui.update_selected_unit(hero)
 	hero.movement_finished.connect(_on_hero_movement_finished)
+	hero.died.connect(_on_hero_died)
 	PlayerVariables.hero = hero
 #	set_buildable_tiles()
 
@@ -213,13 +214,17 @@ func draw_rally_point_cursor():
 
 func _physics_process(delta):
 	
+	#display/window/size/viewport_height
+	#display/window/size/viewport_width
+	var window_height = ProjectSettings.get_setting("display/window/size/viewport_height")
+	var window_width = ProjectSettings.get_setting("display/window/size/viewport_width")
+	
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	var camera_velocity = input_direction * camera_speed
 	var camera_target_pos = camera.position + delta * camera_velocity
-	var top_left = Vector2(camera.limit_left + 500, camera.limit_top + 300)
-	var bottom_right = Vector2(camera.limit_right - 500, camera.limit_bottom - 300)
+	var top_left = Vector2(camera.limit_left + window_width / 2, camera.limit_top + window_height / 2)
+	var bottom_right = Vector2(camera.limit_right - window_width / 2, camera.limit_bottom - window_height / 2)
 	var camera_target_pos2 = camera_target_pos.clamp(top_left, bottom_right)
-	print(camera_target_pos2)
 	camera.position = camera_target_pos2
 
 	if cursor_mode == "build":

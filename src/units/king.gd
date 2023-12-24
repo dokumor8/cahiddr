@@ -3,6 +3,7 @@ extends Area2D
 @export var health = 200.0
 var rng = RandomNumberGenerator.new()
 var unit_name = "King"
+var minimap_icon = "king"
 
 signal health_changed(new_health, max_health)
 signal died()

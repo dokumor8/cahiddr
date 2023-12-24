@@ -13,7 +13,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6yd12"]
 size = Vector2(93, 61)
 
-[node name="SmallCamp" type="Area2D" groups=["enemy"]]
+[node name="SmallCamp" type="Area2D" groups=["enemy", "minimap_objects"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_qfl6o")
@@ -64,7 +64,7 @@ script = ExtResource("5_ewnik")
 [node name="On Upgrade Finished" type="Node" parent="StateChart/Root/Upgrading"]
 script = ExtResource("6_aobhw")
 to = NodePath("../../Upgrade")
-delay_seconds = 10.0
+delay_seconds = 30.0
 
 [node name="Upgrade" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_ewnik")

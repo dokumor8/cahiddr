@@ -33,6 +33,7 @@ var health_increase_rate = 10
 var shots_per_second = 1.5
 var shooting_speedup = 0.3
 var can_update_chase = true
+var minimap_icon = "alert"
 
 
 func _ready():

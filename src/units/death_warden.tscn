@@ -17,6 +17,21 @@ height = 56.0
 radius = 64.0
 height = 194.0
 
+[sub_resource type="Animation" id="Animation_f3o27"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_if8pt"]
 resource_name = "walk"
 length = 0.8
@@ -34,28 +49,13 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
 
-[sub_resource type="Animation" id="Animation_f3o27"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qgqu8"]
 _data = {
 "RESET": SubResource("Animation_f3o27"),
 "walk": SubResource("Animation_if8pt")
 }
 
-[node name="DeathWarden" type="Area2D" node_paths=PackedStringArray("aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing")]
+[node name="DeathWarden" type="Area2D" node_paths=PackedStringArray("aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing") groups=["hero", "minimap_objects", "targetable_allies"]]
 collision_mask = 8
 script = ExtResource("1_2ka6p")
 unit_name = "Warden of Death"

@@ -5,6 +5,7 @@ var regen_increase_rate = 0.1
 var health_increase_rate = 10
 var shooting_speedup = 0.3
 
+var minimap_icon = "alert"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

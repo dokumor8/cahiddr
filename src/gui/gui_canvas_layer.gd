@@ -9,6 +9,7 @@ extends CanvasLayer
 @onready var restart_button = $%RestartButton
 @onready var rally_button = $%RallyButton
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
