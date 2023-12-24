@@ -29,6 +29,10 @@ func _ready():
 	var background_scale_x = background.size.x / (get_viewport_rect().size.x * zoom)
 	background_scale = Vector2(map_scale, map_scale)
 	
+
+	for object in get_tree().get_nodes_in_group("minimap_objects"):
+		object.removed.connect(_on_object_removed)
+	
 	var camera_rect = get_viewport_rect().size
 	
 	camera_marker_rect.position = background.size / 2
@@ -45,6 +49,12 @@ func _ready():
 		background.add_child(new_marker)
 		new_marker.show()
 		markers[item] = new_marker
+
+
+func _on_object_removed(object):
+	if object in markers:
+		markers[object].queue_free()
+		markers.erase(object)
 
 
 func _process(delta):

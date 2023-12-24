@@ -6,16 +6,22 @@ var health_increase_rate = 10
 var shooting_speedup = 0.3
 
 var minimap_icon = "alert"
+signal removed()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	super()
+	died.connect(on_died)
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
+
+func on_died():
+	removed.emit(self)
 
 
 func level_up():

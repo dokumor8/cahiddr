@@ -16,6 +16,7 @@ var max_health = 200.0
 var health = 200.0
 var money_reward = 100
 var minimap_icon = "mob"
+signal removed()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -69,6 +70,7 @@ func hit(damage, sender):
 	if health <= 0:
 #		emit_signal("died")
 		PlayerVariables.money += money_reward
+		removed.emit(self)
 		queue_free()
 
 

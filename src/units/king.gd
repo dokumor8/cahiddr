@@ -7,6 +7,7 @@ var minimap_icon = "king"
 
 signal health_changed(new_health, max_health)
 signal died()
+signal removed()
 
 
 func _ready():
@@ -16,7 +17,10 @@ func _ready():
 
 func set_health(new_health):
 	if new_health <= 0:
+		
 		emit_signal("died")
+		removed.emit(self)
+
 		PlayerVariables.game_ended = true
 		queue_free()
 	emit_signal("health_changed", new_health, max_health)

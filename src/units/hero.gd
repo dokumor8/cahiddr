@@ -14,6 +14,7 @@ signal died()
 signal input_happened(event)
 
 
+
 @onready var state_chart:StateChart = $StateChart
 @onready var _king:Area2D
 var target = position
