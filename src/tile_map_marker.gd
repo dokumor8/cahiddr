@@ -5,6 +5,8 @@ var tile_image: Image
 var tile_texture: ImageTexture
 
 func _ready():
+	
+	await get_tree().process_frame
 	tile_image = Image.create(134, 134, false, Image.FORMAT_RGB8)
 	tile_texture = ImageTexture.create_from_image(tile_image)
 	#var all_cells = tilemap.get_used_cells(0)
