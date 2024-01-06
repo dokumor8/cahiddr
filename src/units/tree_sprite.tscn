@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2djd30d7gxjl"]
+
+[ext_resource type="Texture2D" uid="uid://3v16i7kvl6ol" path="res://img/tiles/TX Plant.png" id="1_7m6pf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_76al8"]
+atlas = ExtResource("1_7m6pf")
+region = Rect2(18, 10, 124, 150)
+
+[node name="TreeSprite" type="Sprite2D"]
+texture = SubResource("AtlasTexture_76al8")
+offset = Vector2(0, -54.93)

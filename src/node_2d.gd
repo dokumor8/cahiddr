@@ -4,7 +4,7 @@ extends Node2D
 @onready var hero = $GameWorld/DeathWarden
 #@onready var hero = $GameWorld/Hero
 @onready var camera = $GameWorld/Camera2D
-@onready var tile_map = $GameWorld/TileMap
+@onready var tile_map = %TileMap
 @onready var tile_highlighter = $GameWorld/TileHighlighter
 @onready var rally_cursor = $GameWorld/RallyPointCursor
 @onready var game_world = $GameWorld
