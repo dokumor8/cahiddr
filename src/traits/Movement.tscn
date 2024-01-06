@@ -3,8 +3,6 @@
 [ext_resource type="Script" path="res://src/traits/Movement.gd" id="1_mdw6b"]
 
 [node name="Movement" type="NavigationAgent2D"]
-path_desired_distance = 54.06
-target_desired_distance = 15.0
 avoidance_enabled = true
 radius = 20.0
 neighbor_distance = 200.0

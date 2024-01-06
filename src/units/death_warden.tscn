@@ -158,3 +158,4 @@ to = NodePath("../../AttackChasing")
 event = &"attack_command"
 
 [node name="Movement" parent="." instance=ExtResource("8_ecrww")]
+debug_enabled = true
