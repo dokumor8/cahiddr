@@ -7,5 +7,5 @@ var unit_parameters = {
 	"exp_value": 2,
 	"attack_damage": 4,
 	"money_reward": 1,
-	"shots_per_second": 0.87
+	"shots_per_second": 0.3
 }

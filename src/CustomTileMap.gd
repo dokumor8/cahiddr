@@ -9,7 +9,7 @@ var tile_array = []
 #var tree_texture
 
 func _ready():
-	print("hint")
+	pass
 	#tree_texture = ImageTexture.create_from_image(tree_image)
 	
 	#var tiles = get_used_cells_by_id(-1, 2, Vector2i(1, 13), 0)

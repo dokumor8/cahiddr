@@ -17,6 +17,7 @@ var health = 200.0
 var money_reward = 100
 var minimap_icon = "mob"
 signal removed()
+@onready var game_world = find_parent("GameWorld")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -44,12 +45,11 @@ func spawn_wave(amount, delay):
 func spawn_enemy():
 	var unit = Unit.instantiate()
 
-	var game_world = find_parent("GameWorld")
 	game_world.add_child(unit)
 	var parameters = {
 		"health": 10 + camp_level * health_upgrade_rate,
 		"attack_damage": 4 + camp_level * attack_upgrade_rate,
-		"shots_per_second": 0.9 + camp_level * shots_per_second_upgrade_rate,
+		"shots_per_second": 0.3 + camp_level * shots_per_second_upgrade_rate,
 		
 	}
 	unit.set_parameters(parameters)
