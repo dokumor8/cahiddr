@@ -4,7 +4,8 @@ extends Area2D
 @export var aggro_area: Area2D = null
 @export var state_chart: StateChart = null
 @export var health_bar: TextureProgressBar = null
-@export var movement_speed = 250.0
+@export var enemy_unit_type: String = ""
+@export var movement_speed = 150.0
 @export var max_health = 100.0
 @export var regen_rate = 0.0
 @export var attack_distance = 300.0
@@ -39,7 +40,6 @@ var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")
 
 
 func _ready():
-	print("actor_ready")
 	_movement_trait.my_ready()
 	_movement_trait.speed = movement_speed
 	health_changed.connect(health_bar._on_health_changed)
@@ -98,7 +98,7 @@ func _physics_process(delta):
 
 func _on_aggro_area_area_entered(area):
 	if is_instance_valid(area):
-		if area.is_in_group("enemy"):
+		if area.is_in_group(enemy_unit_type):
 			set_potential_target(area)
 			state_chart.send_event("found_target")
 
@@ -172,7 +172,6 @@ func shoot(shoot_target):
 
 
 func hit(damage, _sender):
-	
 	var hitEffectHero = HitEffectHero.instantiate()
 	game_world.add_child(hitEffectHero)
 	hitEffectHero.global_position = global_position

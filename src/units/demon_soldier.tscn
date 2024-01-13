@@ -1,21 +1,21 @@
-[gd_scene load_steps=14 format=3 uid="uid://caq4t0knoifyv"]
+[gd_scene load_steps=14 format=3 uid="uid://b2bhi061l0noj"]
 
-[ext_resource type="Script" path="res://src/units/death_warden.gd" id="1_2ka6p"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_srjs8"]
-[ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="3_uxe7t"]
-[ext_resource type="Texture2D" uid="uid://knc7tw6eao2j" path="res://img/units/hero_walk_48x48.png" id="4_uex6k"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="5_24iuk"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="6_oj7av"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_hrwpq"]
-[ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="8_ecrww"]
+[ext_resource type="Script" path="res://src/units/demon_soldier.gd" id="1_c4m8k"]
+[ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="2_tghel"]
+[ext_resource type="Texture2D" uid="uid://knc7tw6eao2j" path="res://img/units/hero_walk_48x48.png" id="3_ews3a"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="4_6fcf1"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="5_xoadv"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="6_7xfqa"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_nyekh"]
+[ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="8_j4r8v"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1l8su"]
-radius = 18.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rvwfv"]
+radius = 21.0
 height = 56.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7yktq"]
-radius = 64.0
-height = 194.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4h6t3"]
+radius = 54.0
+height = 190.0
 
 [sub_resource type="Animation" id="Animation_f3o27"]
 length = 0.001
@@ -55,31 +55,31 @@ _data = {
 "walk": SubResource("Animation_if8pt")
 }
 
-[node name="DeathWarden" type="Area2D" node_paths=PackedStringArray("aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing") groups=["ally", "hero", "minimap_objects", "targetable_allies"]]
-collision_mask = 8
-script = ExtResource("1_2ka6p")
-unit_name = "Warden of Death"
-aggro_area = NodePath("Area2D")
+[node name="DemonSoldier" type="Area2D" node_paths=PackedStringArray("aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing") groups=["enemy"]]
+collision_layer = 2
+script = ExtResource("1_c4m8k")
+unit_name = "Demon Soldier"
+aggro_area = NodePath("AggroArea")
 state_chart = NodePath("StateChart")
 health_bar = NodePath("HealthBar")
-enemy_unit_type = "enemy"
+enemy_unit_type = "ally"
+attack_distance = 150.0
 state_idle = NodePath("StateChart/Root/Idle")
 state_chasing = NodePath("StateChart/Root/AttackChasing/Chasing")
 state_shoot = NodePath("StateChart/Root/AttackChasing/Shoot")
 state_attack_chasing = NodePath("StateChart/Root/AttackChasing")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_1l8su")
+shape = SubResource("CapsuleShape2D_rvwfv")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="AggroArea" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea"]
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_7yktq")
+shape = SubResource("CapsuleShape2D_4h6t3")
 
-[node name="HealthBar" parent="." instance=ExtResource("3_uxe7t")]
+[node name="HealthBar" parent="." instance=ExtResource("2_tghel")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -87,76 +87,76 @@ libraries = {
 }
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_uex6k")
+texture = ExtResource("3_ews3a")
 hframes = 8
 
 [node name="StateChart" type="Node" parent="."]
-script = ExtResource("2_srjs8")
+script = ExtResource("4_6fcf1")
 
 [node name="Root" type="Node" parent="StateChart"]
-script = ExtResource("5_24iuk")
+script = ExtResource("5_xoadv")
 initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateChart/Root"]
-script = ExtResource("6_oj7av")
+script = ExtResource("6_7xfqa")
 
 [node name="EnemyDetected" type="Node" parent="StateChart/Root/Idle"]
-script = ExtResource("7_hrwpq")
+script = ExtResource("7_nyekh")
 to = NodePath("../../AttackChasing")
 event = &"found_target"
 
 [node name="On AttackCommand" type="Node" parent="StateChart/Root/Idle"]
-script = ExtResource("7_hrwpq")
+script = ExtResource("7_nyekh")
 to = NodePath("../../AttackChasing")
 event = &"attack_command"
 
 [node name="On MoveCommand" type="Node" parent="StateChart/Root/Idle"]
-script = ExtResource("7_hrwpq")
+script = ExtResource("7_nyekh")
 to = NodePath("../../MovingWithoutAttacking")
 event = &"move_command"
 
 [node name="AttackChasing" type="Node" parent="StateChart/Root"]
-script = ExtResource("5_24iuk")
+script = ExtResource("5_xoadv")
 initial_state = NodePath("Chasing")
 
 [node name="Shoot" type="Node" parent="StateChart/Root/AttackChasing"]
-script = ExtResource("6_oj7av")
+script = ExtResource("6_7xfqa")
 
 [node name="OutOfRange" type="Node" parent="StateChart/Root/AttackChasing/Shoot"]
-script = ExtResource("7_hrwpq")
+script = ExtResource("7_nyekh")
 to = NodePath("../../Chasing")
 event = &"out_of_range"
 
 [node name="Chasing" type="Node" parent="StateChart/Root/AttackChasing"]
-script = ExtResource("6_oj7av")
+script = ExtResource("6_7xfqa")
 
 [node name="InRange" type="Node" parent="StateChart/Root/AttackChasing/Chasing"]
-script = ExtResource("7_hrwpq")
+script = ExtResource("7_nyekh")
 to = NodePath("../../Shoot")
 event = &"in_range"
 
 [node name="On TargetLost" type="Node" parent="StateChart/Root/AttackChasing"]
-script = ExtResource("7_hrwpq")
+script = ExtResource("7_nyekh")
 to = NodePath("../../Idle")
 event = &"target_lost"
 
 [node name="On MoveCommand" type="Node" parent="StateChart/Root/AttackChasing"]
-script = ExtResource("7_hrwpq")
+script = ExtResource("7_nyekh")
 to = NodePath("../../MovingWithoutAttacking")
 event = &"move_command"
 
 [node name="MovingWithoutAttacking" type="Node" parent="StateChart/Root"]
-script = ExtResource("6_oj7av")
+script = ExtResource("6_7xfqa")
 
 [node name="On ReachedDestination" type="Node" parent="StateChart/Root/MovingWithoutAttacking"]
-script = ExtResource("7_hrwpq")
+script = ExtResource("7_nyekh")
 to = NodePath("../../Idle")
 event = &"movement_finished"
 
 [node name="On AttackCommand" type="Node" parent="StateChart/Root/MovingWithoutAttacking"]
-script = ExtResource("7_hrwpq")
+script = ExtResource("7_nyekh")
 to = NodePath("../../AttackChasing")
 event = &"attack_command"
 
-[node name="Movement" parent="." instance=ExtResource("8_ecrww")]
+[node name="Movement" parent="." instance=ExtResource("8_j4r8v")]
 debug_enabled = true
