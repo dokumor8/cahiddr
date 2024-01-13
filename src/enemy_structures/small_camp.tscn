@@ -79,6 +79,7 @@ offset_left = -25.0
 offset_top = -48.0
 offset_right = 23.0
 offset_bottom = -38.0
+metadata/_edit_use_anchors_ = true
 
 [connection signal="state_entered" from="StateChart/Root/SendWave" to="." method="_on_send_wave_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/BuildingUnits" to="." method="_on_building_units_state_entered"]

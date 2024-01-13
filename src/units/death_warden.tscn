@@ -62,6 +62,7 @@ unit_name = "Warden of Death"
 aggro_area = NodePath("Area2D")
 state_chart = NodePath("StateChart")
 health_bar = NodePath("HealthBar")
+movement_speed = 150.0
 state_idle = NodePath("StateChart/Root/Idle")
 state_chasing = NodePath("StateChart/Root/AttackChasing/Chasing")
 state_shoot = NodePath("StateChart/Root/AttackChasing/Shoot")

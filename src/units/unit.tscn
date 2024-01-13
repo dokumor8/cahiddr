@@ -154,11 +154,6 @@ script = ExtResource("12_uiodj")
 to = NodePath("../../Idle")
 event = &"no_king"
 
-[node name="Unit" type="CharacterBody2D" parent="." groups=["enemy"]]
-collision_layer = 2
-collision_mask = 0
-input_pickable = true
-
 [connection signal="area_entered" from="AggroArea" to="." method="_on_aggro_area_area_entered"]
 [connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/AttackChasing" to="." method="_on_attack_chasing_state_entered"]

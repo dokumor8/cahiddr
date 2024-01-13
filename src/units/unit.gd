@@ -10,7 +10,7 @@ signal died()
 signal input_happened(event)
 signal send_exp(coords, amount)
 
-var movement_speed: float = 100.0
+var movement_speed: float = 80.0
 var movement_target_position: Vector2 = Vector2(60.0, 180.0)
 
 @onready var _movement_trait = $Movement

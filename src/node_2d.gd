@@ -3,7 +3,7 @@ extends Node2D
 @onready var walk_marker = $GameWorld/WalkMarker
 @onready var hero = $GameWorld/DeathWarden
 #@onready var hero = $GameWorld/Hero
-@onready var camera = $GameWorld/Camera2D
+@onready var camera = %Camera2D
 @onready var tile_map = %TileMap
 @onready var tile_highlighter = $GameWorld/TileHighlighter
 @onready var rally_cursor = $GameWorld/RallyPointCursor
@@ -218,14 +218,14 @@ func _physics_process(delta):
 	#display/window/size/viewport_width
 	var window_height = ProjectSettings.get_setting("display/window/size/viewport_height")
 	var window_width = ProjectSettings.get_setting("display/window/size/viewport_width")
-	
-	var input_direction = Input.get_vector("left", "right", "up", "down")
-	var camera_velocity = input_direction * camera_speed
-	var camera_target_pos = camera.position + delta * camera_velocity
-	var top_left = Vector2(camera.limit_left + window_width / 2, camera.limit_top + window_height / 2)
-	var bottom_right = Vector2(camera.limit_right - window_width / 2, camera.limit_bottom - window_height / 2)
-	var camera_target_pos2 = camera_target_pos.clamp(top_left, bottom_right)
-	camera.position = camera_target_pos2
+	#
+	#var input_direction = Input.get_vector("left", "right", "up", "down")
+	#var camera_velocity = input_direction * camera_speed
+	#var camera_target_pos = camera.position + delta * camera_velocity
+	#var top_left = Vector2(camera.limit_left + window_width / 2, camera.limit_top + window_height / 2)
+	#var bottom_right = Vector2(camera.limit_right - window_width / 2, camera.limit_bottom - window_height / 2)
+	#var camera_target_pos2 = camera_target_pos.clamp(top_left, bottom_right)
+	#camera.position = camera_target_pos2
 
 	if cursor_mode == "build":
 		handle_build_cursor_move()
