@@ -176,6 +176,7 @@ func hit(damage, _sender):
 	game_world.add_child(hitEffectHero)
 	hitEffectHero.global_position = global_position
 	set_health(health - damage)
+	state_chart.send_event("found_target")
 #	print(health)
 
 
