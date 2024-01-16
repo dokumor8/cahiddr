@@ -1,5 +1,6 @@
 extends Area2D
 
+@export var _animation_tree: AnimationTree
 @export var unit_name: String = ""
 @export var sprite: Sprite2D
 @export var aggro_area: Area2D = null

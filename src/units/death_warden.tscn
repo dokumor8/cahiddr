@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://caq4t0knoifyv"]
+[gd_scene load_steps=30 format=3 uid="uid://caq4t0knoifyv"]
 
 [ext_resource type="Script" path="res://src/units/death_warden.gd" id="1_2ka6p"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_srjs8"]
@@ -51,7 +51,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_kxkx0"]
 resource_name = "shoot_punch"
 length = 2.0
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -107,8 +106,21 @@ _data = {
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_43jnt"]
 animation = &"idle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_be1wk"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sojkp"]
 animation = &"shoot_punch"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hmfro"]
+animation = &"shoot_punch"
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_df6iq"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_d0gy7"]
+nodes/Animation/node = SubResource("AnimationNodeAnimation_hmfro")
+nodes/Animation/position = Vector2(140, 140)
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_df6iq")
+nodes/TimeSeek/position = Vector2(360, 140)
+nodes/output/position = Vector2(600, 160)
+node_connections = [&"TimeSeek", 0, &"Animation", &"output", 0, &"TimeSeek"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3far2"]
 animation = &"walk"
@@ -120,28 +132,31 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_abqfm"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1fld5"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ky8jo"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_50svm"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jbfit"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_njg53"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_52omc"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_onng1"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1lsdl"]
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_acep3"]
 states/End/position = Vector2(897, 78)
 states/Start/position = Vector2(173, 73)
 states/idle/node = SubResource("AnimationNodeAnimation_43jnt")
 states/idle/position = Vector2(410, 68)
-states/shoot_punch/node = SubResource("AnimationNodeAnimation_be1wk")
-states/shoot_punch/position = Vector2(519, 165)
+states/shoot_punch/node = SubResource("AnimationNodeAnimation_sojkp")
+states/shoot_punch/position = Vector2(389, 188)
+states/shoot_punch2/node = SubResource("AnimationNodeBlendTree_d0gy7")
+states/shoot_punch2/position = Vector2(643, 223)
 states/walk/node = SubResource("AnimationNodeAnimation_3far2")
 states/walk/position = Vector2(683, 78)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_q8qc3"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_bkygj"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_abqfm"), "idle", "shoot_punch", SubResource("AnimationNodeStateMachineTransition_1fld5"), "shoot_punch", "walk", SubResource("AnimationNodeStateMachineTransition_50svm"), "walk", "shoot_punch", SubResource("AnimationNodeStateMachineTransition_njg53"), "shoot_punch", "idle", SubResource("AnimationNodeStateMachineTransition_onng1")]
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_q8qc3"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_bkygj"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_abqfm"), "shoot_punch", "idle", SubResource("AnimationNodeStateMachineTransition_ky8jo"), "idle", "shoot_punch", SubResource("AnimationNodeStateMachineTransition_jbfit"), "shoot_punch", "walk", SubResource("AnimationNodeStateMachineTransition_52omc"), "walk", "shoot_punch", SubResource("AnimationNodeStateMachineTransition_1lsdl")]
 
-[node name="DeathWarden" type="Area2D" node_paths=PackedStringArray("_animation_tree", "sprite", "aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing") groups=["ally", "hero", "minimap_objects", "targetable_allies"]]
+[node name="DeathWarden" type="Area2D" node_paths=PackedStringArray("animation_player", "_animation_tree", "sprite", "aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing") groups=["ally", "hero", "minimap_objects", "targetable_allies"]]
 collision_mask = 8
 script = ExtResource("1_2ka6p")
+animation_player = NodePath("AnimationPlayer")
 _animation_tree = NodePath("AnimationTree")
 unit_name = "Warden of Death"
 sprite = NodePath("Sprite2D")
@@ -179,6 +194,7 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeStateMachine_acep3")
 anim_player = NodePath("../AnimationPlayer")
+parameters/shoot_punch2/TimeSeek/seek_request = -1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("3_heg4j")

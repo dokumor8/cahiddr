@@ -2,7 +2,7 @@ extends Node2D
 
 @export var tilemap :TileMap
 var tile_image: Image
-var tile_texture: ImageTexture
+@onready var tile_texture: ImageTexture
 
 func _ready():
 	

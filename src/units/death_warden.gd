@@ -1,9 +1,10 @@
 extends "res://src/units/actor.gd"
 
-@export var _animation_tree: AnimationTree
 var regen_increase_rate = 0.1
 var health_increase_rate = 10
 var shooting_speedup = 0.3
+
+@export var animation_player: AnimationPlayer
 
 var minimap_icon = "alert"
 signal removed()
@@ -23,6 +24,7 @@ func _process(delta):
 func on_idle_state_entered():
 	var state_machine = _animation_tree["parameters/playback"]
 	state_machine.travel("idle")
+	
 	
 #func _on_attack_chasing_state_entered():
 	#var state_machine = _animation_tree["parameters/playback"]
@@ -57,7 +59,11 @@ func on_moving_without_attacking_state_entered():
 
 func perform_attack():
 	var state_machine = _animation_tree["parameters/playback"]
-	state_machine.travel("shoot_punch")
+	#state_machine.travel("shoot_punch")
+	state_machine.start("shoot_punch", true)
+	#_animation_tree.set("parameters/TimeSeek/seek_request", 0.0)
+	#state_machine.start()
+	#animation_player.play("shoot_punch")
 
 
 func on_chasing_state_entered():
