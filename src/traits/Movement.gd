@@ -4,6 +4,8 @@ signal movement_finished
 
 const INITIAL_DISPERSION_FACTOR = 0.1
 
+var actual_velocity: Vector2
+
 @export var speed: float = 100.0
 var _interim_speed: float = 0.0
 
@@ -80,6 +82,7 @@ func _on_velocity_computed(safe_velocity: Vector2):
 	_unit.global_transform.origin = _unit.global_transform.origin.move_toward(
 		_unit.global_transform.origin + safe_velocity, _interim_speed
 	)
+	actual_velocity = safe_velocity
 
 
 func _on_navigation_finished():

@@ -11,6 +11,7 @@ signal removed()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	super()
+	attack_action = perform_attack
 	died.connect(on_died)
 
 
@@ -47,7 +48,6 @@ func receive_exp(exp_value):
 	PlayerVariables.hero_experience += exp_value
 	if PlayerVariables.hero_experience >= PlayerVariables.max_experience:
 		level_up()
-	
 
 
 func on_moving_without_attacking_state_entered():
@@ -55,8 +55,7 @@ func on_moving_without_attacking_state_entered():
 	state_machine.travel("walk")
 
 
-
-func on_shoot_state_entered():
+func perform_attack():
 	var state_machine = _animation_tree["parameters/playback"]
 	state_machine.travel("shoot_punch")
 

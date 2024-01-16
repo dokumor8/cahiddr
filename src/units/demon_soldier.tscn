@@ -55,10 +55,11 @@ _data = {
 "walk": SubResource("Animation_if8pt")
 }
 
-[node name="DemonSoldier" type="Area2D" node_paths=PackedStringArray("aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing") groups=["enemy"]]
+[node name="DemonSoldier" type="Area2D" node_paths=PackedStringArray("sprite", "aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing") groups=["enemy"]]
 collision_layer = 2
 script = ExtResource("1_c4m8k")
 unit_name = "Demon Soldier"
+sprite = NodePath("Sprite2D")
 aggro_area = NodePath("AggroArea")
 state_chart = NodePath("StateChart")
 health_bar = NodePath("HealthBar")

@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var unit_name: String = ""
+@export var sprite: Sprite2D
 @export var aggro_area: Area2D = null
 @export var state_chart: StateChart = null
 @export var health_bar: TextureProgressBar = null
@@ -18,7 +19,7 @@ extends Area2D
 @export var state_shoot: AtomicState = null
 @export var state_attack_chasing: CompoundState = null
 
-
+@onready var attack_action: Callable
 @onready var _movement_trait = $Movement
 @onready var game_world = find_parent("GameWorld")
 
@@ -83,6 +84,10 @@ func walk_to(walk_marker):
 
 func attack(enemy):
 	aggro_target = enemy
+	if enemy.global_position.x < global_position.x:
+		sprite.flip_h = true
+	else:
+		sprite.flip_h = false
 	state_chart.send_event("attack_command")
 	if not is_in_range(enemy):
 		_movement_trait.move(enemy.global_position)
@@ -93,6 +98,11 @@ func set_potential_target(body):
 
 
 func _physics_process(delta):
+	if _movement_trait.actual_velocity.x < 0:
+		sprite.flip_h = true
+	elif _movement_trait.actual_velocity.x > 0:
+		sprite.flip_h = false
+
 	set_health(health + regen_rate * delta)
 
 
@@ -112,6 +122,7 @@ func is_in_range(enemy):
 func _on_shoot_state_physics_processing(delta):
 	if is_in_range(aggro_target):
 		shoot(aggro_target)
+		pass
 	else:
 		state_chart.send_event("out_of_range")
 
@@ -153,22 +164,27 @@ func set_health(new_health):
 
 func heal(amount):
 	set_health(health + amount)
-	
+
 
 func shoot(shoot_target):
 	if can_shoot:
-		var bul = HeroBullet.instantiate()
-		var bullet_parameters = {
-			"global_position": global_position,
-			"speed": bullet_speed,
-			"damage": attack_damage
-		}
-		bul.setup(self, shoot_target, bullet_parameters)
-		game_world.add_child(bul)
+		#release_bullet()
+		attack_action.call()
 		
 		can_shoot = false
 		await get_tree().create_timer(1.0 / shots_per_second, false).timeout
 		can_shoot = true
+
+
+func release_bullet():
+	var bul = HeroBullet.instantiate()
+	var bullet_parameters = {
+		"global_position": global_position,
+		"speed": bullet_speed,
+		"damage": attack_damage
+	}
+	bul.setup(self, aggro_target, bullet_parameters)
+	game_world.add_child(bul)
 
 
 func hit(damage, _sender):

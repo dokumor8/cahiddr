@@ -301,6 +301,7 @@ offset_top = 105.0
 offset_right = -145.655
 offset_bottom = -102.0
 theme = ExtResource("12_shb05")
+enabled = false
 initial_node_to_watch = NodePath("../../GameWorld/DeathWarden")
 
 [node name="MapControl" type="Control" parent="GUICanvasLayer" node_paths=PackedStringArray("camera_object", "tilemap")]
