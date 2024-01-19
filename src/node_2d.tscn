@@ -64,12 +64,6 @@ script = ExtResource("2_fiulx")
 
 [node name="DeathWarden" parent="GameWorld" instance=ExtResource("15_ssx2t")]
 position = Vector2(943, 751)
-movement_speed = 150.0
-max_health = 100.0
-regen_rate = 0.0
-attack_damage = 3.0
-shots_per_second = 1.5
-bullet_speed = 1000.0
 
 [node name="Camera2D" type="Camera2D" parent="GameWorld/DeathWarden"]
 unique_name_in_owner = true
@@ -298,12 +292,6 @@ position = Vector2(269, -2)
 
 [node name="DemonSoldier" parent="GameWorld" instance=ExtResource("13_qg4k3")]
 position = Vector2(1173, 778)
-movement_speed = 150.0
-max_health = 100.0
-regen_rate = 0.0
-attack_damage = 3.0
-shots_per_second = 1.5
-bullet_speed = 1000.0
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 offset = Vector2(1.655, 0)
@@ -317,7 +305,6 @@ offset_top = 105.0
 offset_right = -145.655
 offset_bottom = -102.0
 theme = ExtResource("12_shb05")
-enabled = false
 initial_node_to_watch = NodePath("../../GameWorld/DeathWarden")
 
 [node name="MapControl" type="Control" parent="GUICanvasLayer" node_paths=PackedStringArray("camera_object", "tilemap")]

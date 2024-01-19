@@ -135,7 +135,7 @@ states/walk/node = SubResource("AnimationNodeAnimation_3i5o8")
 states/walk/position = Vector2(539, 208)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_0piup"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_mh8xw"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_v3ud0"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_mcjb4"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_klvt6"), "walk", "attack", SubResource("AnimationNodeStateMachineTransition_jfc16"), "attack", "walk", SubResource("AnimationNodeStateMachineTransition_fnr0o")]
 
-[node name="DemonSoldier" type="Area2D" node_paths=PackedStringArray("_animation_tree", "sprite", "aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing") groups=["enemy"]]
+[node name="DemonSoldier" type="Area2D" node_paths=PackedStringArray("_animation_tree", "sprite", "aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing", "state_moving") groups=["enemy"]]
 collision_layer = 2
 script = ExtResource("1_c4m8k")
 _animation_tree = NodePath("AnimationTree")
@@ -150,6 +150,7 @@ state_idle = NodePath("StateChart/Root/Idle")
 state_chasing = NodePath("StateChart/Root/AttackChasing/Chasing")
 state_shoot = NodePath("StateChart/Root/AttackChasing/Shoot")
 state_attack_chasing = NodePath("StateChart/Root/AttackChasing")
+state_moving = NodePath("StateChart/Root/MovingWithoutAttacking")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_rvwfv")
@@ -214,7 +215,7 @@ script = ExtResource("6_7xfqa")
 
 [node name="OutOfRange" type="Node" parent="StateChart/Root/AttackChasing/Shoot"]
 script = ExtResource("7_nyekh")
-to = NodePath("../../Chasing")
+to = NodePath("../../RangeCooldown")
 event = &"out_of_range"
 
 [node name="Chasing" type="Node" parent="StateChart/Root/AttackChasing"]
@@ -234,6 +235,14 @@ event = &"target_lost"
 script = ExtResource("7_nyekh")
 to = NodePath("../../MovingWithoutAttacking")
 event = &"move_command"
+
+[node name="RangeCooldown" type="Node" parent="StateChart/Root/AttackChasing"]
+script = ExtResource("6_7xfqa")
+
+[node name="BackToChase" type="Node" parent="StateChart/Root/AttackChasing/RangeCooldown"]
+script = ExtResource("7_nyekh")
+to = NodePath("../../Chasing")
+delay_seconds = 0.2
 
 [node name="MovingWithoutAttacking" type="Node" parent="StateChart/Root"]
 script = ExtResource("6_7xfqa")

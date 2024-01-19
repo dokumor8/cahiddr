@@ -12,7 +12,7 @@ signal removed()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	super()
-	attack_action = perform_attack
+	#attack_action = perform_attack
 	died.connect(on_died)
 
 
@@ -20,11 +20,11 @@ func _ready():
 func _process(delta):
 	pass
 
-
-func on_idle_state_entered():
-	var state_machine = _animation_tree["parameters/playback"]
-	state_machine.travel("idle")
-	
+#
+#func on_idle_state_entered():
+	#var state_machine = _animation_tree["parameters/playback"]
+	#state_machine.travel("idle")
+	#
 	
 #func _on_attack_chasing_state_entered():
 	#var state_machine = _animation_tree["parameters/playback"]
@@ -51,21 +51,21 @@ func receive_exp(exp_value):
 	if PlayerVariables.hero_experience >= PlayerVariables.max_experience:
 		level_up()
 
-
-func on_moving_without_attacking_state_entered():
-	var state_machine = _animation_tree["parameters/playback"]
-	state_machine.travel("walk")
-
-
-func perform_attack():
-	var state_machine = _animation_tree["parameters/playback"]
-	#state_machine.travel("shoot_punch")
-	state_machine.start("shoot_punch", true)
-	#_animation_tree.set("parameters/TimeSeek/seek_request", 0.0)
-	#state_machine.start()
-	#animation_player.play("shoot_punch")
+#
+#func on_moving_without_attacking_state_entered():
+	#var state_machine = _animation_tree["parameters/playback"]
+	#state_machine.travel("walk")
 
 
-func on_chasing_state_entered():
-	var state_machine = _animation_tree["parameters/playback"]
-	state_machine.travel("walk")
+#func perform_attack():
+	#var state_machine = _animation_tree["parameters/playback"]
+	##state_machine.travel("shoot_punch")
+	#state_machine.start("shoot_punch", true)
+	##_animation_tree.set("parameters/TimeSeek/seek_request", 0.0)
+	##state_machine.start()
+	##animation_player.play("shoot_punch")
+
+#
+#func on_chasing_state_entered():
+	#var state_machine = _animation_tree["parameters/playback"]
+	#state_machine.travel("walk")

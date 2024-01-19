@@ -19,8 +19,9 @@ extends Area2D
 @export var state_chasing: AtomicState = null
 @export var state_shoot: AtomicState = null
 @export var state_attack_chasing: CompoundState = null
+@export var state_moving: AtomicState = null
 
-@onready var attack_action: Callable
+#@onready var attack_action: Callable
 @onready var _movement_trait = $Movement
 @onready var game_world = find_parent("GameWorld")
 
@@ -54,6 +55,9 @@ func _ready():
 	state_chasing.state_physics_processing.connect(_on_chasing_state_physics_processing)
 	state_attack_chasing.state_entered.connect(_on_attack_chasing_state_entered)
 	state_attack_chasing.state_physics_processing.connect(_on_attack_chasing_state_physics_processing)
+	state_moving.state_entered.connect(_on_moving_without_attacking_state_entered)
+	state_chasing.state_entered.connect(_on_chasing_state_entered)
+	state_attack_chasing.state_entered.connect(_on_attack_chasing_state_entered)
 
 	_movement_trait.movement_finished.connect(on_movement_finished)
 
@@ -63,11 +67,18 @@ func on_movement_finished():
 	emit_signal("movement_finished")
 
 
+func flip_look_at(enemy_position):
+	if enemy_position.x < global_position.x:
+		sprite.flip_h = true
+	else:
+		sprite.flip_h = false
+
+
 func update_chasing_position():
 	if can_update_chase:
 		can_update_chase = false
-		_movement_trait.move(aggro_target.get_global_position())
-		await get_tree().create_timer(0.1, false).timeout
+		move(aggro_target.get_global_position())
+		await get_tree().create_timer(0.3, false).timeout
 		can_update_chase = true
 
 
@@ -79,19 +90,16 @@ func _on_chasing_state_physics_processing(delta):
 
 func walk_to(walk_marker):
 	state_chart.send_event("move_command")
-	_movement_trait.move(walk_marker.global_position)
+	move(walk_marker.global_position)
 	aggro_target = null
 
 
 func attack(enemy):
 	aggro_target = enemy
-	if enemy.global_position.x < global_position.x:
-		sprite.flip_h = true
-	else:
-		sprite.flip_h = false
+	flip_look_at(enemy.global_position)
 	state_chart.send_event("attack_command")
 	if not is_in_range(enemy):
-		_movement_trait.move(enemy.global_position)
+		move(enemy.global_position)
 	
 
 func set_potential_target(body):
@@ -99,11 +107,6 @@ func set_potential_target(body):
 
 
 func _physics_process(delta):
-	if _movement_trait.actual_velocity.x < 0:
-		sprite.flip_h = true
-	elif _movement_trait.actual_velocity.x > 0:
-		sprite.flip_h = false
-
 	set_health(health + regen_rate * delta)
 
 
@@ -134,6 +137,8 @@ func _on_idle_state_entered():
 	if target and is_instance_valid(target):
 		attack(target)
 		state_chart.send_event("found_target")
+	var state_machine = _animation_tree["parameters/playback"]
+	state_machine.travel("idle")
 
 
 func _on_shoot_state_entered():
@@ -170,7 +175,8 @@ func heal(amount):
 func shoot(shoot_target):
 	if can_shoot:
 		#release_bullet()
-		attack_action.call()
+		perform_attack()
+		#attack_action.call()
 		
 		can_shoot = false
 		await get_tree().create_timer(1.0 / shots_per_second, false).timeout
@@ -188,15 +194,35 @@ func release_bullet():
 	game_world.add_child(bul)
 
 
-func hit(damage, _sender):
+func hit(damage, sender):
 	var hitEffectHero = HitEffectHero.instantiate()
 	game_world.add_child(hitEffectHero)
 	hitEffectHero.global_position = global_position
 	set_health(health - damage)
-	state_chart.send_event("found_target")
-#	print(health)
 
+	if is_instance_valid(sender):
+		if sender.is_in_group(enemy_unit_type):
+			set_potential_target(sender)
+			state_chart.send_event("found_target")
+
+func _on_moving_without_attacking_state_entered():
+	var state_machine = _animation_tree["parameters/playback"]
+	state_machine.travel("walk")
+
+func _on_chasing_state_entered():
+	var state_machine = _animation_tree["parameters/playback"]
+	state_machine.travel("walk")
 
 func _on_attack_chasing_state_entered():
 	if potential_target and is_instance_valid(potential_target):
 		attack(potential_target)
+
+func perform_attack():
+	flip_look_at(aggro_target.global_position)
+	var state_machine = _animation_tree["parameters/playback"]
+	state_machine.start("attack", true)
+
+func move(target_position):
+	_movement_trait.move(target_position)
+	flip_look_at(target_position)
+	
