@@ -47,6 +47,7 @@ animations = [{
 }]
 
 [node name="DamagingWave" type="AnimatedSprite2D"]
+z_index = 1000
 scale = Vector2(6.43437, 6.43437)
 sprite_frames = SubResource("SpriteFrames_3k07g")
 autoplay = "default"

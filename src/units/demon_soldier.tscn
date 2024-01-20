@@ -136,6 +136,7 @@ states/walk/position = Vector2(539, 208)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_0piup"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_mh8xw"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_v3ud0"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_mcjb4"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_klvt6"), "walk", "attack", SubResource("AnimationNodeStateMachineTransition_jfc16"), "attack", "walk", SubResource("AnimationNodeStateMachineTransition_fnr0o")]
 
 [node name="DemonSoldier" type="Area2D" node_paths=PackedStringArray("_animation_tree", "sprite", "aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing", "state_moving") groups=["enemy"]]
+z_index = 1000
 collision_layer = 2
 script = ExtResource("1_c4m8k")
 _animation_tree = NodePath("AnimationTree")

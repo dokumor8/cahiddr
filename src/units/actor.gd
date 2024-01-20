@@ -58,8 +58,13 @@ func _ready():
 	state_moving.state_entered.connect(_on_moving_without_attacking_state_entered)
 	state_chasing.state_entered.connect(_on_chasing_state_entered)
 	state_attack_chasing.state_entered.connect(_on_attack_chasing_state_entered)
+	died.connect(on_died)
 
 	_movement_trait.movement_finished.connect(on_movement_finished)
+
+
+func on_died():
+	queue_free()
 
 
 func on_movement_finished():

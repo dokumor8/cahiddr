@@ -1,30 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2djd30d7gxjl"]
+[gd_scene load_steps=9 format=3 uid="uid://d2djd30d7gxjl"]
 
 [ext_resource type="Texture2D" uid="uid://3v16i7kvl6ol" path="res://img/tiles/TX Plant.png" id="1_7m6pf"]
+[ext_resource type="Script" path="res://src/units/tree_sprite.gd" id="1_p7org"]
 [ext_resource type="Texture2D" uid="uid://cx7i2t7mjid6w" path="res://img/tiles/TX Shadow Plant.png" id="2_3tjmr"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_14kma"]
-atlas = ExtResource("2_3tjmr")
-region = Rect2(37.9575, 88.0642, 103.565, 70.9091)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_76al8"]
-atlas = ExtResource("1_7m6pf")
-region = Rect2(18, 10, 124, 160.66)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xmrks"]
 radius = 45.0
 height = 100.0
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_14kma"]
+atlas = ExtResource("2_3tjmr")
+region = Rect2(37.9575, 88.0642, 103.565, 70.9091)
 
-[node name="Shadow" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.360784)
-position = Vector2(12, -10)
-texture = SubResource("AtlasTexture_14kma")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltsij"]
+atlas = ExtResource("2_3tjmr")
+region = Rect2(299.555, 104.985, 85.5141, 51.0084)
 
-[node name="TreeSprite" type="Sprite2D" parent="."]
-texture = SubResource("AtlasTexture_76al8")
-offset = Vector2(0, -54.93)
+[sub_resource type="AtlasTexture" id="AtlasTexture_76al8"]
+atlas = ExtResource("1_7m6pf")
+region = Rect2(18, 10, 124, 160.66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w8rpd"]
+atlas = ExtResource("1_7m6pf")
+region = Rect2(290.005, 23.6374, 90.5149, 133.022)
+
+[node name="TreeSprite" type="Node2D"]
+script = ExtResource("1_p7org")
 
 [node name="Area2D" type="Area2D" parent="."]
 visible = false
@@ -36,3 +37,36 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -71)
 shape = SubResource("CapsuleShape2D_xmrks")
+
+[node name="Shadow0" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.360784)
+z_index = 200
+position = Vector2(12, -10)
+texture = SubResource("AtlasTexture_14kma")
+
+[node name="Shadow1" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.360784)
+z_index = 200
+position = Vector2(13, -6)
+texture = SubResource("AtlasTexture_ltsij")
+
+[node name="Shadow2" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.360784)
+z_index = 200
+position = Vector2(15, -7)
+texture = SubResource("AtlasTexture_ltsij")
+
+[node name="TreeSprite0" type="Sprite2D" parent="."]
+z_index = 1000
+texture = SubResource("AtlasTexture_76al8")
+offset = Vector2(0, -54.93)
+
+[node name="TreeSprite1" type="Sprite2D" parent="."]
+z_index = 1000
+texture = SubResource("AtlasTexture_w8rpd")
+offset = Vector2(0, -61.975)
+
+[node name="TreeSprite2" type="Sprite2D" parent="."]
+z_index = 1000
+texture = SubResource("AtlasTexture_w8rpd")
+offset = Vector2(-0.945, -53.065)

@@ -1,5 +1,7 @@
 extends Node
 
+var rng = RandomNumberGenerator.new()
+
 var unit_parameters = {
 	"speed": 100,
 	"shoot_distance": 150.0,
