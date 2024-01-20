@@ -75,6 +75,7 @@ animations = [{
 }]
 
 [node name="HealEffect" type="AnimatedSprite2D"]
+z_index = 1000
 scale = Vector2(4.04, 4.04)
 sprite_frames = SubResource("SpriteFrames_rqqne")
 frame = 8

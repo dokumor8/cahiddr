@@ -62,9 +62,10 @@ script = ExtResource("1_pjd1t")
 y_sort_enabled = true
 script = ExtResource("2_fiulx")
 
-[node name="DeathWarden" parent="GameWorld" instance=ExtResource("15_ssx2t")]
+[node name="DeathWarden" parent="GameWorld" node_paths=PackedStringArray("teleport_home") instance=ExtResource("15_ssx2t")]
 z_index = 1000
 position = Vector2(943, 751)
+teleport_home = NodePath("../TeleportRoot")
 
 [node name="Camera2D" type="Camera2D" parent="GameWorld/DeathWarden"]
 unique_name_in_owner = true
@@ -302,6 +303,9 @@ position = Vector2(269, -2)
 
 [node name="DemonSoldier" parent="GameWorld" instance=ExtResource("13_qg4k3")]
 position = Vector2(1173, 778)
+
+[node name="TeleportRoot" type="Node2D" parent="GameWorld"]
+position = Vector2(1392.1, 787.894)
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 offset = Vector2(1.655, 0)

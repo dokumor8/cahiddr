@@ -213,6 +213,11 @@ script = ExtResource("7_hrwpq")
 to = NodePath("../../MovingWithoutAttacking")
 event = &"move_command"
 
+[node name="On ReturnCommand" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../Casting")
+event = &"cast_command"
+
 [node name="AttackChasing" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_24iuk")
 initial_state = NodePath("Chasing")
@@ -256,9 +261,30 @@ script = ExtResource("7_hrwpq")
 to = NodePath("../../AttackChasing")
 event = &"attack_command"
 
+[node name="Casting" type="Node" parent="StateChart/Root"]
+script = ExtResource("6_oj7av")
+
+[node name="On Interrupted" type="Node" parent="StateChart/Root/Casting"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../Idle")
+event = &"interrupt_cast"
+
+[node name="On Success" type="Node" parent="StateChart/Root/Casting"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../CastSuccess")
+delay_seconds = 4.0
+
+[node name="CastSuccess" type="Node" parent="StateChart/Root"]
+script = ExtResource("6_oj7av")
+
+[node name="Back to Idle" type="Node" parent="StateChart/Root/CastSuccess"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../Idle")
+
 [node name="Movement" parent="." instance=ExtResource("8_ecrww")]
 debug_enabled = true
 
 [connection signal="state_entered" from="StateChart/Root/Idle" to="." method="on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/AttackChasing/Chasing" to="." method="on_chasing_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/MovingWithoutAttacking" to="." method="on_moving_without_attacking_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/CastSuccess" to="." method="_on_cast_success_state_entered"]

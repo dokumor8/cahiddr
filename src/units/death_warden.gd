@@ -5,6 +5,7 @@ var health_increase_rate = 10
 var shooting_speedup = 0.3
 
 @export var animation_player: AnimationPlayer
+@export var teleport_home: Node2D
 
 var minimap_icon = "alert"
 signal removed()
@@ -14,6 +15,11 @@ func _ready():
 	super()
 	#attack_action = perform_attack
 	died.connect(on_died)
+
+
+func _input(event):
+	if event.is_action_pressed("cast_return_to_base"):
+		state_chart.send_event("cast_command")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -69,3 +75,9 @@ func receive_exp(exp_value):
 #func on_chasing_state_entered():
 	#var state_machine = _animation_tree["parameters/playback"]
 	#state_machine.travel("walk")
+
+
+
+func _on_cast_success_state_entered():
+	global_position = teleport_home.global_position
+	pass # Replace with function body.
