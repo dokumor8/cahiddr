@@ -264,6 +264,7 @@ tilemap = NodePath("../NavigationRegion2D/TileMap")
 tree_texture = SubResource("AtlasTexture_2rqpk")
 
 [node name="King" parent="GameWorld" instance=ExtResource("7_8bfo6")]
+unique_name_in_owner = true
 z_index = 1000
 position = Vector2(1004, 562)
 
@@ -302,7 +303,7 @@ shape = SubResource("RectangleShape2D_5tay0")
 position = Vector2(269, -2)
 
 [node name="DemonSoldier" parent="GameWorld" instance=ExtResource("13_qg4k3")]
-position = Vector2(1173, 778)
+position = Vector2(1182, 778)
 
 [node name="TeleportRoot" type="Node2D" parent="GameWorld"]
 position = Vector2(1392.1, 787.894)
@@ -319,8 +320,7 @@ offset_top = 105.0
 offset_right = -145.655
 offset_bottom = -102.0
 theme = ExtResource("12_shb05")
-enabled = false
-initial_node_to_watch = NodePath("../../GameWorld/DeathWarden")
+initial_node_to_watch = NodePath("../../GameWorld/DemonSoldier")
 
 [node name="MapControl" type="Control" parent="GUICanvasLayer" node_paths=PackedStringArray("camera_object", "tilemap")]
 custom_minimum_size = Vector2(150, 150)

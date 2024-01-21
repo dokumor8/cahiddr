@@ -19,6 +19,7 @@ extends Area2D
 @export var state_chasing: AtomicState = null
 @export var state_shoot: AtomicState = null
 @export var state_attack_chasing: CompoundState = null
+@export var state_attack_moving: AtomicState = null
 @export var state_moving: AtomicState = null
 
 #@onready var attack_action: Callable
@@ -58,6 +59,8 @@ func _ready():
 	state_moving.state_entered.connect(_on_moving_without_attacking_state_entered)
 	state_chasing.state_entered.connect(_on_chasing_state_entered)
 	state_attack_chasing.state_entered.connect(_on_attack_chasing_state_entered)
+	state_attack_moving.state_entered.connect(_on_attack_moving_state_entered)
+	state_attack_moving.state_exited.connect(_on_attack_moving_state_exited)
 	died.connect(on_died)
 
 	_movement_trait.movement_finished.connect(on_movement_finished)
@@ -69,7 +72,16 @@ func on_died():
 
 func on_movement_finished():
 	state_chart.send_event("movement_finished")
+	print("movement finished")
 	emit_signal("movement_finished")
+
+
+func _on_attack_moving_state_exited():
+	print("exited")
+
+
+func _on_attack_moving_state_entered():
+	print("entered")
 
 
 func flip_look_at(enemy_position):
@@ -93,9 +105,9 @@ func _on_chasing_state_physics_processing(delta):
 		state_chart.send_event("in_range")
 
 
-func walk_to(walk_marker):
+func walk_to(pos):
 	state_chart.send_event("move_command")
-	move(walk_marker.global_position)
+	move(pos)
 	aggro_target = null
 
 
@@ -105,7 +117,14 @@ func attack(enemy):
 	state_chart.send_event("attack_command")
 	if not is_in_range(enemy):
 		move(enemy.global_position)
-	
+
+
+func attack_move(pos):
+	move(pos)
+	aggro_target = null
+	# see state charts manual
+	state_chart.send_event.call_deferred("amove")
+
 
 func set_potential_target(body):
 	potential_target = body
@@ -226,6 +245,7 @@ func perform_attack():
 	flip_look_at(aggro_target.global_position)
 	var state_machine = _animation_tree["parameters/playback"]
 	state_machine.start("attack", true)
+
 
 func move(target_position):
 	_movement_trait.move(target_position)

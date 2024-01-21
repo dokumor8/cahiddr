@@ -4,6 +4,7 @@ var spawn_width = 20
 var spawn_height = 40
 var rng = RandomNumberGenerator.new()
 var Unit = preload("res://src/units/unit.tscn")
+var DemonSoldier = preload("res://src/units/demon_soldier.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -29,7 +30,7 @@ func spawn_sequence(amount, delay):
 	
 
 func spawn_enemy():
-	var unit = Unit.instantiate()
+	var unit = DemonSoldier.instantiate()
 
 	var game_world = find_parent("GameWorld")
 	game_world.add_child(unit)

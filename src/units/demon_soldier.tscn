@@ -135,7 +135,7 @@ states/walk/node = SubResource("AnimationNodeAnimation_3i5o8")
 states/walk/position = Vector2(539, 208)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_0piup"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_mh8xw"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_v3ud0"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_mcjb4"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_klvt6"), "walk", "attack", SubResource("AnimationNodeStateMachineTransition_jfc16"), "attack", "walk", SubResource("AnimationNodeStateMachineTransition_fnr0o")]
 
-[node name="DemonSoldier" type="Area2D" node_paths=PackedStringArray("_animation_tree", "sprite", "aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing", "state_moving") groups=["enemy"]]
+[node name="DemonSoldier" type="Area2D" node_paths=PackedStringArray("_animation_tree", "sprite", "aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing", "state_attack_moving", "state_moving") groups=["enemy"]]
 z_index = 1000
 collision_layer = 2
 script = ExtResource("1_c4m8k")
@@ -151,6 +151,7 @@ state_idle = NodePath("StateChart/Root/Idle")
 state_chasing = NodePath("StateChart/Root/AttackChasing/Chasing")
 state_shoot = NodePath("StateChart/Root/AttackChasing/Shoot")
 state_attack_chasing = NodePath("StateChart/Root/AttackChasing")
+state_attack_moving = NodePath("StateChart/Root/AttackMoving")
 state_moving = NodePath("StateChart/Root/MovingWithoutAttacking")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -207,6 +208,11 @@ script = ExtResource("7_nyekh")
 to = NodePath("../../MovingWithoutAttacking")
 event = &"move_command"
 
+[node name="On AttackMoveCommand" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("7_nyekh")
+to = NodePath("../../AttackMoving")
+event = &"amove"
+
 [node name="AttackChasing" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_xoadv")
 initial_state = NodePath("Chasing")
@@ -257,6 +263,19 @@ event = &"movement_finished"
 script = ExtResource("7_nyekh")
 to = NodePath("../../AttackChasing")
 event = &"attack_command"
+
+[node name="AttackMoving" type="Node" parent="StateChart/Root"]
+script = ExtResource("6_7xfqa")
+
+[node name="On EnemyDetected" type="Node" parent="StateChart/Root/AttackMoving"]
+script = ExtResource("7_nyekh")
+to = NodePath("../../AttackChasing")
+event = &"found_target"
+
+[node name="On ReachedDestination" type="Node" parent="StateChart/Root/AttackMoving"]
+script = ExtResource("7_nyekh")
+to = NodePath("../../Idle")
+event = &"movement_finished"
 
 [node name="Movement" parent="." instance=ExtResource("8_j4r8v")]
 debug_enabled = true

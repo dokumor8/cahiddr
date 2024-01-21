@@ -8,6 +8,7 @@ extends Node
 @export var max_experience = 10
 @export var hero_level = 1
 @onready var hero: Area2D
+@onready var king: Area2D
 
 var default_money = 300
 var default_hero_experience = 0

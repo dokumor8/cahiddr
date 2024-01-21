@@ -10,6 +10,7 @@ var spawn_height = 40
 @export var shots_per_second_upgrade_rate: float = 0
 var rng = RandomNumberGenerator.new()
 var Unit = preload("res://src/units/unit.tscn")
+var DemonSoldier = preload("res://src/units/demon_soldier.tscn")
 var camp_level = 2
 @onready var state_chart = $StateChart
 var max_health = 200.0
@@ -43,7 +44,7 @@ func spawn_wave(amount, delay):
 
 
 func spawn_enemy():
-	var unit = Unit.instantiate()
+	var unit = DemonSoldier.instantiate()
 
 	game_world.add_child(unit)
 	var parameters = {
@@ -58,6 +59,8 @@ func spawn_enemy():
 	var y_spawn = rng.randi() % spawn_height
 
 	unit.global_position = global_position + Vector2(x_spawn, y_spawn)
+	
+	unit.attack_move(PlayerVariables.king.global_position)
 
 
 var HitEffectHero = preload("res://src/effects/hit_effect_hero.tscn")

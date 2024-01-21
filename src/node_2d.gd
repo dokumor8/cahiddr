@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var walk_marker = $GameWorld/WalkMarker
 @onready var hero = $GameWorld/DeathWarden
+@onready var king = %King
 #@onready var hero = $GameWorld/Hero
 @onready var camera = %Camera2D
 @onready var tile_map = %TileMap
@@ -35,6 +36,9 @@ func _ready():
 	hero.movement_finished.connect(_on_hero_movement_finished)
 	hero.died.connect(_on_hero_died)
 	PlayerVariables.hero = hero
+	PlayerVariables.king = king
+	
+	$GameWorld/DemonSoldier.init_attack_king()
 #	set_buildable_tiles()
 
 
@@ -155,7 +159,7 @@ func click_game_world():
 	if (intersect_objects.is_empty()):
 		walk_marker.global_position = get_global_mouse_position()
 		walk_marker.show()
-		hero.walk_to(walk_marker)
+		hero.walk_to(walk_marker.global_position)
 	else:
 		var enemy_collider = intersect_objects[0]["collider"]
 		hero.attack(enemy_collider)
