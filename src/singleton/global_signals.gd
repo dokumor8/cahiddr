@@ -12,3 +12,26 @@ signal unit_targeted(unit)
 signal unit_selected(unit)
 signal unit_deselected(unit)
 signal unit_died(unit)
+
+signal broadcast_event(text)
+signal remove_last_event()
+
+var event_cooldowns = {}
+var events = {
+	"king_attacked":
+	{
+		"name": "king_attacked",
+		"cooldown": 3,
+		"text": "King is attacked!"
+	}
+}
+
+
+func try_broadcasting_event(event_type, event_text):
+	if event_type not in event_cooldowns:
+		broadcast_event.emit(event_text)
+		event_cooldowns[event_type] = 1
+		await get_tree().create_timer(events[event_type]["cooldown"], false).timeout
+		remove_last_event.emit()
+		event_cooldowns.erase(event_type)
+

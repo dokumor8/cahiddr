@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://c6kghfkovuej0"]
+[gd_scene load_steps=13 format=3 uid="uid://c6kghfkovuej0"]
 
 [ext_resource type="Script" path="res://src/gui/gui_canvas_layer.gd" id="1_rjfe0"]
+[ext_resource type="Script" path="res://src/gui/EventManager.gd" id="2_w3dtn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrpg"]
 font_size = 30
@@ -237,11 +238,28 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "5"
 
+[node name="EventContainer" type="MarginContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="EventListPanel" type="PanelContainer" parent="MarginContainer/EventContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
 anchor_right = 0.649
 anchor_bottom = 0.695
 offset_right = -747.648
 offset_bottom = -450.36
+
+[node name="EventManager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_w3dtn")
 
 [connection signal="pressed" from="MarginContainer/MarginContainer/MarginContainer/RestartButton" to="." method="_on_restart_button_pressed"]

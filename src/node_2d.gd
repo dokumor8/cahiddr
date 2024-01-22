@@ -28,6 +28,7 @@ var respawn_cooldown = 10
 var building_to_build = "defenders"
 var can_build = false
 
+
 func _ready():
 	PlayerVariables.hero_respawn_cooldown = 5
 	$GUICanvasLayer.build_button.pressed.connect(on_build_button_pressed)
@@ -92,6 +93,7 @@ func place_building():
 		PlayerVariables.money -= PlayerVariables.building_cost
 #		print(defender_building)
 		set_cursor_mode_normal()
+		GlobalSignals.try_broadcasting_event("king_attacked", "Placed a building")
 
 
 

@@ -11,3 +11,5 @@ var unit_parameters = {
 	"money_reward": 1,
 	"shots_per_second": 0.3
 }
+
+var events = []

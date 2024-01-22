@@ -38,6 +38,7 @@ animations = [{
 radius = 263.66
 
 [node name="Defender" type="Area2D" groups=["ally", "defender", "targetable_allies"]]
+z_index = 1000
 collision_mask = 0
 script = ExtResource("1_f5fo7")
 
