@@ -124,6 +124,10 @@ func attack_move(pos):
 	aggro_target = null
 	# see state charts manual
 	state_chart.send_event.call_deferred("amove")
+	print(_movement_trait.target_position)
+	print(_movement_trait.speed)
+	print(_movement_trait._interim_speed)
+	
 
 
 func set_potential_target(body):

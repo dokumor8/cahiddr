@@ -8,10 +8,12 @@ extends CanvasLayer
 @onready var level_label = $%LevelAmount
 @onready var restart_button = $%RestartButton
 @onready var rally_button = $%RallyButton
+@onready var return_button = %ReturnSkillButton
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GlobalSignals.cast_pending.connect(update_return_cooldown)
 	pass # Replace with function body.
 
 
@@ -27,6 +29,12 @@ func _process(delta):
 		exp_bar.value = 100.0 * PlayerVariables.hero_experience / PlayerVariables.max_experience
 #	exp_label.text = str(PlayerVariables.hero_experience) + " / " + str(PlayerVariables.max_experience)
 	level_label.text = str(PlayerVariables.hero_level)
+
+
+func update_return_cooldown(total, current):
+	print(current)
+	return_button.update_cooldown(100.0 * current / total)
+	pass
 
 
 func show_end_message():

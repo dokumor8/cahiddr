@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://be2mul6v4onae"]
+
+[ext_resource type="Script" path="res://src/gui/skill_button.gd" id="1_qg2wk"]
+
+[sub_resource type="Gradient" id="Gradient_xtmnc"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hw8bb"]
+gradient = SubResource("Gradient_xtmnc")
+width = 40
+height = 40
+
+[sub_resource type="Gradient" id="Gradient_3w04k"]
+offsets = PackedFloat32Array(0, 0.879167)
+colors = PackedColorArray(0, 0, 0, 1, 0.154876, 0.154876, 0.154876, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g4opx"]
+gradient = SubResource("Gradient_3w04k")
+width = 40
+height = 40
+
+[node name="SkillButton" type="MarginContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_qg2wk")
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+step = 0.0
+fill_mode = 4
+texture_under = SubResource("GradientTexture2D_hw8bb")
+texture_progress = SubResource("GradientTexture2D_g4opx")
+tint_progress = Color(0, 0, 0, 1)

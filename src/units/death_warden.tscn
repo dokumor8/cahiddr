@@ -1,9 +1,10 @@
-[gd_scene load_steps=27 format=3 uid="uid://caq4t0knoifyv"]
+[gd_scene load_steps=28 format=3 uid="uid://caq4t0knoifyv"]
 
 [ext_resource type="Script" path="res://src/units/death_warden.gd" id="1_2ka6p"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_srjs8"]
 [ext_resource type="Texture2D" uid="uid://d3e70wdtjhlhd" path="res://img/units/hero_idle_walk_punch.png" id="3_heg4j"]
 [ext_resource type="PackedScene" uid="uid://cdp31fdwtxi2g" path="res://src/gui/health_bar.tscn" id="3_uxe7t"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="5_2jj71"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="5_24iuk"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="6_oj7av"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_hrwpq"]
@@ -151,12 +152,12 @@ health_bar = NodePath("HealthBar")
 enemy_unit_type = "enemy"
 movement_speed = 130.0
 attack_distance = 400.0
-state_idle = NodePath("StateChart/Root/Idle")
-state_chasing = NodePath("StateChart/Root/AttackChasing/Chasing")
-state_shoot = NodePath("StateChart/Root/AttackChasing/Shoot")
-state_attack_chasing = NodePath("StateChart/Root/AttackChasing")
-state_attack_moving = NodePath("StateChart/Root/AttackMoving")
-state_moving = NodePath("StateChart/Root/MovingWithoutAttacking")
+state_idle = NodePath("StateChart/Root/Behavior/Idle")
+state_chasing = NodePath("StateChart/Root/Behavior/AttackChasing/Chasing")
+state_shoot = NodePath("StateChart/Root/Behavior/AttackChasing/Shoot")
+state_attack_chasing = NodePath("StateChart/Root/Behavior/AttackChasing")
+state_attack_moving = NodePath("StateChart/Root/Behavior/AttackMoving")
+state_moving = NodePath("StateChart/Root/Behavior/MovingWithoutAttacking")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_1l8su")
@@ -193,112 +194,139 @@ frame = 10
 script = ExtResource("2_srjs8")
 
 [node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("5_2jj71")
+
+[node name="Behavior" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_24iuk")
 initial_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateChart/Root"]
+[node name="Idle" type="Node" parent="StateChart/Root/Behavior"]
 script = ExtResource("6_oj7av")
 
-[node name="EnemyDetected" type="Node" parent="StateChart/Root/Idle"]
+[node name="EnemyDetected" type="Node" parent="StateChart/Root/Behavior/Idle"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../AttackChasing")
 event = &"found_target"
 
-[node name="On AttackCommand" type="Node" parent="StateChart/Root/Idle"]
+[node name="On AttackCommand" type="Node" parent="StateChart/Root/Behavior/Idle"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../AttackChasing")
 event = &"attack_command"
 
-[node name="On MoveCommand" type="Node" parent="StateChart/Root/Idle"]
+[node name="On MoveCommand" type="Node" parent="StateChart/Root/Behavior/Idle"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../MovingWithoutAttacking")
 event = &"move_command"
 
-[node name="On ReturnCommand" type="Node" parent="StateChart/Root/Idle"]
+[node name="On ReturnCommand" type="Node" parent="StateChart/Root/Behavior/Idle"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../Casting")
 event = &"cast_command"
 
-[node name="AttackChasing" type="Node" parent="StateChart/Root"]
+[node name="AttackChasing" type="Node" parent="StateChart/Root/Behavior"]
 script = ExtResource("5_24iuk")
 initial_state = NodePath("Chasing")
 
-[node name="Shoot" type="Node" parent="StateChart/Root/AttackChasing"]
+[node name="Shoot" type="Node" parent="StateChart/Root/Behavior/AttackChasing"]
 script = ExtResource("6_oj7av")
 
-[node name="OutOfRange" type="Node" parent="StateChart/Root/AttackChasing/Shoot"]
+[node name="OutOfRange" type="Node" parent="StateChart/Root/Behavior/AttackChasing/Shoot"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../Chasing")
 event = &"out_of_range"
 
-[node name="Chasing" type="Node" parent="StateChart/Root/AttackChasing"]
+[node name="Chasing" type="Node" parent="StateChart/Root/Behavior/AttackChasing"]
 script = ExtResource("6_oj7av")
 
-[node name="InRange" type="Node" parent="StateChart/Root/AttackChasing/Chasing"]
+[node name="InRange" type="Node" parent="StateChart/Root/Behavior/AttackChasing/Chasing"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../Shoot")
 event = &"in_range"
 
-[node name="On TargetLost" type="Node" parent="StateChart/Root/AttackChasing"]
+[node name="On TargetLost" type="Node" parent="StateChart/Root/Behavior/AttackChasing"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../Idle")
 event = &"target_lost"
 
-[node name="On MoveCommand" type="Node" parent="StateChart/Root/AttackChasing"]
+[node name="On MoveCommand" type="Node" parent="StateChart/Root/Behavior/AttackChasing"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../MovingWithoutAttacking")
 event = &"move_command"
 
-[node name="MovingWithoutAttacking" type="Node" parent="StateChart/Root"]
+[node name="MovingWithoutAttacking" type="Node" parent="StateChart/Root/Behavior"]
 script = ExtResource("6_oj7av")
 
-[node name="On ReachedDestination" type="Node" parent="StateChart/Root/MovingWithoutAttacking"]
+[node name="On ReachedDestination" type="Node" parent="StateChart/Root/Behavior/MovingWithoutAttacking"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../Idle")
 event = &"movement_finished"
 
-[node name="On AttackCommand" type="Node" parent="StateChart/Root/MovingWithoutAttacking"]
+[node name="On AttackCommand" type="Node" parent="StateChart/Root/Behavior/MovingWithoutAttacking"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../AttackChasing")
 event = &"attack_command"
 
-[node name="Casting" type="Node" parent="StateChart/Root"]
+[node name="Casting" type="Node" parent="StateChart/Root/Behavior"]
 script = ExtResource("6_oj7av")
 
-[node name="On Interrupted" type="Node" parent="StateChart/Root/Casting"]
+[node name="On Interrupted" type="Node" parent="StateChart/Root/Behavior/Casting"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../Idle")
 event = &"interrupt_cast"
 
-[node name="On Success" type="Node" parent="StateChart/Root/Casting"]
+[node name="On Success" type="Node" parent="StateChart/Root/Behavior/Casting"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../CastSuccess")
 delay_seconds = 4.0
 
-[node name="CastSuccess" type="Node" parent="StateChart/Root"]
+[node name="CastSuccess" type="Node" parent="StateChart/Root/Behavior"]
 script = ExtResource("6_oj7av")
 
-[node name="Back to Idle" type="Node" parent="StateChart/Root/CastSuccess"]
+[node name="Back to Idle" type="Node" parent="StateChart/Root/Behavior/CastSuccess"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../Idle")
 
-[node name="AttackMoving" type="Node" parent="StateChart/Root"]
+[node name="AttackMoving" type="Node" parent="StateChart/Root/Behavior"]
 script = ExtResource("6_oj7av")
 
-[node name="On EnemyDetected" type="Node" parent="StateChart/Root/AttackMoving"]
+[node name="On EnemyDetected" type="Node" parent="StateChart/Root/Behavior/AttackMoving"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../AttackChasing")
 event = &"found_target"
 
-[node name="On ReachedDestination" type="Node" parent="StateChart/Root/AttackMoving"]
+[node name="On ReachedDestination" type="Node" parent="StateChart/Root/Behavior/AttackMoving"]
 script = ExtResource("7_hrwpq")
 to = NodePath("../../Idle")
 event = &"movement_finished"
 
+[node name="Cooldowns" type="Node" parent="StateChart/Root"]
+script = ExtResource("5_2jj71")
+
+[node name="ReturnSkill" type="Node" parent="StateChart/Root/Cooldowns"]
+script = ExtResource("5_24iuk")
+initial_state = NodePath("Available")
+
+[node name="Available" type="Node" parent="StateChart/Root/Cooldowns/ReturnSkill"]
+script = ExtResource("6_oj7av")
+
+[node name="On Activated" type="Node" parent="StateChart/Root/Cooldowns/ReturnSkill/Available"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../Cooling")
+event = &"cast_success"
+
+[node name="Cooling" type="Node" parent="StateChart/Root/Cooldowns/ReturnSkill"]
+script = ExtResource("6_oj7av")
+
+[node name="On Cooled" type="Node" parent="StateChart/Root/Cooldowns/ReturnSkill/Cooling"]
+script = ExtResource("7_hrwpq")
+to = NodePath("../../Available")
+delay_seconds = 3.0
+
 [node name="Movement" parent="." instance=ExtResource("8_ecrww")]
 debug_enabled = true
 
-[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="on_idle_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/AttackChasing/Chasing" to="." method="on_chasing_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/MovingWithoutAttacking" to="." method="on_moving_without_attacking_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/CastSuccess" to="." method="_on_cast_success_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Behavior/Idle" to="." method="on_idle_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Behavior/AttackChasing/Chasing" to="." method="on_chasing_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Behavior/MovingWithoutAttacking" to="." method="on_moving_without_attacking_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Behavior/CastSuccess" to="." method="_on_cast_success_state_entered"]
+[connection signal="transition_pending" from="StateChart/Root/Cooldowns/ReturnSkill/Cooling" to="." method="_on_cooling_transition_pending"]

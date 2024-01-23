@@ -46,6 +46,9 @@ func hit(damage, _sender):
 	damageTextLabel.global_position = global_position
 	get_tree().get_root().add_child(damageTextLabel)
 	
+	GlobalSignals.try_broadcasting_event("king_attacked", "King is attacked!")
+
+	
 
 	hitEffectHero.global_position = global_position + Vector2(shift_x, shift_y)
 	

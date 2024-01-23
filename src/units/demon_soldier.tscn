@@ -146,6 +146,7 @@ aggro_area = NodePath("AggroArea")
 state_chart = NodePath("StateChart")
 health_bar = NodePath("HealthBar")
 enemy_unit_type = "ally"
+movement_speed = 100.0
 attack_distance = 150.0
 state_idle = NodePath("StateChart/Root/Idle")
 state_chasing = NodePath("StateChart/Root/AttackChasing/Chasing")

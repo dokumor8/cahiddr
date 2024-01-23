@@ -93,7 +93,6 @@ func place_building():
 		PlayerVariables.money -= PlayerVariables.building_cost
 #		print(defender_building)
 		set_cursor_mode_normal()
-		GlobalSignals.try_broadcasting_event("king_attacked", "Placed a building")
 
 
 

@@ -80,4 +80,9 @@ func receive_exp(exp_value):
 
 func _on_cast_success_state_entered():
 	global_position = teleport_home.global_position
+	state_chart.send_event("cast_success")
 	pass # Replace with function body.
+
+
+func _on_cooling_transition_pending(initial_delay, remaining_delay):
+	GlobalSignals.cast_pending.emit(initial_delay, remaining_delay)

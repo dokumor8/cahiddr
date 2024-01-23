@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://c6kghfkovuej0"]
+[gd_scene load_steps=16 format=3 uid="uid://c6kghfkovuej0"]
 
 [ext_resource type="Script" path="res://src/gui/gui_canvas_layer.gd" id="1_rjfe0"]
+[ext_resource type="PackedScene" uid="uid://be2mul6v4onae" path="res://src/gui/skill_button.tscn" id="2_6ouqo"]
 [ext_resource type="Script" path="res://src/gui/EventManager.gd" id="2_w3dtn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrpg"]
@@ -18,6 +19,13 @@ bg_color = Color(0.768627, 0.690196, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_be345"]
 bg_color = Color(0, 0.72549, 0.239216, 1)
+
+[sub_resource type="Gradient" id="Gradient_3i11w"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ta3fa"]
+gradient = SubResource("Gradient_3i11w")
+width = 40
+height = 40
 
 [sub_resource type="InputEventKey" id="InputEventKey_ovvka"]
 device = -1
@@ -103,18 +111,18 @@ layout_mode = 2
 layout_mode = 2
 texture = SubResource("GradientTexture2D_t0grg")
 
-[node name="HBoxContainer4" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="LevelLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/HBoxContainer4"]
+[node name="LevelLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 10
 text = "LEVEL"
 horizontal_alignment = 1
 
-[node name="LevelAmount" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/HBoxContainer4"]
+[node name="LevelAmount" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer4"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
@@ -142,6 +150,28 @@ layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_be345")
 value = 100.0
 show_percentage = false
+
+[node name="ReturnCooldownContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="ReturnSkill" type="TextureProgressBar" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/ReturnCooldownContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+fill_mode = 4
+texture_under = SubResource("GradientTexture2D_ta3fa")
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/ReturnCooldownContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "15"
+
+[node name="ReturnSkillButton" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_6ouqo")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="PanelContainer2" type="PanelContainer" parent="MarginContainer"]
 layout_mode = 2

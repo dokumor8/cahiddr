@@ -15,6 +15,7 @@ signal unit_died(unit)
 
 signal broadcast_event(text)
 signal remove_last_event()
+signal cast_pending(total, current)
 
 var event_cooldowns = {}
 var events = {
