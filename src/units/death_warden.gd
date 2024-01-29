@@ -71,7 +71,7 @@ func receive_exp(exp_value):
 	##state_machine.start()
 	##animation_player.play("shoot_punch")
 
-#
+
 #func on_chasing_state_entered():
 	#var state_machine = _animation_tree["parameters/playback"]
 	#state_machine.travel("walk")
@@ -86,3 +86,8 @@ func _on_cast_success_state_entered():
 
 func _on_cooling_transition_pending(initial_delay, remaining_delay):
 	GlobalSignals.cast_pending.emit(initial_delay, remaining_delay)
+
+
+func _on_casting_state_entered():
+	var state_machine = _animation_tree["parameters/playback"]
+	state_machine.travel("casting")

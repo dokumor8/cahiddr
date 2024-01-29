@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://caq4t0knoifyv"]
+[gd_scene load_steps=32 format=3 uid="uid://caq4t0knoifyv"]
 
 [ext_resource type="Script" path="res://src/units/death_warden.gd" id="1_2ka6p"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_srjs8"]
@@ -63,6 +63,22 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_1q70s"]
+resource_name = "casting"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+}
+
 [sub_resource type="Animation" id="Animation_6ng4k"]
 resource_name = "idle"
 loop_mode = 1
@@ -100,12 +116,16 @@ tracks/0/keys = {
 _data = {
 "RESET": SubResource("Animation_f3o27"),
 "attack": SubResource("Animation_kxkx0"),
+"casting": SubResource("Animation_1q70s"),
 "idle": SubResource("Animation_6ng4k"),
 "walk": SubResource("Animation_if8pt")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sojkp"]
 animation = &"attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_k0hh0"]
+animation = &"casting"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_43jnt"]
 animation = &"idle"
@@ -128,16 +148,22 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1lsdl"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qnelb"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_uih0d"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_acep3"]
 states/End/position = Vector2(897, 78)
 states/Start/position = Vector2(173, 73)
 states/attack/node = SubResource("AnimationNodeAnimation_sojkp")
 states/attack/position = Vector2(389, 188)
+states/casting/node = SubResource("AnimationNodeAnimation_k0hh0")
+states/casting/position = Vector2(204, 176)
 states/idle/node = SubResource("AnimationNodeAnimation_43jnt")
 states/idle/position = Vector2(410, 68)
 states/walk/node = SubResource("AnimationNodeAnimation_3far2")
 states/walk/position = Vector2(683, 78)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_q8qc3"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_bkygj"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_abqfm"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_ky8jo"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_jbfit"), "attack", "walk", SubResource("AnimationNodeStateMachineTransition_52omc"), "walk", "attack", SubResource("AnimationNodeStateMachineTransition_1lsdl")]
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_q8qc3"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_bkygj"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_abqfm"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_ky8jo"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_jbfit"), "attack", "walk", SubResource("AnimationNodeStateMachineTransition_52omc"), "walk", "attack", SubResource("AnimationNodeStateMachineTransition_1lsdl"), "casting", "idle", SubResource("AnimationNodeStateMachineTransition_qnelb"), "idle", "casting", SubResource("AnimationNodeStateMachineTransition_uih0d")]
 
 [node name="DeathWarden" type="Area2D" node_paths=PackedStringArray("animation_player", "_animation_tree", "sprite", "aggro_area", "state_chart", "health_bar", "state_idle", "state_chasing", "state_shoot", "state_attack_chasing", "state_attack_moving", "state_moving") groups=["ally", "hero", "minimap_objects", "targetable_allies"]]
 collision_mask = 8
@@ -187,7 +213,7 @@ anim_player = NodePath("../AnimationPlayer")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("3_heg4j")
 hframes = 10
-vframes = 3
+vframes = 4
 frame = 10
 
 [node name="StateChart" type="Node" parent="."]
@@ -328,5 +354,6 @@ debug_enabled = true
 [connection signal="state_entered" from="StateChart/Root/Behavior/Idle" to="." method="on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Behavior/AttackChasing/Chasing" to="." method="on_chasing_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Behavior/MovingWithoutAttacking" to="." method="on_moving_without_attacking_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Behavior/Casting" to="." method="_on_casting_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Behavior/CastSuccess" to="." method="_on_cast_success_state_entered"]
 [connection signal="transition_pending" from="StateChart/Root/Cooldowns/ReturnSkill/Cooling" to="." method="_on_cooling_transition_pending"]

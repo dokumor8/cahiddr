@@ -4,7 +4,6 @@ var _king = null
 
 func _ready():
 	super()
-	
 	_king = game_world.find_child("King")
 	#attack_action = perform_attack
 

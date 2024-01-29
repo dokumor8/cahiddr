@@ -33,6 +33,7 @@ signal input_happened(event)
 
 # internal
 var potential_target: Node2D
+var potential_walk_target: Vector2
 var aggro_target = null
 var health: float = 0.0
 var target = position
@@ -81,6 +82,9 @@ func _on_attack_moving_state_exited():
 
 
 func _on_attack_moving_state_entered():
+	move(potential_walk_target)
+	aggro_target = null
+
 	print("entered")
 
 
@@ -120,14 +124,12 @@ func attack(enemy):
 
 
 func attack_move(pos):
-	move(pos)
-	aggro_target = null
+	potential_walk_target = pos
+	#move(pos)
+	#print("attack_move called")
+	#aggro_target = null
 	# see state charts manual
 	state_chart.send_event.call_deferred("amove")
-	print(_movement_trait.target_position)
-	print(_movement_trait.speed)
-	print(_movement_trait._interim_speed)
-	
 
 
 func set_potential_target(body):
@@ -161,6 +163,7 @@ func _on_shoot_state_physics_processing(delta):
 
 func _on_idle_state_entered():
 	_movement_trait.stop()
+	print("idle entered")
 	var target = query_surroundings_for_target()
 	if target and is_instance_valid(target):
 		attack(target)
@@ -170,6 +173,8 @@ func _on_idle_state_entered():
 
 
 func _on_shoot_state_entered():
+	print("shoot entered")
+
 	_movement_trait.stop()
 
 
