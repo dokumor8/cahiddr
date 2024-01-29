@@ -302,11 +302,11 @@ position = Vector2(269, -2)
 [node name="DemonSoldier" parent="GameWorld" instance=ExtResource("13_qg4k3")]
 position = Vector2(1182, 778)
 
+[node name="SmallCamp" parent="GameWorld" instance=ExtResource("9_garsw")]
+position = Vector2(920, 1275)
+
 [node name="TeleportRoot" type="Node2D" parent="GameWorld"]
 position = Vector2(1392.1, 787.894)
-
-[node name="SmallCamp" parent="GameWorld" instance=ExtResource("9_garsw")]
-position = Vector2(862.988, 1247.6)
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 offset = Vector2(1.655, 0)

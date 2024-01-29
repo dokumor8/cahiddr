@@ -22,11 +22,13 @@ script = ExtResource("1_qfl6o")
 spawn_area = SubResource("RectangleShape2D_45iuq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0.5)
+position = Vector2(0, -31)
 shape = SubResource("RectangleShape2D_6yd12")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 6)
 texture = ExtResource("1_pkhtt")
+offset = Vector2(0, -40)
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("3_kv5uv")
@@ -77,10 +79,8 @@ to = NodePath("../../BuildingUnits")
 delay_seconds = 0.1
 
 [node name="HealthBar" parent="." instance=ExtResource("7_27t0y")]
-offset_left = -25.0
-offset_top = -48.0
-offset_right = 23.0
-offset_bottom = -38.0
+offset_top = -83.0
+offset_bottom = -73.0
 metadata/_edit_use_anchors_ = true
 
 [connection signal="state_entered" from="StateChart/Root/SendWave" to="." method="_on_send_wave_state_entered"]
