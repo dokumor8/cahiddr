@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://deb6xe72w2557"]
+[gd_scene load_steps=32 format=3 uid="uid://deb6xe72w2557"]
 
 [ext_resource type="Script" path="res://src/node_2d.gd" id="1_pjd1t"]
 [ext_resource type="Script" path="res://src/GameWorld.gd" id="2_fiulx"]
@@ -44,9 +44,6 @@ colors = PackedColorArray(0, 0.556863, 0, 1, 1, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qa3f2"]
 gradient = SubResource("Gradient_8sg87")
 width = 96
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5tay0"]
-size = Vector2(1151, 719)
 
 [sub_resource type="Gradient" id="Gradient_nruax"]
 colors = PackedColorArray(0.556953, 0.556953, 0.556953, 1, 1, 1, 1, 1)
@@ -100,10 +97,11 @@ script = ExtResource("9_870hb")
 tree_texture = SubResource("AtlasTexture_rvt2d")
 
 [node name="Rocks" type="Node2D" parent="GameWorld/NavigationRegion2D/TileMap"]
+z_index = 1000
 y_sort_enabled = true
 
 [node name="Sprite2D17" type="Sprite2D" parent="GameWorld/NavigationRegion2D/TileMap/Rocks"]
-position = Vector2(69, 1142)
+position = Vector2(92, 1049)
 texture = ExtResource("12_yl5nd")
 offset = Vector2(0, -110)
 
@@ -133,37 +131,37 @@ texture = ExtResource("12_yl5nd")
 offset = Vector2(0, -110)
 
 [node name="Sprite2D23" type="Sprite2D" parent="GameWorld/NavigationRegion2D/TileMap/Rocks"]
-position = Vector2(712, 132)
+position = Vector2(726, 176)
 texture = ExtResource("12_yl5nd")
 offset = Vector2(0, -110)
 
 [node name="Sprite2D24" type="Sprite2D" parent="GameWorld/NavigationRegion2D/TileMap/Rocks"]
-position = Vector2(607, 129)
+position = Vector2(591, 180)
 texture = ExtResource("12_yl5nd")
 offset = Vector2(0, -110)
 
 [node name="Sprite2D25" type="Sprite2D" parent="GameWorld/NavigationRegion2D/TileMap/Rocks"]
-position = Vector2(846, 151)
+position = Vector2(839, 185)
 texture = ExtResource("12_yl5nd")
 offset = Vector2(0, -110)
 
 [node name="Sprite2D26" type="Sprite2D" parent="GameWorld/NavigationRegion2D/TileMap/Rocks"]
-position = Vector2(1086, 142)
+position = Vector2(1095, 170)
 texture = ExtResource("12_yl5nd")
 offset = Vector2(0, -110)
 
 [node name="Sprite2D27" type="Sprite2D" parent="GameWorld/NavigationRegion2D/TileMap/Rocks"]
-position = Vector2(975, 146)
+position = Vector2(975, 170)
 texture = ExtResource("12_yl5nd")
 offset = Vector2(0, -110)
 
 [node name="Sprite2D28" type="Sprite2D" parent="GameWorld/NavigationRegion2D/TileMap/Rocks"]
-position = Vector2(1198, 177)
+position = Vector2(1196, 186)
 texture = ExtResource("12_yl5nd")
 offset = Vector2(0, -110)
 
 [node name="Sprite2D29" type="Sprite2D" parent="GameWorld/NavigationRegion2D/TileMap/Rocks"]
-position = Vector2(198, 1095)
+position = Vector2(168, 1020)
 texture = ExtResource("12_yl5nd")
 offset = Vector2(0, -110)
 
@@ -287,13 +285,14 @@ z_index = 2000
 texture = ExtResource("10_grk02")
 
 [node name="RallyPossibleArea" type="Area2D" parent="GameWorld"]
-visible = false
+z_index = 2000
+position = Vector2(-575, 799)
 collision_layer = 8
 collision_mask = 0
 
-[node name="RallyShape2D" type="CollisionShape2D" parent="GameWorld/RallyPossibleArea"]
-position = Vector2(596.5, 469.5)
-shape = SubResource("RectangleShape2D_5tay0")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="GameWorld/RallyPossibleArea"]
+position = Vector2(323, 7)
+polygon = PackedVector2Array(770, -550, 674, -550, 676, -426, 588, -419, 577, -320, 509, -319, 483, -270, 487, 168, 1807, 180, 1798, -614, 781, -607)
 
 [node name="RallyRoot" type="Node2D" parent="GameWorld"]
 position = Vector2(269, -2)
@@ -314,10 +313,10 @@ transform = Transform2D(1, 0, 0, 1, 1.655, 0)
 [node name="StateChartDebugger" parent="GUICanvasLayer" instance=ExtResource("11_co1w3")]
 modulate = Color(1, 1, 1, 0.572549)
 z_index = 40
-offset_left = 330.345
-offset_top = 105.0
-offset_right = -145.655
-offset_bottom = -102.0
+offset_left = 340.345
+offset_top = 109.0
+offset_right = -135.655
+offset_bottom = -98.0
 theme = ExtResource("12_shb05")
 initial_node_to_watch = NodePath("../../GameWorld/DemonSoldier")
 
