@@ -59,33 +59,29 @@ func _ready():
 	state_attack_chasing.state_physics_processing.connect(_on_attack_chasing_state_physics_processing)
 	state_moving.state_entered.connect(_on_moving_without_attacking_state_entered)
 	state_chasing.state_entered.connect(_on_chasing_state_entered)
-	state_attack_chasing.state_entered.connect(_on_attack_chasing_state_entered)
 	state_attack_moving.state_entered.connect(_on_attack_moving_state_entered)
 	state_attack_moving.state_exited.connect(_on_attack_moving_state_exited)
-	died.connect(on_died)
+	died.connect(_on_died)
 
 	_movement_trait.movement_finished.connect(on_movement_finished)
 
 
-func on_died():
+func _on_died():
 	queue_free()
 
 
 func on_movement_finished():
 	state_chart.send_event("movement_finished")
-	print("movement finished")
 	emit_signal("movement_finished")
 
 
 func _on_attack_moving_state_exited():
-	print("exited")
+	pass
 
 
 func _on_attack_moving_state_entered():
 	move(potential_walk_target)
 	aggro_target = null
-
-	print("entered")
 
 
 func flip_look_at(enemy_position):
@@ -125,9 +121,6 @@ func attack(enemy):
 
 func attack_move(pos):
 	potential_walk_target = pos
-	#move(pos)
-	#print("attack_move called")
-	#aggro_target = null
 	# see state charts manual
 	state_chart.send_event.call_deferred("amove")
 
@@ -163,7 +156,6 @@ func _on_shoot_state_physics_processing(delta):
 
 func _on_idle_state_entered():
 	_movement_trait.stop()
-	print("idle entered")
 	var target = query_surroundings_for_target()
 	if target and is_instance_valid(target):
 		attack(target)
@@ -173,8 +165,6 @@ func _on_idle_state_entered():
 
 
 func _on_shoot_state_entered():
-	print("shoot entered")
-
 	_movement_trait.stop()
 
 

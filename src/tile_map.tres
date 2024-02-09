@@ -660,7 +660,6 @@ texture_region_size = Vector2i(32, 32)
 7:3/0/custom_data_1 = Color(0.380392, 0.486275, 0, 1)
 0:4/0 = 0
 0:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_muc42")
-0:4/0/custom_data_0 = true
 0:4/0/custom_data_1 = Color(0.513726, 0.513726, 0.513726, 1)
 1:4/0 = 0
 1:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_muc42")

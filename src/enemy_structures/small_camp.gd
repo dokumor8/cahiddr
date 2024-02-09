@@ -24,7 +24,12 @@ signal removed()
 func _ready():
 	health_changed.connect($HealthBar._on_health_changed)
 	seed(1)
+	GlobalSignals.big_wave.connect(_on_big_wave)
 
+func _on_big_wave():
+	await spawn_wave(30, 0.05)
+	print("big wave!!")
+	
 
 func set_health(new_health):
 	health = new_health
@@ -36,9 +41,10 @@ func get_enemy_amount_for_level():
 	return amount
 
 func spawn_wave(amount, delay):
+	if amount == 0:
+		amount = get_enemy_amount_for_level()
 	spawn_enemy()
-	var enemy_amount = get_enemy_amount_for_level()
-	for i in enemy_amount - 1:
+	for i in amount - 1:
 		await get_tree().create_timer(delay, false).timeout
 		spawn_enemy()
 
@@ -79,7 +85,7 @@ func hit(damage, sender):
 
 func _on_send_wave_state_entered():
 #	print("spawning unit")
-	await spawn_wave(camp_level, 0.1)
+	await spawn_wave(0, 0.1)
 	state_chart.send_event("building_finished")
 
 

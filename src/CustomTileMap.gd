@@ -1,7 +1,7 @@
 #@tool
 extends TileMap
-@export var tree_texture: Texture2D:
-	set = _set_texture
+#@export var tree_texture: Texture2D:
+	#set = _set_texture
 #var TreeSprite = preload("res://src/units/tree_sprite.tscn")
 
 # Called when the node enters the scene tree for the first time.
@@ -27,12 +27,12 @@ func _ready():
 	#await get_tree().create_timer(0.5, false).timeout
 	#queue_redraw()
 
-
-func _set_texture(value):
-	# If the texture variable is modified externally,
-	# this callback is called.
-	tree_texture = value  # Texture was changed.
-	queue_redraw()  # Trigger a redraw of the node.
+#
+#func _set_texture(value):
+	## If the texture variable is modified externally,
+	## this callback is called.
+	#tree_texture = value  # Texture was changed.
+	#queue_redraw()  # Trigger a redraw of the node.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -40,7 +40,15 @@ func _process(delta):
 
 #
 #func _draw():
-	#if true:
+	##if true:
+	#var tiles: Array[Vector2i] = get_used_cells(3)
+	#for tile in tiles:
+		#var tile_data = get_cell_tile_data(3, tile)
+		#var coords = map_to_local(tile)
+		#if tile_data.get_custom_data("buildable"):
+			#print(tile)
+			#draw_rect(Rect2(coords.x, coords.y, 32, 32), Color.SKY_BLUE, true)
+		#
 	##for tile in tile_array:
 		#var tile = Vector2(1000, 1000)
 		#print("drawing")

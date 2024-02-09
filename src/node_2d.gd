@@ -39,7 +39,7 @@ func _ready():
 	PlayerVariables.hero = hero
 	PlayerVariables.king = king
 	
-	$GameWorld/DemonSoldier.init_attack_king()
+	#$GameWorld/DemonSoldier.init_attack_king()
 #	set_buildable_tiles()
 
 
@@ -70,7 +70,6 @@ var DefenderBuilding = preload("res://src/buildings/defender_building.tscn")
 var Defender = preload("res://src/units/defender.tscn")
 func place_building():
 	if can_build:
-#		print("placing building")
 		var defender_building = DefenderBuilding.instantiate()
 		defender_building.global_position = tile_highlighter.global_position
 		game_world.add_child(defender_building)
@@ -81,17 +80,17 @@ func place_building():
 
 		var x = tile_coords.x
 		var y = tile_coords.y
-		for h in range(2):
-			for w in range(3):
+		for h in range(4):
+			for w in range(6):
 				var cell_coords = Vector2i(x + w, y + h)
-				var tile_data = tile_map.get_cell_tile_data(0, cell_coords)
-#				tile_data.set_custom_data("buildable", false)
+				var tile_data = tile_map.get_cell_tile_data(3, cell_coords)
+				#tile_data.set_custom_data("buildable", false)
 				var target_source_id = 2
 				var target_atlas_coords = Vector2i(1, 4)
-				tile_map.set_cell(0, cell_coords, target_source_id, target_atlas_coords)
+				tile_map.set_cell(3, cell_coords, target_source_id, target_atlas_coords)
+				tile_map.queue_redraw()
 				
 		PlayerVariables.money -= PlayerVariables.building_cost
-#		print(defender_building)
 		set_cursor_mode_normal()
 
 
@@ -100,7 +99,6 @@ func on_built_unit(unit_type: String, builder):
 	var defender = Defender.instantiate()
 	defender.builder = builder
 	defender.global_position = builder.spawn_point.global_position
-#	print("built")
 	game_world.add_child(defender)
 	builder.add_unit(defender)
 
@@ -115,8 +113,6 @@ func set_rally_points():
 		return
 	var selected_building = selected_units[0]
 	if selected_building.is_in_group("building"):
-#	for b in all_buildings:
-#		print(selected_building)
 		selected_building.set_rally_point(mc)
 	set_cursor_mode_normal()
 #	set_rally_point
@@ -137,11 +133,9 @@ func click_select_unit():
 	var intersect_objects = space.intersect_point(parameters, max_selected)
 	if not intersect_objects.is_empty():
 		var collider_object = intersect_objects[0]["collider"]
-#		print(collider_object)
 		if selected_unit != null:
 			selected_unit.health_changed.disconnect(ui.on_selected_health_changed)
 		selected_unit = collider_object
-#		print("... is selected")
 		ui.update_selected_unit(selected_unit)
 		selected_unit.health_changed.connect(ui.on_selected_health_changed)
 
@@ -152,10 +146,8 @@ func click_game_world():
 	parameters.position = get_global_mouse_position()
 	parameters.collision_mask = 0x00000002
 	parameters.set_collide_with_areas(true)
-#	print(parameters.is_collide_with_areas_enabled())
 	var max_selected = 10
 	var intersect_objects = space.intersect_point(parameters, max_selected)
-#	print(intersect_objects)
 
 	if (intersect_objects.is_empty()):
 		walk_marker.global_position = get_global_mouse_position()
@@ -175,13 +167,13 @@ func start_build_mode():
 func check_build_position(_building, tile_coords):
 	# var width = building.width
 	# var height = building.height
-	var width = 3
-	var height = 2
+	var width = 6
+	var height = 4
 
-	for w in range(0, 3):
-		for h in range(0, 2):
+	for w in range(0, width):
+		for h in range(0, height):
 			var checking_tile = tile_coords + Vector2i(w, h)
-			var tile_data = tile_map.get_cell_tile_data(0, checking_tile)
+			var tile_data = tile_map.get_cell_tile_data(3, checking_tile)
 			if not tile_data:
 				return false
 			if tile_data and not tile_data.get_custom_data("buildable"):
@@ -239,7 +231,7 @@ func _physics_process(delta):
 
 
 func handle_build_cursor_move():
-	var building_size = Vector2(96, 64)
+	var building_size = Vector2(192, 128)
 	var mouse_coords = get_global_mouse_position()
 	mouse_coords.x += tile_map.cell_quadrant_size / 2
 	mouse_coords.y += tile_map.cell_quadrant_size / 2
@@ -248,14 +240,18 @@ func handle_build_cursor_move():
 
 	can_build = check_build_position(building_to_build, tile_coords)
 
-	tile_highlighter.hide()
+	tile_highlighter.show()
 	if can_build:
 		var snapped_local_coords = tile_map.map_to_local(tile_coords)
 
-		tile_highlighter.position = snapped_local_coords
-		tile_highlighter.position -= Vector2(tile_map.cell_quadrant_size/2, 
+		tile_highlighter.global_position = snapped_local_coords
+		tile_highlighter.global_position -= Vector2(tile_map.cell_quadrant_size/2, 
 		tile_map.cell_quadrant_size/2)
-		tile_highlighter.show()
+		tile_highlighter.modulate = Color("green")
+	else:
+		tile_highlighter.global_position = mouse_coords
+		tile_highlighter.modulate = Color("red")
+	
 
 
 func _on_hero_movement_finished():
