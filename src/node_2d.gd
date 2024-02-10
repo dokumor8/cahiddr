@@ -17,7 +17,7 @@ extends Node2D
 
 var cursor_state = "move"
 var camera_speed = 600
-var cursor_mode = "normal"
+#var cursor_mode = "normal"
 var hero_in_game = true
 
 # source_id 2, atlas coords (0, 4)
@@ -46,24 +46,21 @@ func _ready():
 func _input(event):
 
 	if event.is_action_pressed("right_click"):
-
-		if cursor_mode == "normal":
+		if GlobalVar.cursor_mode == "normal":
 			click_game_world()
-		elif cursor_mode == "build":
+		elif GlobalVar.cursor_mode == "build":
 			set_cursor_mode_normal()
-		elif cursor_mode == "rally":
+		elif GlobalVar.cursor_mode == "rally":
 			set_cursor_mode_normal()
-
 
 	if event.is_action_pressed("left_click"):
-		if cursor_mode == "build":
+		if GlobalVar.cursor_mode == "build":
 			place_building()
-		elif cursor_mode == "normal":
+		elif GlobalVar.cursor_mode == "normal":
 #			click_select_unit()
 			pass
-		elif cursor_mode == "rally":
+		elif GlobalVar.cursor_mode == "rally":
 			set_rally_points()
-			
 
 
 var DefenderBuilding = preload("res://src/buildings/defender_building.tscn")
@@ -94,7 +91,6 @@ func place_building():
 		set_cursor_mode_normal()
 
 
-
 func on_built_unit(unit_type: String, builder):
 	var defender = Defender.instantiate()
 	defender.builder = builder
@@ -115,11 +111,10 @@ func set_rally_points():
 	if selected_building.is_in_group("building"):
 		selected_building.set_rally_point(mc)
 	set_cursor_mode_normal()
-#	set_rally_point
 
 
 func set_cursor_mode_normal():
-	cursor_mode = "normal"
+	GlobalVar.cursor_mode = "normal"
 	rally_cursor.hide()
 	tile_highlighter.hide()
 
@@ -160,7 +155,7 @@ func click_game_world():
 	
 
 func start_build_mode():
-	cursor_mode = "build"
+	GlobalVar.cursor_mode = "build"
 	pass
 
 
@@ -224,9 +219,9 @@ func _physics_process(delta):
 	#var camera_target_pos2 = camera_target_pos.clamp(top_left, bottom_right)
 	#camera.position = camera_target_pos2
 
-	if cursor_mode == "build":
+	if GlobalVar.cursor_mode == "build":
 		handle_build_cursor_move()
-	elif cursor_mode == "rally":
+	elif GlobalVar.cursor_mode == "rally":
 		draw_rally_point_cursor()
 
 
@@ -251,7 +246,6 @@ func handle_build_cursor_move():
 	else:
 		tile_highlighter.global_position = mouse_coords
 		tile_highlighter.modulate = Color("red")
-	
 
 
 func _on_hero_movement_finished():
@@ -263,7 +257,7 @@ func on_build_button_pressed():
 
 
 func on_rally_button_pressed():
-	cursor_mode = "rally"
+	GlobalVar.cursor_mode = "rally"
 	rally_cursor.show()
 
 
@@ -286,4 +280,3 @@ func _on_king_died():
 func spawn_unit(building, spawn_position, type):
 	var defender = Defender.instantiate()
 	defender.position = spawn_position
-

@@ -12,4 +12,5 @@ var unit_parameters = {
 	"shots_per_second": 0.3
 }
 
+var cursor_mode: String = "normal"
 var events = []
