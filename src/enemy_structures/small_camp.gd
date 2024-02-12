@@ -27,7 +27,7 @@ func _ready():
 	GlobalSignals.big_wave.connect(_on_big_wave)
 
 func _on_big_wave():
-	await spawn_wave(30, 0.05)
+	await spawn_wave(5, 0.05)
 	print("big wave!!")
 	
 

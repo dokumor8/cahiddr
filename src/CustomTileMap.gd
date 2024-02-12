@@ -39,8 +39,13 @@ func _process(delta):
 	pass
 
 
-func _input(event):
+func handle_input(event):
 	if event.is_action_pressed("right_click"):
+		if GlobalVar.unit_clicked_this_frame:
+			GlobalVar.unit_clicked_this_frame = false
+			return
+		print("map event")
+		print(event)
 		if GlobalVar.cursor_mode == "normal":
 			pass
 			var pos = get_global_mouse_position()
@@ -48,7 +53,10 @@ func _input(event):
 			#walk_marker.global_position = get_global_mouse_position()
 			#walk_marker.show()
 			#hero.walk_to(walk_marker.global_position)
+	
 
+func _input(event):
+	call_deferred("handle_input", event)
 
 #func _draw():
 	##if true:

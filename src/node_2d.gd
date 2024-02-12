@@ -117,7 +117,7 @@ func click_game_world():
 		#hero.walk_to(walk_marker.global_position)
 	else:
 		var enemy_collider = intersect_objects[0]["collider"]
-		hero.attack(enemy_collider)
+		#hero.attack(enemy_collider)
 		walk_marker.hide()
 	
 

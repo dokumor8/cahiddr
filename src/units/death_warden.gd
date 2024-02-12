@@ -14,9 +14,14 @@ signal removed()
 func _ready():
 	super()
 	GlobalSignals.command_move.connect(walk_to)
+	GlobalSignals.command_attack.connect(follow_command_attack)
 	#attack_action = perform_attack
 	died.connect(on_died)
 
+
+func follow_command_attack(unit):
+	print("attacking unit")
+	attack(unit)
 
 func _input(event):
 	if event.is_action_pressed("cast_return_to_base"):

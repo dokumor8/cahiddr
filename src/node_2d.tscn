@@ -377,12 +377,11 @@ transform = Transform2D(1, 0, 0, 1, 1.655, 0)
 [node name="StateChartDebugger" parent="GUICanvasLayer" instance=ExtResource("11_co1w3")]
 modulate = Color(1, 1, 1, 0.572549)
 z_index = 40
-offset_left = 340.345
-offset_top = 109.0
-offset_right = -135.655
-offset_bottom = -98.0
+offset_left = 709.345
+offset_top = 5.0
+offset_right = -10.655
+offset_bottom = -246.0
 theme = ExtResource("12_shb05")
-enabled = false
 initial_node_to_watch = NodePath("../../GameWorld/DeathWarden")
 
 [node name="MapControl" type="Control" parent="GUICanvasLayer" node_paths=PackedStringArray("camera_object", "tilemap")]

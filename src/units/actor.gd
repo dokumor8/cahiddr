@@ -105,7 +105,6 @@ func _on_chasing_state_physics_processing(delta):
 		state_chart.send_event("in_range")
 
 
-
 func attack(enemy):
 	aggro_target = enemy
 	_flip_look_at(enemy.global_position)

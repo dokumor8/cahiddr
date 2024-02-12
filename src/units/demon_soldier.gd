@@ -39,3 +39,12 @@ func set_parameters(parameters):
 
 func _process(delta):
 	pass
+
+
+func _on_input_event(viewport, event, shape_idx):
+	if event.is_action_pressed("right_click"):
+		GlobalVar.unit_clicked_this_frame = true
+		print("event")
+		print(event)
+		GlobalSignals.command_attack.emit(self)
+		viewport.set_input_as_handled()

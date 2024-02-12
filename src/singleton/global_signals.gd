@@ -19,6 +19,7 @@ signal cast_pending(total, current)
 signal big_wave()
 
 signal command_move(pos)
+signal command_attack(unit)
 
 var event_cooldowns = {}
 var events = {

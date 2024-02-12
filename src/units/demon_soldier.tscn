@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bksar5un4lyj0" path="res://src/traits/Movement.tscn" id="8_j4r8v"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rvwfv"]
-radius = 21.0
+radius = 20.0
 height = 56.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4h6t3"]
@@ -285,3 +285,5 @@ event = &"movement_finished"
 
 [node name="Movement" parent="." instance=ExtResource("8_j4r8v")]
 debug_enabled = true
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
