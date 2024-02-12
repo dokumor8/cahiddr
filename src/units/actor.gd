@@ -80,11 +80,11 @@ func _on_attack_moving_state_exited():
 
 
 func _on_attack_moving_state_entered():
-	move(potential_walk_target)
+	_move(potential_walk_target)
 	aggro_target = null
 
 
-func flip_look_at(enemy_position):
+func _flip_look_at(enemy_position):
 	if enemy_position.x < global_position.x:
 		sprite.flip_h = true
 	else:
@@ -94,7 +94,7 @@ func flip_look_at(enemy_position):
 func update_chasing_position():
 	if can_update_chase:
 		can_update_chase = false
-		move(aggro_target.get_global_position())
+		_move(aggro_target.get_global_position())
 		await get_tree().create_timer(0.3, false).timeout
 		can_update_chase = true
 
@@ -105,18 +105,13 @@ func _on_chasing_state_physics_processing(delta):
 		state_chart.send_event("in_range")
 
 
-func walk_to(pos):
-	state_chart.send_event("move_command")
-	move(pos)
-	aggro_target = null
-
 
 func attack(enemy):
 	aggro_target = enemy
-	flip_look_at(enemy.global_position)
+	_flip_look_at(enemy.global_position)
 	state_chart.send_event("attack_command")
 	if not is_in_range(enemy):
-		move(enemy.global_position)
+		_move(enemy.global_position)
 
 
 func attack_move(pos):
@@ -198,7 +193,7 @@ func heal(amount):
 func shoot(shoot_target):
 	if can_shoot:
 		#release_bullet()
-		perform_attack()
+		_perform_attack()
 		#attack_action.call()
 		
 		can_shoot = false
@@ -228,7 +223,10 @@ func hit(damage, sender):
 			set_potential_target(sender)
 			state_chart.send_event("found_target")
 
+
 func _on_moving_without_attacking_state_entered():
+	aggro_target = null
+	_move(potential_walk_target)
 	var state_machine = _animation_tree["parameters/playback"]
 	state_machine.travel("walk")
 
@@ -240,13 +238,18 @@ func _on_attack_chasing_state_entered():
 	if potential_target and is_instance_valid(potential_target):
 		attack(potential_target)
 
-func perform_attack():
-	flip_look_at(aggro_target.global_position)
+func _perform_attack():
+	_flip_look_at(aggro_target.global_position)
 	var state_machine = _animation_tree["parameters/playback"]
 	state_machine.start("attack", true)
 
 
-func move(target_position):
-	_movement_trait.move(target_position)
-	flip_look_at(target_position)
+func walk_to(pos):
+	potential_walk_target = pos
+	state_chart.send_event("move_command")
+
+
+func _move(pos):
+	_movement_trait.move(pos)
+	_flip_look_at(pos)
 	
