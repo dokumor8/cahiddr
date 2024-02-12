@@ -265,6 +265,11 @@ script = ExtResource("7_nyekh")
 to = NodePath("../../AttackChasing")
 event = &"attack_command"
 
+[node name="On ChangeTarget" type="Node" parent="StateChart/Root/MovingWithoutAttacking"]
+script = ExtResource("7_nyekh")
+to = NodePath("..")
+event = &"move_command"
+
 [node name="AttackMoving" type="Node" parent="StateChart/Root"]
 script = ExtResource("6_7xfqa")
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c6kghfkovuej0"]
+[gd_scene load_steps=17 format=3 uid="uid://c6kghfkovuej0"]
 
 [ext_resource type="Script" path="res://src/gui/gui_canvas_layer.gd" id="1_rjfe0"]
 [ext_resource type="PackedScene" uid="uid://be2mul6v4onae" path="res://src/gui/skill_button.tscn" id="2_6ouqo"]
@@ -45,6 +45,8 @@ events = [SubResource("InputEventKey_05u4m")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqj7k"]
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.360784)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q7vax"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_rjfe0")
@@ -230,7 +232,7 @@ clip_text = true
 unique_name_in_owner = true
 layout_mode = 2
 shortcut = SubResource("Shortcut_p5m25")
-text = "Set Rally Point [R]"
+text = "Rally [R]"
 clip_text = true
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer"]
@@ -288,6 +290,7 @@ size_flags_vertical = 4
 [node name="EventListPanel" type="PanelContainer" parent="MarginContainer/EventContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_q7vax")
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3

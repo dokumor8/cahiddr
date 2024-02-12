@@ -13,6 +13,7 @@ signal removed()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	super()
+	GlobalSignals.command_move.connect(walk_to)
 	#attack_action = perform_attack
 	died.connect(on_died)
 

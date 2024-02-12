@@ -9,7 +9,6 @@ func _ready():
 
 
 func init_attack_king():
-	
 	await get_tree().create_timer(0.1, false).timeout
 	print("attack king")
 	#attack(PlayerVariables.king)

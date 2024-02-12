@@ -18,6 +18,8 @@ signal remove_last_event()
 signal cast_pending(total, current)
 signal big_wave()
 
+signal command_move(pos)
+
 var event_cooldowns = {}
 var events = {
 	"king_attacked":
