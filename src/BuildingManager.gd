@@ -7,8 +7,16 @@ var building_to_build = "defenders"
 var can_build
 
 
+
 var DefenderBuilding = preload("res://src/buildings/defender_building.tscn")
 var Defender = preload("res://src/units/defender.tscn")
+var defender_building = {
+	"name": "defender_building",
+	"preload": DefenderBuilding,
+	"unit_preload": Defender,
+	"cost": 100
+}
+
 func place_building():
 	if can_build:
 		var defender_building = DefenderBuilding.instantiate()

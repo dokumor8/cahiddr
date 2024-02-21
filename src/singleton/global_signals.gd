@@ -18,6 +18,8 @@ signal remove_last_event()
 signal cast_pending(total, current)
 signal big_wave()
 
+signal show_build_menu()
+
 signal command_move(pos)
 signal command_attack(unit)
 

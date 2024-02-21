@@ -46,6 +46,7 @@ func handle_input(event):
 			return
 		print("map event")
 		print(event)
+		print(GlobalVar.cursor_mode)
 		if GlobalVar.cursor_mode == "normal":
 			pass
 			var pos = get_global_mouse_position()

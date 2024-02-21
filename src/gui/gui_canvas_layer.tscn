@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://c6kghfkovuej0"]
+[gd_scene load_steps=18 format=3 uid="uid://c6kghfkovuej0"]
 
 [ext_resource type="Script" path="res://src/gui/gui_canvas_layer.gd" id="1_rjfe0"]
 [ext_resource type="PackedScene" uid="uid://be2mul6v4onae" path="res://src/gui/skill_button.tscn" id="2_6ouqo"]
+[ext_resource type="PackedScene" uid="uid://c8thd5n6o2kn1" path="res://src/gui/building_menu.tscn" id="2_ak7gp"]
 [ext_resource type="Script" path="res://src/gui/EventManager.gd" id="2_w3dtn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rgrpg"]
@@ -68,11 +69,13 @@ mouse_filter = 2
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer"]
+visible = false
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="RestartButton" type="Button" parent="MarginContainer/MarginContainer/MarginContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 text = "Restart"
 
@@ -89,6 +92,9 @@ layout_mode = 2
 text = "Your king has died."
 label_settings = SubResource("LabelSettings_rgrpg")
 horizontal_alignment = 1
+
+[node name="BuildingMenu" parent="MarginContainer/MarginContainer" instance=ExtResource("2_ak7gp")]
+layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 layout_mode = 2

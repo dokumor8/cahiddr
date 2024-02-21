@@ -51,6 +51,8 @@ func _input(event):
 			click_game_world()
 		elif GlobalVar.cursor_mode == "build":
 			set_cursor_mode_normal()
+		elif GlobalVar.cursor_mode == "menu":
+			set_cursor_mode_normal()
 		elif GlobalVar.cursor_mode == "rally":
 			set_cursor_mode_normal()
 
@@ -180,7 +182,10 @@ func _on_hero_movement_finished():
 
 
 func on_build_button_pressed():
-	start_build_mode()
+	GlobalVar.cursor_mode = "menu"
+	
+	GlobalSignals.show_build_menu.emit()
+	#start_build_mode()
 
 
 func on_rally_button_pressed():
