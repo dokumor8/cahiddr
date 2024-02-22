@@ -56,7 +56,7 @@ func handle_input(event):
 			#hero.walk_to(walk_marker.global_position)
 	
 
-func _input(event):
+func _unhandled_input(event):
 	call_deferred("handle_input", event)
 
 #func _draw():

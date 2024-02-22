@@ -44,17 +44,21 @@ func _ready():
 #	set_buildable_tiles()
 
 
-func _input(event):
+func _input(event: InputEvent):
 
 	if event.is_action_pressed("right_click"):
+		print(GlobalVar.cursor_mode)
 		if GlobalVar.cursor_mode == "normal":
 			click_game_world()
 		elif GlobalVar.cursor_mode == "build":
 			set_cursor_mode_normal()
+			get_viewport().set_input_as_handled()
 		elif GlobalVar.cursor_mode == "menu":
 			set_cursor_mode_normal()
+			get_viewport().set_input_as_handled()
 		elif GlobalVar.cursor_mode == "rally":
 			set_cursor_mode_normal()
+			get_viewport().set_input_as_handled()
 
 	if event.is_action_pressed("left_click"):
 		if GlobalVar.cursor_mode == "build":
