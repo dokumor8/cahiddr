@@ -13,6 +13,7 @@ var unit_parameters = {
 }
 
 var building: String = ""
+var game_world: Node2D
 
 var unit_clicked_this_frame = false
 var cursor_mode: String = "normal"

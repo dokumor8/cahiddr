@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://byemfcmqqed5n"]
+
+[ext_resource type="Script" path="res://src/buildings/archer_tower.gd" id="1_8bly3"]
+[ext_resource type="Texture2D" uid="uid://bykm5axt2p03b" path="res://img/buildings/defender_building.png" id="1_x3gp6"]
+[ext_resource type="PackedScene" uid="uid://bbdtnbx6jn452" path="res://src/traits/selection.tscn" id="2_ewjse"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fv3oi"]
+size = Vector2(91, 100)
+
+[node name="ArcherTower" type="Area2D"]
+script = ExtResource("1_8bly3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(56, 45)
+scale = Vector2(1, 1.76562)
+texture = ExtResource("1_x3gp6")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(48.5, 53)
+shape = SubResource("RectangleShape2D_fv3oi")
+
+[node name="Selection" parent="." instance=ExtResource("2_ewjse")]
+position = Vector2(95, 45)
+width = 100
+height = 100

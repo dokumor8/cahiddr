@@ -26,7 +26,7 @@ const BUILDABLE_TERRAIN = [2, 0, 4]
 const REGULAR_TERRAIN = [2, 1, 4]
 var respawn_cooldown = 10
 
-var building_to_build = "defenders"
+var building_to_build = "defender_building"
 var can_build = false
 
 
@@ -39,6 +39,7 @@ func _ready():
 	hero.died.connect(_on_hero_died)
 	PlayerVariables.hero = hero
 	PlayerVariables.king = king
+	GlobalVar.game_world = game_world
 	
 	#$GameWorld/DemonSoldier.init_attack_king()
 #	set_buildable_tiles()
@@ -62,8 +63,8 @@ func _input(event: InputEvent):
 
 	if event.is_action_pressed("left_click"):
 		if GlobalVar.cursor_mode == "build":
-			var success = building_manager.place_building()
-			if success:
+			if building_manager.can_build:
+				building_manager.place_building(tile_highlighter.global_position, GlobalVar.building)
 				set_cursor_mode_normal()
 		elif GlobalVar.cursor_mode == "normal":
 #			click_select_unit()

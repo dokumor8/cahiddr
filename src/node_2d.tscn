@@ -59,7 +59,7 @@ script = ExtResource("2_fiulx")
 
 [node name="DeathWarden" parent="GameWorld" node_paths=PackedStringArray("teleport_home") instance=ExtResource("15_ssx2t")]
 z_index = 1000
-position = Vector2(1008, 864)
+position = Vector2(1005, 843)
 teleport_home = NodePath("../TeleportRoot")
 
 [node name="Camera2D" type="Camera2D" parent="GameWorld/DeathWarden"]

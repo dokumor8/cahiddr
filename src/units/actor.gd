@@ -15,6 +15,8 @@ extends Area2D
 @export var shots_per_second = 1.5
 @export var bullet_speed = 1000.0
 
+var bonus_damage = 0.0
+
 @export var state_idle: AtomicState = null
 @export var state_chasing: AtomicState = null
 @export var state_shoot: AtomicState = null
@@ -198,6 +200,10 @@ func shoot(shoot_target):
 		can_shoot = false
 		await get_tree().create_timer(1.0 / shots_per_second, false).timeout
 		can_shoot = true
+
+
+func get_attack_damage():
+	return attack_damage + bonus_damage
 
 
 func release_bullet():

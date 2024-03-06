@@ -32,7 +32,7 @@ func _input(event):
 func _process(delta):
 	pass
 
-#
+
 #func on_idle_state_entered():
 	#var state_machine = _animation_tree["parameters/playback"]
 	#state_machine.travel("idle")

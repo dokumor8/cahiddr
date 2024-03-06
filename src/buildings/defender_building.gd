@@ -5,6 +5,7 @@ signal built_unit
 @onready var spawn_point = $SpawnPoint
 @onready var rally_point = $RallyPoint
 @onready var spawn_timer = $SpawnTimer
+var Defender = preload("res://src/units/defender.tscn")
 
 var built_units = 0
 var max_units = 5
@@ -22,6 +23,21 @@ func _ready():
 	await get_tree().create_timer(1, false).timeout
 	emit_signal("built_unit", "defender", self)
 	built_units += 1
+
+
+func my_init():
+	spawn_timer.start()
+	connect("built_unit", on_built_unit)
+
+
+func on_built_unit(unit_type: String, builder):
+	var defender = Defender.instantiate()
+	defender.builder = builder
+	defender.global_position = builder.spawn_point.global_position
+	GlobalVar.game_world.add_child(defender)
+	builder.add_unit(defender)
+
+
 
 #var Defender = preload("res://src/units/defender.tscn")
 func _on_spawn_timer_timeout():
