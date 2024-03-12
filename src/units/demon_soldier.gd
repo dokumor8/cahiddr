@@ -30,21 +30,19 @@ func _on_moving_to_king_state_entered():
 	#var state_machine = _animation_tree["parameters/playback"]
 	#state_machine.start("attack", true)
 
+func _process(delta):
+	pass
+
+
 func set_parameters(parameters):
-	
 	max_health = parameters.get("health", max_health)
 	set_health(max_health)
 	attack_damage = parameters.get("attack_damage", attack_damage)
 	shots_per_second = parameters.get("shots_per_second", shots_per_second)
 
-func _process(delta):
-	pass
-
 
 func _on_input_event(viewport, event, shape_idx):
 	if event.is_action_pressed("right_click"):
 		GlobalVar.unit_clicked_this_frame = true
-		print("event")
-		print(event)
 		GlobalSignals.command_attack.emit(self)
 		viewport.set_input_as_handled()

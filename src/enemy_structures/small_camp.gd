@@ -105,3 +105,10 @@ func _on_upgrading_state_entered():
 #	print("upgrading_started")
 	state_chart.send_event("upgrading_started")
 	pass # Replace with function body.
+
+
+func _on_input_event(viewport, event, shape_idx):
+	if event.is_action_pressed("right_click"):
+		GlobalVar.unit_clicked_this_frame = true
+		GlobalSignals.command_attack.emit(self)
+		viewport.set_input_as_handled()
