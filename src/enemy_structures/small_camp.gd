@@ -11,8 +11,9 @@ var spawn_height = 40
 var rng = RandomNumberGenerator.new()
 var Unit = preload("res://src/units/unit.tscn")
 var DemonSoldier = preload("res://src/units/demon_soldier.tscn")
-var camp_level = 2
+var camp_level = 1
 @onready var state_chart = $StateChart
+@onready var level_label = $LevelLabel
 var max_health = 200.0
 var health = 200.0
 var money_reward = 100
@@ -27,7 +28,7 @@ func _ready():
 	GlobalSignals.big_wave.connect(_on_big_wave)
 
 func _on_big_wave():
-	await spawn_wave(5, 0.05)
+	await spawn_wave(5, 100.05)
 	print("big wave!!")
 	
 
@@ -91,6 +92,7 @@ func _on_send_wave_state_entered():
 
 func _on_upgrade_state_entered():
 	camp_level += 1
+	level_label.text = "Level %d" % camp_level
 #	print("camp level up", camp_level)
 	state_chart.send_event("upgrading_finished")
 

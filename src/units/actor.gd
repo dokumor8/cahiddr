@@ -8,8 +8,8 @@ extends Area2D
 @export var health_bar: TextureProgressBar = null
 @export var enemy_unit_type: String = ""
 @export var movement_speed = 150.0
-@export var max_health = 100.0
-@export var regen_rate = 0.0
+@export var max_health = 15.0
+@export var regen_rate = 0.01
 @export var attack_distance = 300.0
 @export var attack_damage = 3.0
 @export var shots_per_second = 1.5
@@ -126,7 +126,8 @@ func set_potential_target(body):
 
 
 func _physics_process(delta):
-	set_health(health + regen_rate * delta)
+	if regen_rate > 0:
+		set_health(health + regen_rate * delta)
 
 
 func _on_aggro_area_area_entered(area):
@@ -181,7 +182,7 @@ func set_health(new_health):
 	health = new_health
 	if health > max_health:
 		health = max_health
-	emit_signal("health_changed", new_health, max_health)
+	health_changed.emit(health, max_health)
 
 	if health <= 0:
 		emit_signal("died")
@@ -224,6 +225,8 @@ func hit(damage, sender):
 	set_health(health - damage)
 
 	if is_instance_valid(sender):
+		print("hit by")
+		print(sender)
 		if sender.is_in_group(enemy_unit_type):
 			set_potential_target(sender)
 			state_chart.send_event("found_target")

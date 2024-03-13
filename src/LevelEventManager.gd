@@ -3,7 +3,7 @@ var final_wave_timer: SceneTreeTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	final_wave_timer = get_tree().create_timer(5, false)
+	final_wave_timer = get_tree().create_timer(500, false)
 	await final_wave_timer.timeout
 	GlobalSignals.big_wave.emit()
 

@@ -187,6 +187,7 @@ size_flags_horizontal = 3
 text = "Time until big wave:"
 
 [node name="TimerLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 text = "1000"

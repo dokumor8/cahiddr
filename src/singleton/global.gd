@@ -12,6 +12,8 @@ var unit_parameters = {
 	"shots_per_second": 0.3
 }
 
+var event_manager: Node
+
 var building: String = ""
 var game_world: Node2D
 

@@ -44,7 +44,7 @@ script = ExtResource("5_ewnik")
 script = ExtResource("6_aobhw")
 to = NodePath("../../Upgrading")
 event = &"building_finished"
-delay_seconds = 0.1
+delay_seconds = 1.0
 
 [node name="BuildingUnits" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_ewnik")
@@ -52,7 +52,7 @@ script = ExtResource("5_ewnik")
 [node name="On FinishedUnits" type="Node" parent="StateChart/Root/BuildingUnits"]
 script = ExtResource("6_aobhw")
 to = NodePath("../../SendWave")
-delay_seconds = 1.0
+delay_seconds = 2.0
 
 [node name="BuildingGuards" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_ewnik")
@@ -68,7 +68,7 @@ script = ExtResource("5_ewnik")
 [node name="On Upgrade Finished" type="Node" parent="StateChart/Root/Upgrading"]
 script = ExtResource("6_aobhw")
 to = NodePath("../../Upgrade")
-delay_seconds = 30.0
+delay_seconds = 1.0
 
 [node name="Upgrade" type="Node" parent="StateChart/Root"]
 script = ExtResource("5_ewnik")
@@ -76,12 +76,28 @@ script = ExtResource("5_ewnik")
 [node name="ContinueBuilding" type="Node" parent="StateChart/Root/Upgrade"]
 script = ExtResource("6_aobhw")
 to = NodePath("../../BuildingUnits")
-delay_seconds = 0.1
+delay_seconds = 1.0
 
 [node name="HealthBar" parent="." instance=ExtResource("7_27t0y")]
 offset_top = -83.0
 offset_bottom = -73.0
 metadata/_edit_use_anchors_ = true
+
+[node name="LevelLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = 7.0
+offset_right = 29.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Level 1"
+horizontal_alignment = 1
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="state_entered" from="StateChart/Root/SendWave" to="." method="_on_send_wave_state_entered"]

@@ -9,6 +9,7 @@ extends CanvasLayer
 @onready var restart_button = $%RestartButton
 @onready var rally_button = $%RallyButton
 @onready var return_button = %ReturnSkillButton
+@onready var timer_label = %TimerLabel
 
 
 # Called when the node enters the scene tree for the first time.
@@ -29,6 +30,10 @@ func _process(delta):
 		exp_bar.value = 100.0 * PlayerVariables.hero_experience / PlayerVariables.max_experience
 #	exp_label.text = str(PlayerVariables.hero_experience) + " / " + str(PlayerVariables.max_experience)
 	level_label.text = str(PlayerVariables.hero_level)
+	
+	if GlobalVar.event_manager:
+		var time_left = str(snappedf(GlobalVar.event_manager.final_wave_timer.time_left, 1))
+		timer_label.text = time_left
 
 
 func update_return_cooldown(total, current):

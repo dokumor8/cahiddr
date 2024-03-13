@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://deb6xe72w2557"]
+[gd_scene load_steps=32 format=3 uid="uid://deb6xe72w2557"]
 
 [ext_resource type="Script" path="res://src/node_2d.gd" id="1_pjd1t"]
 [ext_resource type="Script" path="res://src/GameWorld.gd" id="2_fiulx"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="11_co1w3"]
 [ext_resource type="Theme" uid="uid://s2bj74tt0y7f" path="res://godot_state_charts_examples/new_theme.tres" id="12_shb05"]
 [ext_resource type="Texture2D" uid="uid://gnw8kdniu3b2" path="res://img/decorations/sharp_rock.png" id="12_yl5nd"]
+[ext_resource type="PackedScene" uid="uid://b2bhi061l0noj" path="res://src/units/demon_soldier.tscn" id="13_3n1p1"]
 [ext_resource type="Script" path="res://src/gui/PauseHandler.gd" id="14_yq3yx"]
 [ext_resource type="Script" path="res://src/gui/map_control.gd" id="15_6jldt"]
 [ext_resource type="Texture2D" uid="uid://b1ec4n2gjlrsa" path="res://img/ui/player_marker.png" id="15_osyca"]
@@ -61,6 +62,7 @@ script = ExtResource("2_fiulx")
 z_index = 1000
 position = Vector2(1005, 843)
 teleport_home = NodePath("../TeleportRoot")
+max_health = 150.0
 
 [node name="Camera2D" type="Camera2D" parent="GameWorld/DeathWarden"]
 unique_name_in_owner = true
@@ -362,13 +364,19 @@ polygon = PackedVector2Array(770, -550, 674, -550, 676, -426, 588, -419, 577, -3
 position = Vector2(269, -2)
 
 [node name="SmallCamp" parent="GameWorld" instance=ExtResource("9_garsw")]
-position = Vector2(1013, 1464)
+position = Vector2(1011, 1408)
 
 [node name="TeleportRoot" type="Node2D" parent="GameWorld"]
 position = Vector2(1392.1, 787.894)
 
 [node name="SmallCamp2" parent="GameWorld" instance=ExtResource("9_garsw")]
 position = Vector2(4057, 159)
+
+[node name="DemonSoldier" parent="GameWorld" instance=ExtResource("13_3n1p1")]
+position = Vector2(1332.04, 842.798)
+
+[node name="DemonSoldier2" parent="GameWorld" instance=ExtResource("13_3n1p1")]
+position = Vector2(1340, 730)
 
 [node name="GUICanvasLayer" parent="." instance=ExtResource("11_4suld")]
 offset = Vector2(1.655, 0)
@@ -377,12 +385,12 @@ transform = Transform2D(1, 0, 0, 1, 1.655, 0)
 [node name="StateChartDebugger" parent="GUICanvasLayer" instance=ExtResource("11_co1w3")]
 modulate = Color(1, 1, 1, 0.572549)
 z_index = 40
-offset_left = 709.345
-offset_top = 5.0
-offset_right = -10.655
-offset_bottom = -246.0
+offset_left = 668.345
+offset_top = 88.0
+offset_right = -51.655
+offset_bottom = -163.0
 theme = ExtResource("12_shb05")
-initial_node_to_watch = NodePath("../../GameWorld/DeathWarden")
+initial_node_to_watch = NodePath("../../GameWorld/SmallCamp")
 
 [node name="MapControl" type="Control" parent="GUICanvasLayer" node_paths=PackedStringArray("camera_object", "tilemap")]
 custom_minimum_size = Vector2(150, 150)

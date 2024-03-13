@@ -15,6 +15,7 @@ extends Node2D
 @onready var rally_rect = $GameWorld/RallyPossibleArea/RallyShape2D
 @onready var rally_root = $GameWorld/RallyRoot
 @onready var building_manager = $BuildingManager
+@onready var level_event_manager = $LevelEventManager
 
 var cursor_state = "move"
 var camera_speed = 600
@@ -40,6 +41,8 @@ func _ready():
 	PlayerVariables.hero = hero
 	PlayerVariables.king = king
 	GlobalVar.game_world = game_world
+	
+	GlobalVar.event_manager = level_event_manager
 	
 	#$GameWorld/DemonSoldier.init_attack_king()
 #	set_buildable_tiles()

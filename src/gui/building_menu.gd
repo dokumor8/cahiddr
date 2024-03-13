@@ -14,7 +14,7 @@ func _ready():
 
 func start_build_def():
 	hide()
-	start_build_mode("defenders_building")
+	start_build_mode("defender_building")
 
 
 func start_build_tower():

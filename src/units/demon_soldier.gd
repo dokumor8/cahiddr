@@ -5,6 +5,7 @@ var _king = null
 func _ready():
 	super()
 	_king = game_world.find_child("King")
+	set_health(max_health)
 	#attack_action = perform_attack
 
 
@@ -13,7 +14,7 @@ func init_attack_king():
 	print("attack king")
 	#attack(PlayerVariables.king)
 	attack_move(PlayerVariables.king.global_position)
-
+ 
 
 func _on_moving_to_king_state_entered():
 	var target = query_surroundings_for_target()
@@ -29,9 +30,6 @@ func _on_moving_to_king_state_entered():
 #func perform_attack():
 	#var state_machine = _animation_tree["parameters/playback"]
 	#state_machine.start("attack", true)
-
-func _process(delta):
-	pass
 
 
 func set_parameters(parameters):
